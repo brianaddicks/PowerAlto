@@ -113,6 +113,18 @@ function Get-PaCustom {
 
 
 function Get-PaRules {
+    <#
+	.SYNOPSIS
+		Returns Security Ruleset from Palo Alto firewall.
+	.DESCRIPTION
+		Returns Security Ruleset from Palo Alto firewall.
+	.EXAMPLE
+        EXAMPLES!
+	.EXAMPLE
+		EXAMPLES!
+	.PARAMETER PaConnectionString
+		Specificies the Palo Alto connection string with address and apikey.
+	#>
     Param (
         [Parameter(Mandatory=$True,Position=0)]
         [string]$PaConnectionString

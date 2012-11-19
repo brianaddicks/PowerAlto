@@ -97,9 +97,11 @@ function Get-PaCustom {
         $url = "$PaConnectionString&type=$type&action=$action&xpath=$xpath"
         $CustomData = [xml]$WebClient.DownloadString($Url)
         if ($CustomData.response.status -eq "success") {
-            if ($action -eq "show") {
+            if (($action -eq "show") -or ($action -eq "get")) {
+                "$action"
                 return $CustomData
             } else {
+                "not get $action"
                 return $customdata.response.status
             }
         } else {
@@ -427,5 +429,125 @@ function Invoke-PaCommit {
             return $JobStatus.response.result.job
         }
         return "Error"
+    }
+}
+
+function Get-PaObject {
+	<#
+	.SYNOPSIS
+		Returns objects from Palo Alto firewall.
+	.DESCRIPTION
+		Returns objects from Palo Alto firewall.  If no objectname is specfied, all objects of the specified type are returned.  if -Exact is not used, an inclusive search of the specified ObjectName will be performed.
+	.EXAMPLE
+        Needs to write some examples
+	.EXAMPLE
+		Needs to write some examples
+	.PARAMETER PaConnectionString
+		Specificies the Palo Alto connection string with address and apikey.
+    .PARAMETER ObjectType
+		Specifies the type of objects to locate.
+    .PARAMETER ObjectName
+        Declares a specific object to locate.
+    .PARAMETER Exact
+        Specifies that only an exact name match should be returned.  No inclusive search of values is performed.
+	#>
+    
+    Param (
+        [Parameter(Mandatory=$True,Position=0)]
+        [string]$PaConnectionString,
+
+        [Parameter(Mandatory=$True,Position=1)]
+        [ValidateSet("address","addressgroup")] 
+        [string]$ObjectType,
+
+        [Parameter(Position=2)]
+        [string]$ObjectName,
+
+        [alias('x')]
+        [switch]$Exact
+    )
+
+    BEGIN {
+        $WebClient = New-Object System.Net.WebClient
+        [Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
+        $type = "config"
+        $action = "get"
+        if ($ObjectType = "address") {
+            $xpath = "/config/devices/entry/vsys/entry/address"
+        }
+
+        function Split-IpRange ($IpRange) {
+            #Only work for last 2 octects
+            $IpRange = $IpRange.Split("-")
+            $IpStart = $IpRange[0]
+            $IpStop = $IpRange[1]
+            $ExpandedRange = @()
+            $IpStartSplit = $IpStart.split(".")
+            $IpStopSplit = $IpStop.split(".")
+
+            for ($w=[decimal]$IpStartSplit[0];$w -le [decimal]$IpStopSplit[0]; $w++) {
+                for ($x=[decimal]$IpStartSplit[1];$x -le [decimal]$IpStopSplit[1]; $x++) {
+                    for ($y=[decimal]$IpStartSplit[2];$y -le [decimal]$IpStopSplit[2]; $y++) {
+                        if (($y -eq [decimal]$IpStartSplit[2]) -and ($y -eq [decimal]$IpStopSplit[2])) {
+                            for ($z=[decimal]$IpStartSplit[3];$z -le [decimal]$IpStopSplit[3]; $z++) {
+                                $ExpandedRange += "$w.$x.$y.$z"
+                            }
+                        } elseif ($y -eq [decimal]$IpStartSplit[2]) {
+                            for ($z=[decimal]$IpStartSplit[3];$z -le 255; $z++) {
+                                $ExpandedRange += "$w.$x.$y.$z"
+                            }
+                        } elseif ($y -eq [decimal]$IpStopSplit[2]) {
+                            for ($z=0;$z -le [decimal]$IpStopSplit[3]; $z++) {
+                                $ExpandedRange += "$w.$x.$y.$z"
+                            }
+                        } else {
+                            for ($z=0;$z -le 255; $z++) {
+                                $ExpandedRange += "$w.$x.$y.$z"
+                            }
+                        }
+                    }
+                }
+            }
+            return $ExpandedRange
+        }
+    }
+
+
+
+    PROCESS {
+        $Result = Get-PaCustom $PaConnectionString $type $action $xpath
+        $Addresses = $Result.response.result.$ObjectType.entry
+        $Matches = @()
+        if ($ObjectName) {
+            if ($Exact) {
+                $NameMatch = $Addresses | where { $_.name -eq $ObjectName }
+            } else {
+                $NameMatch = $Addresses | where { $_.name -match $ObjectName }
+            }
+            if ($NameMatch) {
+                return $NameMatch
+            } else {
+                if (!($Exact)) {
+                    foreach ($Address in $Addresses) {
+                        if ($Address."ip-range") {
+                            foreach ($ip in (Split-IpRange $Address."ip-range"."#text")) {
+                                if ($ObjectName -eq $ip) {
+                                    $Matches += $Address
+                                }
+                            }
+                        }
+                        if (($ObjectName -eq $Address."ip-netmask") -or `
+                            ($ObjectName -eq $address."ip-netmask"."#text") -or `
+                            ($ObjectName -eq $address.fqdn."#text")) {
+                            $Matches += $Address
+                        }
+                    }
+                }
+            }
+            return $Matches
+        } else {
+            return $Result.response.result.$ObjectType.entry
+            
+        }
     }
 }

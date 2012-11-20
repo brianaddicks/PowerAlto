@@ -5,15 +5,17 @@
 	.DESCRIPTION
 		Connects to a Palo Alto firewall and returns an connection string with API key.
 	.EXAMPLE
-		Connect-Pa -Address 192.168.1.1 -Cred PSCredential
+		C:\PS> Connect-Pa -Address 192.168.1.1 -Cred $PSCredential
+        https://192.168.1.1/api/?key=LUFRPT1SanJaQVpiNEg4TnBkNGVpTmRpZTRIamR4OUE9Q2lMTUJGREJXOCs3SjBTbzEyVSt6UT01
 	.EXAMPLE
-		Connect-Pa 192.168.1.1
+		C:\PS> Connect-Pa 192.168.1.1
+        https://192.168.1.1/api/?key=LUFRPT1SanJaQVpiNEg4TnBkNGVpTmRpZTRIamR4OUE9Q2lMTUJGREJXOCs3SjBTbzEyVSt6UT01
 	.PARAMETER Address
 		Specifies the IP or DNS name of the system to connect to.
-    .PARAMETER User
-        Specifies the username to make the connection with.
-    .PARAMETER Password
-        Specifies the password to make the connection with.
+    .PARAMETER Credential
+        If no credential object is specified, the user will be prompted.
+    .OUTPUTS
+        System.String
 	#>
 
     Param (
@@ -48,9 +50,43 @@ function Get-PaSystemInfo {
 	.DESCRIPTION
 		Returns the version number of various components of a Palo Alto firewall.
 	.EXAMPLE
-        Get-PaVersion -PaConnectionString https://192.168.1.1/api/?key=apikey
+        C:\PS> Get-PaVersion -PaConnectionString https://192.168.1.1/api/?key=apikey
+        hostname                              : pegasus
+        ip-address                            : 192.168.1.1
+        netmask                               : 255.255.255.0
+        default-gateway                       : 192.168.1.10
+        ipv6-address                          : 
+        ipv6-link-local-address               : fe80::b60c:23ff:fe0c:5500/64
+        ipv6-default-gateway                  : 
+        mac-address                           : b4:0c:25:03:55:00
+        time                                  : Mon Nov 19 17:02:19 2012
+                                        
+        uptime                                : 2 days, 15:26:48
+        devicename                            : pegasus
+        family                                : 200
+        model                                 : PA-200
+        serial                                : 012345678901
+        sw-version                            : 5.0.0
+        global-protect-client-package-version : 1.2.0
+        app-version                           : 338-1582
+        app-release-date                      : 2012/11/13  12:46:13
+        av-version                            : 882-1216
+        av-release-date                       : 2012/11/15  18:13:58
+        threat-version                        : 338-1582
+        threat-release-date                   : 2012/11/13  12:46:13
+        wildfire-version                      : 0
+        wildfire-release-date                 : unknown
+        url-filtering-version                 : 3984
+        global-protect-datafile-version       : 0
+        global-protect-datafile-release-date  : unknown
+        logdb-version                         : 5.0.2
+        platform-family                       : 200
+        logger_mode                           : False
+        vpn-disable-mode                      : off
+        operational-mode                      : normal
+        multi-vsys                            : off
 	.EXAMPLE
-		Get-PaVersion https://192.168.1.1/api/?key=apikey
+		C:\PS> Get-PaVersion https://192.168.1.1/api/?key=apikey
 	.PARAMETER PaConnectionString
 		Specificies the Palo Alto connection string with address and apikey.
 	#>
@@ -444,6 +480,41 @@ function Invoke-PaCommit {
     }
 }
 
+function Split-IpRange ($IpRange) {
+    #Only work for last 2 octects
+    $IpRange = $IpRange.Split("-")
+    $IpStart = $IpRange[0]
+    $IpStop = $IpRange[1]
+    $ExpandedRange = @()
+    $IpStartSplit = $IpStart.split(".")
+    $IpStopSplit = $IpStop.split(".")
+
+    for ($w=[decimal]$IpStartSplit[0];$w -le [decimal]$IpStopSplit[0]; $w++) {
+        for ($x=[decimal]$IpStartSplit[1];$x -le [decimal]$IpStopSplit[1]; $x++) {
+            for ($y=[decimal]$IpStartSplit[2];$y -le [decimal]$IpStopSplit[2]; $y++) {
+                if (($y -eq [decimal]$IpStartSplit[2]) -and ($y -eq [decimal]$IpStopSplit[2])) {
+                    for ($z=[decimal]$IpStartSplit[3];$z -le [decimal]$IpStopSplit[3]; $z++) {
+                        $ExpandedRange += "$w.$x.$y.$z"
+                    }
+                } elseif ($y -eq [decimal]$IpStartSplit[2]) {
+                    for ($z=[decimal]$IpStartSplit[3];$z -le 255; $z++) {
+                        $ExpandedRange += "$w.$x.$y.$z"
+                    }
+                } elseif ($y -eq [decimal]$IpStopSplit[2]) {
+                    for ($z=0;$z -le [decimal]$IpStopSplit[3]; $z++) {
+                        $ExpandedRange += "$w.$x.$y.$z"
+                    }
+                } else {
+                    for ($z=0;$z -le 255; $z++) {
+                        $ExpandedRange += "$w.$x.$y.$z"
+                    }
+                }
+            }
+        }
+    }
+    return $ExpandedRange
+}
+
 function Get-PaObject {
 	<#
 	.SYNOPSIS
@@ -457,11 +528,11 @@ function Get-PaObject {
 	.PARAMETER PaConnectionString
 		Specificies the Palo Alto connection string with address and apikey.
     .PARAMETER ObjectType
-		Specifies the type of objects to locate.
+		Specifies the type of objects to return.  Supports address, addressgroup, service, servicegroup
     .PARAMETER ObjectName
-        Declares a specific object to locate.
+        Declares a specific object to return.
     .PARAMETER Exact
-        Specifies that only an exact name match should be returned.  No inclusive search of values is performed.
+        Specifies that only an exact name match should be returned.  No inclusive search is performed.
 	#>
     
     Param (
@@ -469,7 +540,7 @@ function Get-PaObject {
         [string]$PaConnectionString,
 
         [Parameter(Mandatory=$True,Position=1)]
-        [ValidateSet("address","addressgroup")] 
+        [ValidateSet("address","addressgroup","service","servicegroup")] 
         [string]$ObjectType,
 
         [Parameter(Position=2)]
@@ -484,81 +555,29 @@ function Get-PaObject {
         [Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
         $type = "config"
         $action = "get"
-        if ($ObjectType = "address") {
-            $xpath = "/config/devices/entry/vsys/entry/address"
+        $ObjectTypes = @{"address" = "address"
+                         "addressgroup" = "address-group"
+                         "service" = "service"
+                         "servicegroup" = "service-group"
         }
-
-        function Split-IpRange ($IpRange) {
-            #Only work for last 2 octects
-            $IpRange = $IpRange.Split("-")
-            $IpStart = $IpRange[0]
-            $IpStop = $IpRange[1]
-            $ExpandedRange = @()
-            $IpStartSplit = $IpStart.split(".")
-            $IpStopSplit = $IpStop.split(".")
-
-            for ($w=[decimal]$IpStartSplit[0];$w -le [decimal]$IpStopSplit[0]; $w++) {
-                for ($x=[decimal]$IpStartSplit[1];$x -le [decimal]$IpStopSplit[1]; $x++) {
-                    for ($y=[decimal]$IpStartSplit[2];$y -le [decimal]$IpStopSplit[2]; $y++) {
-                        if (($y -eq [decimal]$IpStartSplit[2]) -and ($y -eq [decimal]$IpStopSplit[2])) {
-                            for ($z=[decimal]$IpStartSplit[3];$z -le [decimal]$IpStopSplit[3]; $z++) {
-                                $ExpandedRange += "$w.$x.$y.$z"
-                            }
-                        } elseif ($y -eq [decimal]$IpStartSplit[2]) {
-                            for ($z=[decimal]$IpStartSplit[3];$z -le 255; $z++) {
-                                $ExpandedRange += "$w.$x.$y.$z"
-                            }
-                        } elseif ($y -eq [decimal]$IpStopSplit[2]) {
-                            for ($z=0;$z -le [decimal]$IpStopSplit[3]; $z++) {
-                                $ExpandedRange += "$w.$x.$y.$z"
-                            }
-                        } else {
-                            for ($z=0;$z -le 255; $z++) {
-                                $ExpandedRange += "$w.$x.$y.$z"
-                            }
-                        }
-                    }
-                }
-            }
-            return $ExpandedRange
-        }
+        $xpath = "/config/devices/entry/vsys/entry/$($ObjectTypes.get_item($ObjectType))"
     }
 
-
-
     PROCESS {
+        #"$PaConnectionString $type $action $xpath"
         $Result = Get-PaCustom $PaConnectionString $type $action $xpath
-        $Addresses = $Result.response.result.$ObjectType.entry
+        #$result
+        $Objects = $Result.response.result.$($ObjectTypes.get_item($ObjectType)).entry
         $Matches = @()
         if ($ObjectName) {
             if ($Exact) {
-                $NameMatch = $Addresses | where { $_.name -eq $ObjectName }
+                $NameMatch = $Objects | where { $_.name -eq $ObjectName }
             } else {
-                $NameMatch = $Addresses | where { $_.name -match $ObjectName }
-            }
-            if ($NameMatch) {
-                return $NameMatch
-            } else {
-                if (!($Exact)) {
-                    foreach ($Address in $Addresses) {
-                        if ($Address."ip-range") {
-                            foreach ($ip in (Split-IpRange $Address."ip-range"."#text")) {
-                                if ($ObjectName -eq $ip) {
-                                    $Matches += $Address
-                                }
-                            }
-                        }
-                        if (($ObjectName -eq $Address."ip-netmask") -or `
-                            ($ObjectName -eq $address."ip-netmask"."#text") -or `
-                            ($ObjectName -eq $address.fqdn."#text")) {
-                            $Matches += $Address
-                        }
-                    }
-                }
+                $NameMatch = $Objects | where { $_.name -match $ObjectName }
             }
             return $Matches
         } else {
-            return $Result.response.result.$ObjectType.entry
+            return $Result.response.result."$($ObjectTypes.get_item($ObjectType))".entry
             
         }
     }

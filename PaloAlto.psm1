@@ -1,4 +1,11 @@
-﻿function Get-PaConnectionString {
+﻿function Test-PaConnection {
+    if (!($Global:PaConnectionArray)) {
+        Write-Host -ForegroundColor Red "No connections, use Get-PaConnectionString to create them"
+        return
+    }
+}
+
+function Get-PaConnectionString {
 	<#
 	.SYNOPSIS
 		Connects to a Palo Alto firewall and returns an connection string with API key.
@@ -246,7 +253,7 @@ function Get-PaRules {
     }
 }
 
-function Set-PaRule {
+function Set-PaSecurityRule {
 	<#
 	.SYNOPSIS
 		Edits settings on a Palo Alto Security Rule
@@ -261,10 +268,10 @@ function Set-PaRule {
 	#>
     
     Param (
-        [Parameter(Mandatory=$True,Position=0)]
-        [string]$PaConnectionString,
+        #[Parameter(Mandatory=$True,Position=0)]
+        #[string]$PaConnectionString,
 
-        [Parameter(Mandatory=$True,Position=1)]
+        [Parameter(Mandatory=$True,Position=0)]
         [string]$Name,
 
         [alias('r')]
@@ -355,11 +362,11 @@ function Set-PaRule {
         [string]$ProfileData,
 
         [alias('qd')]
-        [ValidateSet("af11","af12","af13","af21","af22","af23","af31","af32","af33","af41","af42","af43","cs0","cs1","cs2","cs3","cs4","cs5","cs6","cs7","ef")] 
+        [ValidateSet("none","af11","af12","af13","af21","af22","af23","af31","af32","af33","af41","af42","af43","cs0","cs1","cs2","cs3","cs4","cs5","cs6","cs7","ef")] 
         [string]$QosDscp,
 
         [alias('qp')]
-        [ValidateSet("cs0","cs1","cs2","cs3","cs4","cs5","cs6","cs7")] 
+        [ValidateSet("none","cs0","cs1","cs2","cs3","cs4","cs5","cs6","cs7")] 
         [string]$QosPrecedence,
 
         [alias('ds')]
@@ -368,71 +375,70 @@ function Set-PaRule {
     )
 
     BEGIN {
+        Test-PaConnection
         $WebClient = New-Object System.Net.WebClient
         [Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
         $type = "config"
-        function EditWithMembers ($parameter,$element,$xpath) {
-            if ($parameter) {
-                $type = "config"
-                $action = "edit"
-                $Members = $null
-                foreach ($Member in $parameter.split()) {
-                    $Members += "<member>$Member</member>"
-                }
-                $xpath += "/$element&element=<$element>$Members</$element>"
-                return Get-PaCustom $PaConnectionString $type $action $xpath
-            }
-        }
 
-        function EditWithoutMembers ($parameter,$element,$xpath) {
+        function EditProperty ($parameter,$element,$xpath) {
             if ($parameter) {
-                $parameter = $parameter.replace(" ",'%20')
-                $action = "edit"
-                $xpath += "/$element&element=<$element>$parameter</$element>"
-                Get-PaCustom $PaConnectionString $type $action $xpath
+                if ($parameter -eq "none") { $action = "delete" } `
+                    else                   { $action = "edit" }
+                $Response = Send-PaApiQuery -Config $action -XPath $xpath -Element $element -Member $parameter
+                if ($Response.response.status -eq "success") {
+                    return "$element`: success"
+                } else {
+                    throw $Response.response.msg.line
+                }
             }
         }
     }
 
     PROCESS {
-        $xpath = "/config/devices/entry/vsys/entry/rulebase/security/rules/entry[@name='$Name']"
-        if ($Rename) {
-            $apiaction = 'rename'
-            $xpath += "&newname=$Rename"
-            Get-PaCustom $PaConnectionString $type $apiaction $xpath
+        foreach ($Connection in $Global:PaConnectionArray) {
+            $PaConnectionString = $Connection.ConnectionString
+            $xpath = "/config/devices/entry/vsys/entry/rulebase/security/rules/entry[@name='$Name']"
+            
+            if ($Rename) {
+                $Response = Send-PaApiQuery -Config rename -XPath $xpath -NewName $Rename
+                if ($Response.response.status -eq "success") {
+                    return "Rename success"
+                } else {
+                    throw $Response.response.msg.line
+                }
+            }
+
+            EditProperty $Description "description" $xpath
+            EditProperty $SourceNegate "negate-source" $xpath
+            EditProperty $DestinationNegate "negate-destination" $xpath
+            EditProperty $Action "action" $xpath
+            EditProperty $LogStart "log-start" $xpath
+            EditProperty $LogEnd "log-end" $xpath
+            EditProperty $LogForward "log-setting" $xpath
+            EditProperty $Schedule "schedule" $xpath
+            EditProperty $Disabled "disabled" $xpath
+            EditProperty $QosDscp "ip-dscp" "$xpath/qos/marking"
+            EditProperty $QosPrecedence "ip-precedence" "$xpath/qos/marking"
+            EditProperty $DisableSri "disable-server-response-inspection" "$xpath/option"
+            EditProperty $SourceAddress "source" $xpath
+            EditProperty $SourceZone "from" $xpath
+            EditProperty $Tag "tag" $xpath
+            EditProperty $SourceUser "source-user" $xpath
+            EditProperty $HipProfile "hip-profiles" $xpath
+            EditProperty $DestinationZone "to" $xpath
+            EditProperty $DestinationAddress "destination" $xpath
+            EditProperty $Application "application" $xpath
+            EditProperty $Service "service" $xpath
+            EditProperty $UrlCategory "category" $xpath
+            EditProperty $HipProfile "hip-profiles" $xpath
+            EditProperty $ProfileGroup "group" "$xpath/profile-setting"
+            EditProperty $ProfileVirus "virus" "$xpath/profile-setting/profiles"
+            EditProperty $ProfileVuln "vulnerability" "$xpath/profile-setting/profiles"
+            EditProperty $ProfileSpy "spyware" "$xpath/profile-setting/profiles"
+            EditProperty $ProfileUrl "url-filtering" "$xpath/profile-setting/profiles"
+            EditProperty $ProfileFile "file-blocking" "$xpath/profile-setting/profiles"
+            EditProperty $ProfileData "data-filtering" "$xpath/profile-setting/profiles"
         }
-
-        EditWithoutMembers $Description "description" $xpath
-        EditWithoutMembers $SourceNegate "negate-source" $xpath
-        EditWithoutMembers $DestinationNegate "negate-destination" $xpath
-        EditWithoutMembers $Action "action" $xpath
-        EditWithoutMembers $LogStart "log-start" $xpath
-        EditWithoutMembers $LogEnd "log-end" $xpath
-        EditWithoutMembers $LogForward "log-setting" $xpath
-        EditWithoutMembers $Schedule "schedule" $xpath
-        EditWithoutMembers $Disabled "disabled" $xpath
-        EditWithoutMembers $QosDscp "ip-dscp" "$xpath/qos/marking"
-        EditWithoutMembers $QosPrecedence "ip-precedence" "$xpath/qos/marking"
-        EditWithoutMembers $DisableSri "disable-server-response-inspection" "$xpath/option"
-
-        EditWithMembers $SourceAddress "source" $xpath
-        EditWithMembers $SourceZone "from" $xpath
-        EditWithMembers $Tag "tag" $xpath
-        EditWithMembers $SourceUser "source-user" $xpath
-        EditWithMembers $HipProfile "hip-profiles" $xpath
-        EditWithMembers $DestinationZone "to" $xpath
-        EditWithMembers $DestinationAddress "destination" $xpath
-        EditWithMembers $Application "application" $xpath
-        EditWithMembers $Service "service" $xpath
-        EditWithMembers $UrlCategory "category" $xpath
-        EditWithMembers $HipProfile "hip-profiles" $xpath
-        EditWithMembers $ProfileGroup "group" "$xpath/profile-setting"
-        EditWithMembers $ProfileVirus "virus" "$xpath/profile-setting/profiles"
-        EditWithMembers $ProfileVuln "vulnerability" "$xpath/profile-setting/profiles"
-        EditWithMembers $ProfileSpy "spyware" "$xpath/profile-setting/profiles"
-        EditWithMembers $ProfileUrl "url-filtering" "$xpath/profile-setting/profiles"
-        EditWithMembers $ProfileFile "file-blocking" "$xpath/profile-setting/profiles"
-        EditWithMembers $ProfileData "data-filtering" "$xpath/profile-setting/profiles"
     }
 }
 
@@ -620,8 +626,11 @@ function Send-PaApiQuery {
 
         [Parameter(ParameterSetName="config")]
         [alias('e')]
-        [ValidatePattern("<\w+>.*<\/\w+>")]
         [String]$Element,
+
+        [Parameter(ParameterSetName="config")]
+        [alias('m')]
+        [String]$Member,
 
         [Parameter(ParameterSetName="config")]
         [alias('nn')]
@@ -803,12 +812,9 @@ function Send-PaApiQuery {
     )
 
     BEGIN {
+        Test-PaConnection
         $WebClient = New-Object System.Net.WebClient
         [Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
-        if (!($Global:PaConnectionArray)) {
-            Write-Host -ForegroundColor Red "No connections, use Get-PaConnectionString to create them"
-            return
-        }
     }
 
     PROCESS {
@@ -821,8 +827,16 @@ function Send-PaApiQuery {
                 $url += "&type=config"
                 $url += "&action=$Config"
                 $url += "&xpath=$xpath"
-                if (($Config -eq "set") -or ($Config -eq "edit")) {
-                    $url += "&element=$Element"
+                if (($Config -eq "set") -or ($Config -eq "edit")-or ($Config -eq "delete")) {
+                    $url += "/$Element"
+                    $Member = $Member.replace(" ",'%20')
+                    if ($Member -match ",") {
+                        foreach ($Value in $Member.split(',')) {
+                            if ($Value) { $Members += "<member>$Value</member>" }
+                        }
+                        $Member = $Members
+                    }
+                    $url+= "&element=<$element>$Member</$element>"
                 } elseif ($Config -eq "rename") {
                     $url += "&newname=$NewName"
                 } elseif ($Config -eq "clone") {
@@ -836,7 +850,9 @@ function Send-PaApiQuery {
                         $url += "&dst=$MoveDestination"
                     }
                 }
-                return [xml]$WebClient.DownloadString($url)
+                $global:lasturl = $url
+                $global:response = [xml]$WebClient.DownloadString($url)
+                return $global:response
 
             ###########################OPERATIONAL##########################
             } elseif ($Op) {

@@ -166,7 +166,7 @@ function Get-PaCustom {
 
 
 
-function Get-PaRules {
+function Get-PaSecurityRules {
     <#
 	.SYNOPSIS
 		Returns Security Ruleset from Palo Alto firewall.
@@ -179,77 +179,73 @@ function Get-PaRules {
 	.PARAMETER PaConnectionString
 		Specificies the Palo Alto connection string with address and apikey.
 	#>
-    Param (
-        [Parameter(Mandatory=$True,Position=0)]
-        [string]$PaConnectionString
-    )
 
     BEGIN {
-
-    }
-
-    PROCESS {
         $type = "config"
         $action = "show"
         $xpath = "/config/devices/entry/vsys/entry/rulebase/security/rules"
-        $SecurityRulebase = (Get-PaCustom $PaConnectionString $type $action $xpath).response.result.rules.entry
 
         #Create hashtable for SecurityRule PSObject.  For new properties just append string to $ExportString
         $SecurityRule = @{}
         $ExportString = @("Name","Description","Tag","SourceZone","SourceAddress","SourceNegate","SourceUser","HipProfile","DestinationZone","DestinationAddress","DestinationNegate","Application","Service","UrlCategory","Action","ProfileType","ProfileGroup","ProfileVirus","ProfileVuln","ProfileSpy","ProfileUrl","ProfileFile","ProfileData","LogStart","LogEnd","LogForward","DisableSRI","Schedule","QosType","QosMarking","Disabled")
-
         foreach ($Value in $ExportString) {
             $SecurityRule.Add($Value,$null)
         }
-
         $SecurityRules = @()
+    }
 
-        #Covert results into PSobject
-        foreach ($entry in $SecurityRulebase) {
-            $CurrentRule = New-Object PSObject -Property $SecurityRule
-                $CurrentRule.Name               = $entry.name
-                $CurrentRule.Description        = $entry.description
-                $CurrentRule.Tag                = $entry.tag.member
-                $CurrentRule.SourceZone         = $entry.from.member
-                $CurrentRule.SourceAddress      = $entry.source.member
-                $CurrentRule.SourceNegate       = $entry."negate-source"
-                $CurrentRule.SourceUser         = $entry."source-user".member
-                $CurrentRule.HipProfile         = $entry."hip-profiles".member
-                $CurrentRule.DestinationZone    = $entry.to.member
-                $CurrentRule.DestinationAddress = $entry.destination.member
-                $CurrentRule.DestinationNegate  = $entry."negate-destination"
-                $CurrentRule.Application        = $entry.application.member
-                $CurrentRule.Service            = $entry.service.member
-                $CurrentRule.UrlCategory        = $entry.category.member
-                $CurrentRule.Action             = $entry.action
-                if ($entry."profile-setting".group) {
-                    $CurrentRule.ProfileGroup   = $entry."profile-setting".group.member
-                    $CurrentRule.ProfileType    = "group"
-                } elseif ($entry."profile-setting".profiles) {
-                    $CurrentRule.ProfileType    = "profiles"
-                    $CurrentRule.ProfileVirus   = $entry."profile-setting".profiles.virus.member
-                    $CurrentRule.ProfileVuln    = $entry."profile-setting".profiles.vulnerability.member
-                    $CurrentRule.ProfileSpy     = $entry."profile-setting".profiles.spyware.member
-                    $CurrentRule.ProfileUrl     = $entry."profile-setting".profiles."url-filtering".member
-                    $CurrentRule.ProfileFile    = $entry."profile-setting".profiles."file-blocking".member
-                    $CurrentRule.ProfileData    = $entry."profile-setting".profiles."data-filtering".member
-                }
-                $CurrentRule.LogStart           = $entry."log-start"
-                $CurrentRule.LogEnd             = $entry."log-end"
-                $CurrentRule.LogForward         = $entry."log-setting"
-                $CurrentRule.Schedule           = $entry.schedule
-                if ($entry.qos.marking."ip-dscp") {
-                    $CurrentRule.QosType        = "ip-dscp"
-                    $CurrentRule.QosMarking     = $entry.qos.marking."ip-dscp"
-                } elseif ($entry.qos.marking."ip-precedence") {
-                    $CurrentRule.QosType        = "ip-precedence"
-                    $CurrentRule.QosMarking     = $entry.qos.marking."ip-precedence"
-                }
-                $CurrentRule.DisableSRI         = $entry.option."disable-server-response-inspection"
-                $CurrentRule.Disabled           = $entry.disabled
-            $SecurityRules += $CurrentRule
+    PROCESS {
+        foreach ($Connection in $Global:PaConnectionArray) {
+            $PaConnectionString = $Connection.ConnectionString
+            $SecurityRulebase = (Send-PaApiQuery -Config show -XPath $xpath).response.result.rules.entry
+
+            #Covert results into PSobject
+            foreach ($entry in $SecurityRulebase) {
+                $CurrentRule = New-Object PSObject -Property $SecurityRule
+                    $CurrentRule.Name               = $entry.name
+                    $CurrentRule.Description        = $entry.description
+                    $CurrentRule.Tag                = $entry.tag.member
+                    $CurrentRule.SourceZone         = $entry.from.member
+                    $CurrentRule.SourceAddress      = $entry.source.member
+                    $CurrentRule.SourceNegate       = $entry."negate-source"
+                    $CurrentRule.SourceUser         = $entry."source-user".member
+                    $CurrentRule.HipProfile         = $entry."hip-profiles".member
+                    $CurrentRule.DestinationZone    = $entry.to.member
+                    $CurrentRule.DestinationAddress = $entry.destination.member
+                    $CurrentRule.DestinationNegate  = $entry."negate-destination"
+                    $CurrentRule.Application        = $entry.application.member
+                    $CurrentRule.Service            = $entry.service.member
+                    $CurrentRule.UrlCategory        = $entry.category.member
+                    $CurrentRule.Action             = $entry.action
+                    if ($entry."profile-setting".group) {
+                        $CurrentRule.ProfileGroup   = $entry."profile-setting".group.member
+                        $CurrentRule.ProfileType    = "group"
+                    } elseif ($entry."profile-setting".profiles) {
+                        $CurrentRule.ProfileType    = "profiles"
+                        $CurrentRule.ProfileVirus   = $entry."profile-setting".profiles.virus.member
+                        $CurrentRule.ProfileVuln    = $entry."profile-setting".profiles.vulnerability.member
+                        $CurrentRule.ProfileSpy     = $entry."profile-setting".profiles.spyware.member
+                        $CurrentRule.ProfileUrl     = $entry."profile-setting".profiles."url-filtering".member
+                        $CurrentRule.ProfileFile    = $entry."profile-setting".profiles."file-blocking".member
+                        $CurrentRule.ProfileData    = $entry."profile-setting".profiles."data-filtering".member
+                    }
+                    $CurrentRule.LogStart           = $entry."log-start"
+                    $CurrentRule.LogEnd             = $entry."log-end"
+                    $CurrentRule.LogForward         = $entry."log-setting"
+                    $CurrentRule.Schedule           = $entry.schedule
+                    if ($entry.qos.marking."ip-dscp") {
+                        $CurrentRule.QosType        = "ip-dscp"
+                        $CurrentRule.QosMarking     = $entry.qos.marking."ip-dscp"
+                    } elseif ($entry.qos.marking."ip-precedence") {
+                        $CurrentRule.QosType        = "ip-precedence"
+                        $CurrentRule.QosMarking     = $entry.qos.marking."ip-precedence"
+                    }
+                    $CurrentRule.DisableSRI         = $entry.option."disable-server-response-inspection"
+                    $CurrentRule.Disabled           = $entry.disabled
+                $SecurityRules += $CurrentRule
+            }
+            return $SecurityRules | select $ExportString
         }
-        return $SecurityRules | select $ExportString
     }
 }
 
@@ -495,41 +491,6 @@ function Invoke-PaCommit {
         }
         return "Error"
     }
-}
-
-function Split-IpRange ($IpRange) {
-    #Only work for last 2 octects
-    $IpRange = $IpRange.Split("-")
-    $IpStart = $IpRange[0]
-    $IpStop = $IpRange[1]
-    $ExpandedRange = @()
-    $IpStartSplit = $IpStart.split(".")
-    $IpStopSplit = $IpStop.split(".")
-
-    for ($w=[decimal]$IpStartSplit[0];$w -le [decimal]$IpStopSplit[0]; $w++) {
-        for ($x=[decimal]$IpStartSplit[1];$x -le [decimal]$IpStopSplit[1]; $x++) {
-            for ($y=[decimal]$IpStartSplit[2];$y -le [decimal]$IpStopSplit[2]; $y++) {
-                if (($y -eq [decimal]$IpStartSplit[2]) -and ($y -eq [decimal]$IpStopSplit[2])) {
-                    for ($z=[decimal]$IpStartSplit[3];$z -le [decimal]$IpStopSplit[3]; $z++) {
-                        $ExpandedRange += "$w.$x.$y.$z"
-                    }
-                } elseif ($y -eq [decimal]$IpStartSplit[2]) {
-                    for ($z=[decimal]$IpStartSplit[3];$z -le 255; $z++) {
-                        $ExpandedRange += "$w.$x.$y.$z"
-                    }
-                } elseif ($y -eq [decimal]$IpStopSplit[2]) {
-                    for ($z=0;$z -le [decimal]$IpStopSplit[3]; $z++) {
-                        $ExpandedRange += "$w.$x.$y.$z"
-                    }
-                } else {
-                    for ($z=0;$z -le 255; $z++) {
-                        $ExpandedRange += "$w.$x.$y.$z"
-                    }
-                }
-            }
-        }
-    }
-    return $ExpandedRange
 }
 
 function Get-PaObject {
@@ -935,5 +896,106 @@ function Send-PaApiQuery {
                 return "Haven't gotten to this yet"
             }
         }
+    }
+}
+
+function Find-PaAddressObject {
+	<#
+	.SYNOPSIS
+		Search Object values for a given IP or FQDN
+	.DESCRIPTION
+		Returns objects from Palo Alto firewall.  If no objectname is specfied, all objects of the specified type are returned.  if -Exact is not used, an inclusive search of the specified ObjectName will be performed.
+	.EXAMPLE
+        Needs to write some examples
+	.EXAMPLE
+		Needs to write some examples
+	.PARAMETER PaConnectionString
+		Specificies the Palo Alto connection string with address and apikey.
+    .PARAMETER ObjectType
+		Specifies the type of objects to return.  Supports address, addressgroup, service, servicegroup
+    .PARAMETER ObjectName
+        Declares a specific object to return.
+    .PARAMETER Exact
+        Specifies that only an exact name match should be returned.  No inclusive search is performed.
+	#>
+    
+    Param (
+        [Parameter(ParameterSetName="config",Mandatory=$True,Position=0)]
+        [ValidatePattern("(\w+\.)+\w+(\/\d{2})?")]
+        [String]$SearchString
+    )
+
+    BEGIN {
+        Test-PaConnection
+        $AddressObject = @{}
+        $AddressProperties = @("Name","Type","Value")
+        foreach ($Value in $AddressProperties) {
+            $AddressObject.Add($Value,$null)
+        }
+        $AddressObjects = @()
+
+        $ReturnObject = @{}
+        $ReturnProperties = @("Groups","Addresses")
+        foreach ($Value in $ReturnProperties) {
+            $ReturnObject.Add($Value,$null)
+        }
+        
+        $GroupObjects = @()
+    }
+
+    PROCESS {
+        $Addresses = (Send-PaApiQuery -Config get -xpath "/config/devices/entry/vsys/entry/address").response.result.address.entry
+        $AddressGroups = (Send-PaApiQuery -Config get -xpath "/config/devices/entry/vsys/entry/address-group").response.result."address-group".entry
+        $Found = @()
+        foreach ($Address in $Addresses) {
+            $SearchArray = @()
+            $CurrentAddress = New-Object PsObject -Property $AddressObject
+            $CurrentAddress.Name = $Address.Name
+            if ($Address."ip-netmask") {
+                $CurrentAddress.Type = "ip-netmask"
+                if ($Address."ip-netmask"."#text") {
+                    $CurrentAddress.Value = $Address."ip-netmask"."#text"
+                } else {
+                    $CurrentAddress.Value = $Address."ip-netmask"
+                }
+                if ($CurrentAddress.Value -match "/") {
+                    $AddressSplit = $CurrentAddress.Value.Split("/")
+                    $AddressOnly = $AddressSplit[0]
+                    $Mask = $AddressSplit[1]
+                    if ($Mask -eq 32) {
+                        $SearchArray += $AddressOnly
+                    } else {
+                        $SearchArray += Get-NetworkAddress $AddressOnly (ConvertTo-Mask $Mask)
+                        $SearchArray += Get-NetworkRange $AddressOnly (ConvertTo-Mask $Mask)
+                        $SearchArray += Get-BroadcastAddress $AddressOnly (ConvertTo-Mask $Mask)
+                    }
+                } else {
+                    $SearchArray += $CurrentAddress.Value
+                }
+            } elseif ($Address."ip-range") {
+                $CurrentAddress.Type = "ip-range"
+                $CurrentAddress.Value = $Address."ip-range"
+                $SearchArray = Get-IpRange $CurrentAddress.Value
+            } elseif ($Address.fqdn) {
+                $CurrentAddress.Type = "fqdn"
+                $CurrentAddress.Value = $Address.fqdn
+                $SearchArray = $CurrentAddress.Value
+            }
+            if ($SearchArray -contains $SearchString) {
+                $AddressObjects += $CurrentAddress
+            }
+        }
+        $ReturnObject.Addresses = $AddressObjects
+
+        foreach ($Group in $AddressGroups) {
+            foreach ($Address in $AddressObjects) {
+                if ($Group.Member -contains $Address.Name) {
+                    $GroupObjects += $Group
+                }
+            }
+        }
+        $ReturnObject.Groups = $GroupObjects
+
+        return $ReturnObject
     }
 }

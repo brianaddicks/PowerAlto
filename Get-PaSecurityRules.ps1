@@ -1,4 +1,4 @@
-function Get-PaSecurityRules {
+function Get-PaSecurityRule {
     <#
 	.SYNOPSIS
 		Returns Security Ruleset from Palo Alto firewall.

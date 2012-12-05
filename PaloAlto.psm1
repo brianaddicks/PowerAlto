@@ -1,4 +1,6 @@
-﻿function Test-PaConnection {
+﻿Get-Stage ipv4math
+
+function Test-PaConnection {
     if (!($Global:PaConnectionArray)) {
         Write-Host -ForegroundColor Red "No connections, use Get-PaConnectionString to create them"
         return
@@ -307,7 +309,7 @@ function Set-PaSecurityRule {
         [string]$UrlCategory,
 
         [alias('sn')]
-        [ValidateSet("yes","no")] 
+        [ValidateSet("yes","no")]
         [string]$SourceNegate,
 
         [alias('dn')]
@@ -948,6 +950,7 @@ function Find-PaAddressObject {
         $AddressGroups = (Send-PaApiQuery -Config get -xpath "/config/devices/entry/vsys/entry/address-group").response.result."address-group".entry
         $Found = @()
         foreach ($Address in $Addresses) {
+            $IsFound = $false
             $SearchArray = @()
             $CurrentAddress = New-Object PsObject -Property $AddressObject
             $CurrentAddress.Name = $Address.Name
@@ -963,25 +966,25 @@ function Find-PaAddressObject {
                     $AddressOnly = $AddressSplit[0]
                     $Mask = $AddressSplit[1]
                     if ($Mask -eq 32) {
-                        $SearchArray += $AddressOnly
+                        $IsFound = ($AddressOnly -eq $SearchString)
                     } else {
-                        $SearchArray += Get-NetworkAddress $AddressOnly (ConvertTo-Mask $Mask)
-                        $SearchArray += Get-NetworkRange $AddressOnly (ConvertTo-Mask $Mask)
-                        $SearchArray += Get-BroadcastAddress $AddressOnly (ConvertTo-Mask $Mask)
+                        $Start = Get-NetworkAddress $AddressOnly (ConvertTo-Mask $Mask)
+                        $Stop = Get-BroadcastAddress $AddressOnly (ConvertTo-Mask $Mask)
+                        $IsFound = Test-IpRange "$start-$stop" $SearchString
                     }
                 } else {
-                    $SearchArray += $CurrentAddress.Value
+                    $IsFound = ($CurrentAddress.Value -eq $SearchString)
                 }
             } elseif ($Address."ip-range") {
                 $CurrentAddress.Type = "ip-range"
                 $CurrentAddress.Value = $Address."ip-range"
-                $SearchArray = Get-IpRange $CurrentAddress.Value
+                $IsFound = Test-IpRange $CurrentAddress.value $SearchString
             } elseif ($Address.fqdn) {
                 $CurrentAddress.Type = "fqdn"
                 $CurrentAddress.Value = $Address.fqdn
-                $SearchArray = $CurrentAddress.Value
+                $IsFound = ($CurrentAddress.Value -eq $SearchString)
             }
-            if ($SearchArray -contains $SearchString) {
+            if ($IsFound) {
                 $AddressObjects += $CurrentAddress
             }
         }
@@ -989,7 +992,7 @@ function Find-PaAddressObject {
 
         foreach ($Group in $AddressGroups) {
             foreach ($Address in $AddressObjects) {
-                if ($Group.Member -contains $Address.Name) {
+                if (($Group.Member -contains $Address.Name) -or ($Group.Member."#text" -contains $Address.Name)) {
                     $GroupObjects += $Group
                 }
             }

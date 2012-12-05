@@ -116,14 +116,16 @@ function Set-PaSecurityRule {
 
         [alias('ds')]
         [ValidateSet("yes","no")] 
-        [string]$DisableSri
+        [string]$DisableSri,
+
+        [Parameter(Mandatory=$False)]
+        [alias('pc')]
+        [String]$PaConnection
     )
 
     BEGIN {
-        Test-PaConnection
         $WebClient = New-Object System.Net.WebClient
         [Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
-        $type = "config"
 
         function EditProperty ($parameter,$element,$xpath) {
             if ($parameter) {
@@ -137,15 +139,11 @@ function Set-PaSecurityRule {
                 }
             }
         }
-    }
-
-    PROCESS {
-        foreach ($Connection in $Global:PaConnectionArray) {
-            $PaConnectionString = $Connection.ConnectionString
+        Function Process-Query ( [String]$PaConnectionString ) {
             $xpath = "/config/devices/entry/vsys/entry/rulebase/security/rules/entry[@name='$Name']"
             
             if ($Rename) {
-                $Response = Send-PaApiQuery -Config rename -XPath $xpath -NewName $Rename
+                $Response = Send-PaApiQuery -Config rename -XPath $xpath -NewName $Rename -PaConnection $PaConnectionString
                 if ($Response.response.status -eq "success") {
                     return "Rename success"
                 } else {
@@ -184,6 +182,21 @@ function Set-PaSecurityRule {
             EditProperty $ProfileFile "file-blocking" "$xpath/profile-setting/profiles"
             EditProperty $ProfileData "data-filtering" "$xpath/profile-setting/profiles"
         }
+    }
+
+    PROCESS {
+        if ($PaConnection) {
+            Process-Query $PaConnection
+        } else {
+            if (Test-PaConnection) {
+                foreach ($Connection in $Global:PaConnectionArray) {
+                    Process-Query $Connection.ConnectionString
+                }
+            } else {
+                Throw "No Connections"
+            }
+        }
+        
     }
 }
 

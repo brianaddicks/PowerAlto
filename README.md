@@ -1,7 +1,7 @@
-PaSH
+poweralto
 ====
 
-Welcome to the PaSH wiki!  PaSH (Palo Alto Shell) is a powershell module for access Palo Alto Next-Gen Firewalls through their built-in XML API.
+Welcome to the poweralto wiki!  poweralto (Palo Alto Shell) is a powershell module for access Palo Alto Next-Gen Firewalls through their built-in XML API.
 
 So far, this module adds 6 new cmdlets as follows:
 
@@ -17,4 +17,4 @@ So far, this module adds 6 new cmdlets as follows:
 
 **Invoke-PaCommit**: Commits current candidate configuration.
 
-To install PaSH, simply download [paloalto.psm1](https://github.com/brianaddicks/PaSH/blob/master/PaloAlto.psm1).  Place it inside a it's own directory (named paloalto) inside your Powershell Module path.  You can get your PSModule path from: $env:PSModulePath
+To install poweralto, simply download [poweralto.psm1](https://github.com/brianaddicks/poweralto/blob/master/poweralto.psm1).  Place it inside a it's own directory (named paloalto) inside your Powershell Module path.  You can get your PSModule path from: $env:PSModulePath

@@ -47,20 +47,32 @@ function Get-PaSystemInfo {
 	#>
 
     Param (
-        [Parameter(Mandatory=$True,Position=0)]
-        [string]$PaConnectionString
+        [Parameter(Mandatory=$False)]
+        [alias('pc')]
+        [String]$PaConnection
     )
 
     BEGIN {
         $WebClient = New-Object System.Net.WebClient
         [Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
+        Function Process-Query ( [String]$PaConnectionString ) {
+            $SystemInfo = (Send-PaApiQuery -op "<show><system><info></info></system></show>").response.result.system
+            return $SystemInfo
+        }
     }
 
     PROCESS {
-        $Url = "$PaConnectionString&type=op&cmd=<show><system><info></info></system></show>"
-        $SystemInfo = ([xml]$WebClient.DownloadString($Url)).response.result.system
-        return $SystemInfo
-        
+        if ($PaConnection) {
+            Process-Query $PaConnection
+        } else {
+            if (Test-PaConnection) {
+                foreach ($Connection in $Global:PaConnectionArray) {
+                    Process-Query $Connection.ConnectionString
+                }
+            } else {
+                Throw "No Connections"
+            }
+        }
     }
 }
 

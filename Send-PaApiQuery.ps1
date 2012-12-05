@@ -206,19 +206,32 @@ function Send-PaApiQuery {
         #############################USER-ID############################
 
         [Parameter(ParameterSetName="userid",Mandatory=$True,Position=0)]
-        [String]$UserId
+        [String]$UserId,
+
+        #############################COMMIT#############################
+
+        [Parameter(ParameterSetName="commit",Mandatory=$True,Position=0)]
+        [Switch]$Commit,
+
+        [Parameter(ParameterSetName="commit")]
+        [Switch]$Force,
+
+        [Parameter(ParameterSetName="commit")]
+        [alias('part')]
+        [String]$Partial,
+
+        ############################CONNECTION##########################
+
+        [Parameter(Mandatory=$False)]
+        [alias('pc')]
+        [String]$PaConnection
     )
 
     BEGIN {
-        Test-PaConnection
         $WebClient = New-Object System.Net.WebClient
         [Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
-    }
-
-    PROCESS {
-        foreach ($Connection in $Global:PaConnectionArray) {
-            $url += $Connection.ConnectionString
-
+        Function Process-Query ( [String]$PaConnectionString ) {
+            $url = $PaConnectionString
             #############################CONFIG#############################
             if ($Config) {
                 $ReturnType = "String"
@@ -257,7 +270,9 @@ function Send-PaApiQuery {
                 $ReturnType = "String"
                 $url += "&type=op"
                 $url += "&cmd=$Op"
-                return [xml]$WebClient.DownloadString($url)
+                $global:lasturl = $url
+                $global:response = [xml]$WebClient.DownloadString($url)
+                return $global:response
 
             #############################REPORT#############################
             } elseif ($Report) {
@@ -331,6 +346,28 @@ function Send-PaApiQuery {
                 "action=set"
                 "file=$UserId"
                 return "Haven't gotten to this yet"
+
+            #############################COMMIT#############################
+            } elseif ($Commit) {
+                $url += "&type=commit"
+                $url += "&cmd=<commit></commit>"
+                $global:lasturl = $url
+                $global:response = [xml]$WebClient.DownloadString($url)
+                return $global:response
+            }
+        }
+    }
+
+    PROCESS {
+        if ($PaConnection) {
+            Process-Query $PaConnection
+        } else {
+            if (Test-PaConnection) {
+                foreach ($Connection in $Global:PaConnectionArray) {
+                    Process-Query $Connection.ConnectionString
+                }
+            } else {
+                Throw "No Connections"
             }
         }
     }

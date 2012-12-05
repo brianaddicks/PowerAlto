@@ -1,2 +1,2 @@
-Get-Stage ipv4math
+Import-module ipv4math
 

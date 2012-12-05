@@ -21,81 +21,97 @@ function Find-PaAddressObject {
     Param (
         [Parameter(ParameterSetName="config",Mandatory=$True,Position=0)]
         [ValidatePattern("(\w+\.)+\w+(\/\d{2})?")]
-        [String]$SearchString
+        [String]$SearchString,
+
+        [Parameter(Mandatory=$False)]
+        [alias('pc')]
+        [String]$PaConnection
     )
 
     BEGIN {
-        Test-PaConnection
         $AddressObject = @{}
         $AddressProperties = @("Name","Type","Value")
         foreach ($Value in $AddressProperties) {
             $AddressObject.Add($Value,$null)
         }
-        $AddressObjects = @()
-
+        
         $ReturnObject = @{}
         $ReturnProperties = @("Groups","Addresses")
         foreach ($Value in $ReturnProperties) {
             $ReturnObject.Add($Value,$null)
         }
         
-        $GroupObjects = @()
+        Function Process-Query ( [String]$PaConnectionString ) {
+            $AddressObjects = @()
+            $GroupObjects = @()
+            $Addresses = (Send-PaApiQuery -Config get -xpath "/config/devices/entry/vsys/entry/address" -pc $PaConnectionString).response.result.address.entry
+            $AddressGroups = (Send-PaApiQuery -Config get -xpath "/config/devices/entry/vsys/entry/address-group"-pc $PaConnectionString).response.result."address-group".entry
+            $Found = @()
+            foreach ($Address in $Addresses) {
+                $IsFound = $false
+                $SearchArray = @()
+                $CurrentAddress = New-Object PsObject -Property $AddressObject
+                $CurrentAddress.Name = $Address.Name
+                if ($Address."ip-netmask") {
+                    $CurrentAddress.Type = "ip-netmask"
+                    if ($Address."ip-netmask"."#text") {
+                        $CurrentAddress.Value = $Address."ip-netmask"."#text"
+                    } else {
+                        $CurrentAddress.Value = $Address."ip-netmask"
+                    }
+                    if ($CurrentAddress.Value -match "/") {
+                        $AddressSplit = $CurrentAddress.Value.Split("/")
+                        $AddressOnly = $AddressSplit[0]
+                        $Mask = $AddressSplit[1]
+                        if ($Mask -eq 32) {
+                            $IsFound = ($AddressOnly -eq $SearchString)
+                        } else {
+                            $Start = Get-NetworkAddress $AddressOnly (ConvertTo-Mask $Mask)
+                            $Stop = Get-BroadcastAddress $AddressOnly (ConvertTo-Mask $Mask)
+                            $IsFound = Test-IpRange "$start-$stop" $SearchString
+                        }
+                    } else {
+                        $IsFound = ($CurrentAddress.Value -eq $SearchString)
+                    }
+                } elseif ($Address."ip-range") {
+                    $CurrentAddress.Type = "ip-range"
+                    $CurrentAddress.Value = $Address."ip-range"
+                    $IsFound = Test-IpRange $CurrentAddress.value $SearchString
+                } elseif ($Address.fqdn) {
+                    $CurrentAddress.Type = "fqdn"
+                    $CurrentAddress.Value = $Address.fqdn
+                    $IsFound = ($CurrentAddress.Value -eq $SearchString)
+                }
+                if ($IsFound) {
+                    $AddressObjects += $CurrentAddress
+                }
+            }
+            $ReturnObject.Addresses = $AddressObjects
+
+            foreach ($Group in $AddressGroups) {
+                foreach ($Address in $AddressObjects) {
+                    if (($Group.Member -contains $Address.Name) -or ($Group.Member."#text" -contains $Address.Name)) {
+                        $GroupObjects += $Group
+                    }
+                }
+            }
+            $ReturnObject.Groups = $GroupObjects
+
+            return $ReturnObject
+        }
     }
 
     PROCESS {
-        $Addresses = (Send-PaApiQuery -Config get -xpath "/config/devices/entry/vsys/entry/address").response.result.address.entry
-        $AddressGroups = (Send-PaApiQuery -Config get -xpath "/config/devices/entry/vsys/entry/address-group").response.result."address-group".entry
-        $Found = @()
-        foreach ($Address in $Addresses) {
-            $IsFound = $false
-            $SearchArray = @()
-            $CurrentAddress = New-Object PsObject -Property $AddressObject
-            $CurrentAddress.Name = $Address.Name
-            if ($Address."ip-netmask") {
-                $CurrentAddress.Type = "ip-netmask"
-                if ($Address."ip-netmask"."#text") {
-                    $CurrentAddress.Value = $Address."ip-netmask"."#text"
-                } else {
-                    $CurrentAddress.Value = $Address."ip-netmask"
+        if ($PaConnection) {
+            Process-Query $PaConnection
+        } else {
+            if (Test-PaConnection) {
+                foreach ($Connection in $Global:PaConnectionArray) {
+                    Process-Query $Connection.ConnectionString
                 }
-                if ($CurrentAddress.Value -match "/") {
-                    $AddressSplit = $CurrentAddress.Value.Split("/")
-                    $AddressOnly = $AddressSplit[0]
-                    $Mask = $AddressSplit[1]
-                    if ($Mask -eq 32) {
-                        $IsFound = ($AddressOnly -eq $SearchString)
-                    } else {
-                        $Start = Get-NetworkAddress $AddressOnly (ConvertTo-Mask $Mask)
-                        $Stop = Get-BroadcastAddress $AddressOnly (ConvertTo-Mask $Mask)
-                        $IsFound = Test-IpRange "$start-$stop" $SearchString
-                    }
-                } else {
-                    $IsFound = ($CurrentAddress.Value -eq $SearchString)
-                }
-            } elseif ($Address."ip-range") {
-                $CurrentAddress.Type = "ip-range"
-                $CurrentAddress.Value = $Address."ip-range"
-                $IsFound = Test-IpRange $CurrentAddress.value $SearchString
-            } elseif ($Address.fqdn) {
-                $CurrentAddress.Type = "fqdn"
-                $CurrentAddress.Value = $Address.fqdn
-                $IsFound = ($CurrentAddress.Value -eq $SearchString)
-            }
-            if ($IsFound) {
-                $AddressObjects += $CurrentAddress
+            } else {
+                Throw "No Connections"
             }
         }
-        $ReturnObject.Addresses = $AddressObjects
-
-        foreach ($Group in $AddressGroups) {
-            foreach ($Address in $AddressObjects) {
-                if (($Group.Member -contains $Address.Name) -or ($Group.Member."#text" -contains $Address.Name)) {
-                    $GroupObjects += $Group
-                }
-            }
-        }
-        $ReturnObject.Groups = $GroupObjects
-
-        return $ReturnObject
     }
 }

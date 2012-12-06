@@ -54,21 +54,21 @@
                     $CurrentRule.SourceTransType    = "DynamicIpAndPort"
                     if ($entry."source-translation"."dynamic-ip-and-port"."interface-address".interface."#text") {
                         $CurrentRule.SourceTransAddressType = "InterfaceAddress"
-                        $CurrentRule.SourceTransInterface = $entry."source-translation"."dynamic-ip-and-port"."interface-address".interface."#text"
-                        $CurrentRule.SourceTransAddress = $entry."source-translation"."dynamic-ip-and-port"."interface-address".ip."#text"
+                        $CurrentRule.SourceTransInterface   = $entry."source-translation"."dynamic-ip-and-port"."interface-address".interface."#text"
+                        $CurrentRule.SourceTransAddress      = $entry."source-translation"."dynamic-ip-and-port"."interface-address".ip."#text"
                     } elseif ($entry."source-translation"."dynamic-ip-and-port"."interface-address".interface) {
                         $CurrentRule.SourceTransAddressType = "InterfaceAddress"
-                        $CurrentRule.SourceTransInterface = $entry."source-translation"."dynamic-ip-and-port"."interface-address".interface
+                        $CurrentRule.SourceTransInterface   = $entry."source-translation"."dynamic-ip-and-port"."interface-address".interface
                     } elseif ($entry."source-translation"."dynamic-ip-and-port"."translated-address") {
                         $CurrentRule.SourceTransAddressType = "TranslatedAddress"
-                        $CurrentRule.SourceTransInterface = $entry."source-translation"."dynamic-ip-and-port"."translated-address".member."#text"
+                        $CurrentRule.SourceTransInterface   = $entry."source-translation"."dynamic-ip-and-port"."translated-address".member."#text"
                     }
                 } elseif ($entry."source-translation"."static-ip") {
                     $CurrentRule.SourceTransType    = "StaticIp"
                     $CurrentRule.SourceTransAddress = $entry."source-translation"."static-ip"."translated-address"."#text"
                     $CurrentRule.BiDirectional      = $entry."source-translation"."static-ip"."bi-directional"."#text"
                 } elseif ($entry."source-translation"."dynamic-ip") {
-                    $CurrentRule.SourceTransType = "DynamicIp"
+                    $CurrentRule.SourceTransType    = "DynamicIp"
                     $CurrentRule.SourceTransAddress = $entry."source-translation"."dynamic-ip"."translated-address".member."#text"
                 }
                 if ($entry."destination-translation") {

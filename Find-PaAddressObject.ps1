@@ -19,8 +19,7 @@ function Find-PaAddressObject {
 	#>
     
     Param (
-        [Parameter(ParameterSetName="config",Mandatory=$True,Position=0)]
-        [ValidatePattern("(\w+\.)+\w+(\/\d{2})?")]
+        [Parameter(Mandatory=$True,Position=0)]
         [String]$SearchString,
 
         [Parameter(Mandatory=$False)]
@@ -40,6 +39,8 @@ function Find-PaAddressObject {
         foreach ($Value in $ReturnProperties) {
             $ReturnObject.Add($Value,$null)
         }
+
+        $IpRx = [regex] "^(\d+\.){3}\d+$"
         
         Function Process-Query ( [String]$PaConnectionString ) {
             $AddressObjects = @()
@@ -52,39 +53,44 @@ function Find-PaAddressObject {
                 $SearchArray = @()
                 $CurrentAddress = New-Object PsObject -Property $AddressObject
                 $CurrentAddress.Name = $Address.Name
-                if ($Address."ip-netmask") {
-                    $CurrentAddress.Type = "ip-netmask"
-                    if ($Address."ip-netmask"."#text") {
-                        $CurrentAddress.Value = $Address."ip-netmask"."#text"
-                    } else {
-                        $CurrentAddress.Value = $Address."ip-netmask"
-                    }
-                    if ($CurrentAddress.Value -match "/") {
-                        $AddressSplit = $CurrentAddress.Value.Split("/")
-                        $AddressOnly = $AddressSplit[0]
-                        $Mask = $AddressSplit[1]
-                        if ($Mask -eq 32) {
-                            $IsFound = ($AddressOnly -eq $SearchString)
+                    if ($Address."ip-netmask") {
+                        $CurrentAddress.Type = "ip-netmask"
+                        if ($Address."ip-netmask"."#text") {
+                            $CurrentAddress.Value = $Address."ip-netmask"."#text"
                         } else {
-                            $Start = Get-NetworkAddress $AddressOnly (ConvertTo-Mask $Mask)
-                            $Stop = Get-BroadcastAddress $AddressOnly (ConvertTo-Mask $Mask)
-                            $IsFound = Test-IpRange "$start-$stop" $SearchString
+                            $CurrentAddress.Value = $Address."ip-netmask"
                         }
-                    } else {
-                        $IsFound = ($CurrentAddress.Value -eq $SearchString)
+                        if ($CurrentAddress.Value -match "/") {
+                            $AddressSplit = $CurrentAddress.Value.Split("/")
+                            $AddressOnly = $AddressSplit[0]
+                            $Mask = $AddressSplit[1]
+                            if ($Mask -eq 32) {
+                                $IsFound = ($AddressOnly -eq $SearchString)
+                            } else {
+                                $Start = Get-NetworkAddress $AddressOnly (ConvertTo-Mask $Mask)
+                                $Stop = Get-BroadcastAddress $AddressOnly (ConvertTo-Mask $Mask)
+                                if ($IpRx.Match($SearchString).Success) {
+                                    $IsFound = Test-IpRange "$start-$stop" $SearchString
+                                }
+                            }
+                        } else {
+                            $IsFound = ($CurrentAddress.Value -eq $SearchString)
+                        }
+                    } elseif ($Address."ip-range") {
+                        $CurrentAddress.Type = "ip-range"
+                        $CurrentAddress.Value = $Address."ip-range"
+                        if ($IpRx.Match($SearchString).Success) {
+                            $IsFound = Test-IpRange $CurrentAddress.value $SearchString
+                        }
                     }
-                } elseif ($Address."ip-range") {
-                    $CurrentAddress.Type = "ip-range"
-                    $CurrentAddress.Value = $Address."ip-range"
-                    $IsFound = Test-IpRange $CurrentAddress.value $SearchString
-                } elseif ($Address.fqdn) {
+
+                if ($Address.fqdn) {
                     $CurrentAddress.Type = "fqdn"
                     $CurrentAddress.Value = $Address.fqdn
                     $IsFound = ($CurrentAddress.Value -eq $SearchString)
                 }
-                if ($IsFound) {
-                    $AddressObjects += $CurrentAddress
-                }
+                if ($SearchString -eq $address.Name) { $IsFound = $true }
+                if ($IsFound) { $AddressObjects += $CurrentAddress }
             }
             $ReturnObject.Addresses = $AddressObjects
 

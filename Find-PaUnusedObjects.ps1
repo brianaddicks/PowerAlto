@@ -15,7 +15,11 @@
     Param (
         [Parameter(Mandatory=$False)]
         [alias('pc')]
-        [String]$PaConnection
+        [String]$PaConnection,
+
+        [Parameter(Mandatory=$False)]
+        [alias('u')]
+        [Switch]$Update
     )
 
     BEGIN {
@@ -27,19 +31,28 @@
 
         Function Process-Query ( [String]$PaConnectionString ) {
             $ResultTable = @()
-            $Addresses = (Send-PaApiQuery -Config get -xpath "/config/devices/entry/vsys/entry/address" -pc $PaConnectionString).response.result.address.entry
+            if ((!($Global:Addresses)) -or ($Update)) {
+                "updating addresses and rulebase"
+                $Global:Addresses = (Send-PaApiQuery -Config get -xpath "/config/devices/entry/vsys/entry/address" -pc $PaConnectionString).response.result.address.entry
+                $Global:AddressGroups = (Send-PaApiQuery -Config get -xpath "/config/devices/entry/vsys/entry/address-group"-pc $PaConnectionString).response.result."address-group".entry
+                $Global:SecurityRuleBase = Get-PaSecurityRule
+                $Global:NatRuleBase = Get-PaNatRule
+            }
+            $Addresses = $Global:Addresses
+            $AddressGroups = $Global:AddressGroups
+            $All = $Addresses + $AddressGroups
             $i = 0
-            foreach ($Address in $Addresses) {
-                $Usage = Get-PaObjectUsage $Address.name
+            foreach ($item in $All) {
+                $Usage = Get-PaObjectUsage $item.name
                 $CurrentResult = New-Object PsObject -Property $ResultObject
-                $CurrentResult.Name     = $Address.name
+                $CurrentResult.Name     = $item.name
                 $CurrentResult.Groups   = ($Usage.Groups | measure).count
-                $CurrentResult.Security = ($Usage.Security | measure).count
+                $CurrentResult.Security = ($Usage.SecurityRules | measure).count
                 $CurrentResult.Nat      = ($Usage.NatRules | measure).count
                 $ResultTable += $CurrentResult
                 $i++
-                $Progress = [math]::truncate(($i / $Addresses.count) * 100)
-                Write-Progress -Activity "Scanning Address Usage" -Status "$Progress% complete $i/$($Addresses.count)"-PercentComplete $Progress
+                $Progress = [math]::truncate(($i / $all.count) * 100)
+                Write-Progress -Activity "Scanning Address Usage" -Status "$Progress% complete"-PercentComplete $Progress
             }
         return $ResultTable
         }

@@ -15,11 +15,22 @@ function Get-PaSecurityRule {
     Param (
         [Parameter(Mandatory=$False)]
         [alias('pc')]
-        [String]$PaConnection
+        [String]$PaConnection,
+
+        [Parameter(Mandatory=$False)]
+        [alias('c')]
+        [Switch]$Candidate,
+
+        [Parameter(Mandatory=$False)]
+        [alias('u')]
+        [Switch]$Update
     )
 
     BEGIN {
         $xpath = "/config/devices/entry/vsys/entry/rulebase/security/rules"
+        if ($Candidate) { $type = "get" } `
+                   else { $type = "show" }
+
         Function Process-Query ( [String]$PaConnectionString ) {
             $SecurityRule = @{}
             $ExportString = @("Name","Description","Tag","SourceZone","SourceAddress","SourceNegate","SourceUser","HipProfile","DestinationZone","DestinationAddress","DestinationNegate","Application","Service","UrlCategory","Action","ProfileType","ProfileGroup","ProfileVirus","ProfileVuln","ProfileSpy","ProfileUrl","ProfileFile","ProfileData","LogStart","LogEnd","LogForward","DisableSRI","Schedule","QosType","QosMarking","Disabled")
@@ -27,7 +38,10 @@ function Get-PaSecurityRule {
                 $SecurityRule.Add($Value,$null)
             }
             $SecurityRules = @()
-            $SecurityRulebase = (Send-PaApiQuery -Config show -XPath $xpath -pc $PaConnectionString).response.result.rules.entry
+            if ((!($Global:SecurityRuleBase)) -or ($Update)) {
+                $Global:SecurityRuleBase = (Send-PaApiQuery -Config $type -XPath $xpath -pc $PaConnectionString).response.result.rules.entry
+            }
+            $SecurityRulebase = $Global:SecurityRuleBase
             
             #Covert results into PSobject
             foreach ($entry in $SecurityRulebase) {

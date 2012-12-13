@@ -24,7 +24,11 @@ function Find-PaAddressObject {
 
         [Parameter(Mandatory=$False)]
         [alias('pc')]
-        [String]$PaConnection
+        [String]$PaConnection,
+
+        [Parameter(Mandatory=$False)]
+        [alias('u')]
+        [Switch]$Update
     )
 
     BEGIN {
@@ -34,19 +38,25 @@ function Find-PaAddressObject {
             $AddressObject.Add($Value,$null)
         }
         
-        $ReturnObject = @{}
+        $ReturnCreate = @{}
         $ReturnProperties = @("Groups","Addresses")
         foreach ($Value in $ReturnProperties) {
-            $ReturnObject.Add($Value,$null)
+            $ReturnCreate.Add($Value,$null)
         }
+        $ReturnObject = New-Object psobject -Property $ReturnCreate
 
         $IpRx = [regex] "^(\d+\.){3}\d+$"
         
         Function Process-Query ( [String]$PaConnectionString ) {
             $AddressObjects = @()
             $GroupObjects = @()
-            $Addresses = (Send-PaApiQuery -Config get -xpath "/config/devices/entry/vsys/entry/address" -pc $PaConnectionString).response.result.address.entry
-            $AddressGroups = (Send-PaApiQuery -Config get -xpath "/config/devices/entry/vsys/entry/address-group"-pc $PaConnectionString).response.result."address-group".entry
+            if ((!($Global:Addresses)) -or ($Update)) {
+                "updating addresses"
+                $Global:Addresses = (Send-PaApiQuery -Config get -xpath "/config/devices/entry/vsys/entry/address" -pc $PaConnectionString).response.result.address.entry
+                $Global:AddressGroups = (Send-PaApiQuery -Config get -xpath "/config/devices/entry/vsys/entry/address-group"-pc $PaConnectionString).response.result."address-group".entry
+            }
+            $Addresses = $Global:Addresses
+            $AddressGroups = $Global:AddressGroups
             $Found = @()
             foreach ($Address in $Addresses) {
                 $IsFound = $false
@@ -95,6 +105,7 @@ function Find-PaAddressObject {
             $ReturnObject.Addresses = $AddressObjects
 
             foreach ($Group in $AddressGroups) {
+                if (($SearchString -eq $Group.name) -or ($Group.Member -contains $SearchString) -or ($Group.Member."#text" -contains $SearchString)) { $GroupObjects += $Group }
                 foreach ($Address in $AddressObjects) {
                     if (($Group.Member -contains $Address.Name) -or ($Group.Member."#text" -contains $Address.Name)) {
                         $GroupObjects += $Group

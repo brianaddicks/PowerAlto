@@ -206,6 +206,7 @@ function Send-PaApiQuery {
         #############################USER-ID############################
 
         [Parameter(ParameterSetName="userid",Mandatory=$True,Position=0)]
+        [ValidateSet("get","set")] 
         [String]$UserId,
 
         #############################COMMIT#############################
@@ -239,7 +240,7 @@ function Send-PaApiQuery {
                 $url += "&action=$Config"
                 $url += "&xpath=$xpath"
                 if (($Config -eq "set") -or ($Config -eq "edit")-or ($Config -eq "delete")) {
-                    $url += "/$Element"
+                    if ($Element) { $url += "/$Element" }
                     $Member = $Member.replace(" ",'%20')
                     if ($Member -match ",") {
                         foreach ($Value in $Member.split(',')) {
@@ -247,7 +248,7 @@ function Send-PaApiQuery {
                         }
                         $Member = $Members
                     }
-                    $url+= "&element=<$element>$Member</$element>"
+                    if ($Element) { $url+= "&element=<$element>$Member</$element>" }
                 } elseif ($Config -eq "rename") {
                     $url += "&newname=$NewName"
                 } elseif ($Config -eq "clone") {
@@ -324,6 +325,7 @@ function Send-PaApiQuery {
                 }
                 if ($ImportProfile) { $url += "&profile=$ImportProfile" }
                 if ($ImportWhere) { $url += "&where=$ImportWhere" }
+                $global:lasturl = $url
                 return "Currently non-functional, not sure how to do this with webclient"
 
 
@@ -342,10 +344,11 @@ function Send-PaApiQuery {
 
             #############################USER-ID############################
             } elseif ($UserId) {
-                "type=user-id"
-                "action=set"
-                "file=$UserId"
-                return "Haven't gotten to this yet"
+                $url += "&type=user-id"
+                $url += "&action=$UserId"
+                $global:lasturl = $url
+                $global:response = [xml]$WebClient.DownloadString($url)
+                return $global:response
 
             #############################COMMIT#############################
             } elseif ($Commit) {

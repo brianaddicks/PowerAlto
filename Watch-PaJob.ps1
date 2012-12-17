@@ -1,7 +1,7 @@
 ﻿function Watch-PaJob {
     <#
 	.SYNOPSIS
-		Watch a given Jobs progress
+		Watch a given Jobs progress.
 	.DESCRIPTION
 		
 	.EXAMPLE

@@ -1,9 +1,9 @@
 ﻿function Get-PaNatRule {
     <#
 	.SYNOPSIS
-		Returns Security Ruleset from Palo Alto firewall.
+		Returns NAT Ruleset from Palo Alto firewall.
 	.DESCRIPTION
-		Returns Security Ruleset from Palo Alto firewall.
+		
 	.EXAMPLE
         EXAMPLES!
 	.EXAMPLE

@@ -1,7 +1,7 @@
 ﻿function Set-PaUpdateSchedule {
     <#
 	.SYNOPSIS
-		Watch a given Jobs progress
+		Defines schedule for content updates.
 	.DESCRIPTION
 		
 	.EXAMPLE

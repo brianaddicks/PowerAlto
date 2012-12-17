@@ -1,7 +1,7 @@
 function Get-PaSystemInfo {
 	<#
 	.SYNOPSIS
-		Returns the version number of various components of a Palo Alto firewall.
+		Returns general information about the desired PA.
 	.DESCRIPTION
 		Returns the version number of various components of a Palo Alto firewall.
 	.EXAMPLE

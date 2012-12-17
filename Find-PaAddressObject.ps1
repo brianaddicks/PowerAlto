@@ -1,7 +1,7 @@
 function Find-PaAddressObject {
 	<#
 	.SYNOPSIS
-		Search Object values for a given IP or FQDN
+		Search Address Objects and Address Groups for a given IP, FQDN, or string.
 	.DESCRIPTION
 		Returns objects from Palo Alto firewall.  If no objectname is specfied, all objects of the specified type are returned.  if -Exact is not used, an inclusive search of the specified ObjectName will be performed.
 	.EXAMPLE

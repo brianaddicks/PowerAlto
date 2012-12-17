@@ -1,9 +1,9 @@
 ﻿function Get-PaObjectUsage {
     <#
 	.SYNOPSIS
-		Returns Security Ruleset from Palo Alto firewall.
+		Returns Security, Nat, Address and Address Group usge of specific search string.
 	.DESCRIPTION
-		Returns Security Ruleset from Palo Alto firewall.
+		
 	.EXAMPLE
         EXAMPLES!
 	.EXAMPLE

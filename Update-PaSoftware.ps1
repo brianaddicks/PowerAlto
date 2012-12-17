@@ -1,9 +1,9 @@
 ﻿function Update-PaSoftware {
     <#
 	.SYNOPSIS
-		Returns Security Ruleset from Palo Alto firewall.
+		**IN PROGRESS** Updates PanOS software to desired version.
 	.DESCRIPTION
-		Returns Security Ruleset from Palo Alto firewall.
+		
 	.EXAMPLE
         EXAMPLES!
 	.EXAMPLE

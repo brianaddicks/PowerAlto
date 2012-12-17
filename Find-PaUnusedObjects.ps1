@@ -1,9 +1,9 @@
 ﻿function Find-PaUnusedObjects {
     <#
 	.SYNOPSIS
-		Returns Security Ruleset from Palo Alto firewall.
+		Find unused Address Objects and Address Groups.
 	.DESCRIPTION
-		Returns Security Ruleset from Palo Alto firewall.
+		
 	.EXAMPLE
         EXAMPLES!
 	.EXAMPLE

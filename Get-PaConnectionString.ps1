@@ -1,7 +1,7 @@
 function Get-PaConnectionString {
 	<#
 	.SYNOPSIS
-		Connects to a Palo Alto firewall and returns an connection string with API key.
+		Connects to a Palo Alto firewall and returns an connection string with API key. adds value to global:PaConnectionArray for other functions to access
 	.DESCRIPTION
 		Connects to a Palo Alto firewall and returns an connection string with API key.
 	.EXAMPLE

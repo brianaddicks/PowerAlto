@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Poweralto : Palo Alto powershell" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/stylesheet.css">
+
+    <title>Poweralto</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/brianaddicks/poweralto">View on GitHub</a>
+
+          <h1 id="project_title"><a href="http://poweralto.com">Poweralto</a></h1>
+          <h2 id="project_tagline">Palo Alto powershell</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/brianaddicks/poweralto/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/brianaddicks/poweralto/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <section id="main_content" class="inner">
+
+        
+        <h1>Find-PaAddressObject</h1>
+
+          <h2>Synopsis</h2>
+            <p>Search Address Objects and Address Groups for a given IP, FQDN, or string.</p>
+
+          <h2>Syntax</h2>
+            <p>Find-PaAddressObject [-SearchString] &lt;String> [-PaConnection &lt;String>] [-Update] [&lt;CommonParameters>]</p>
+
+          <h2>Description</h2>
+            <p>Returns objects from Palo Alto firewall.  If no objectname is specfied, all objects of the specified type are returned.</p>
+
+          <h2>Parameters</h2>
+            <h3>-SearchString &lt;String></h3>
+              <p>Specificies the Palo Alto connection string with address and apikey.</p><table>              <tr><td>Required</td><td>true</td></tr>
+              <tr><td>Position</td><td>1</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-PaConnection &lt;String></h3>
+              <p>Specifies the type of objects to return.  Supports address, addressgroup, service, servicegroup</p><table>              <tr><td>Required</td><td>false</td></tr>
+              <tr><td>Position</td><td>named</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-Update [&lt;SwitchParameter>]</h3>
+              <p>Specifies that only an exact name match should be returned.  No inclusive search is performed.</p><table>              <tr><td>Required</td><td>false</td></tr>
+              <tr><td>Position</td><td>named</td></tr>
+              <tr><td>Default Value</td><td>False</td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>          <h2>Example 1</h2>
+              <pre><code>PS C:\Users\user>Find-PaAddressObject server-triton | ft -AutoSize
+    
+    
+    Groups Addresses                                                     
+    ------ ---------                                                     
+    {}     {@{Name=server-triton; Value=10.10.64.10/32; Type=ip-netmask}}
+    
+    if the global variables global:address and global:addressgroups exist, the search is performed locally.  If they do not exist and update will be performed.</code></pre>
+          <h2>Example 2</h2>
+              <pre><code>PS C:\Users\user>Find-PaAddressObject server-triton -update | ft -AutoSize
+    
+    
+    updating addresses
+    
+    Groups Addresses                                                     
+    ------ ---------                                                     
+    {}     {@{Name=server-triton; Value=10.10.64.10/32; Type=ip-netmask}}
+    
+    The update parameter updates the global variables global:address and global:addressgroups searching.</code></pre>
+
+
+
+            </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Poweralto maintained by <a href="https://github.com/brianaddicks">brianaddicks</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>

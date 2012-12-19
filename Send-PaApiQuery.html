@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Poweralto : Palo Alto powershell" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/stylesheet.css">
+
+    <title>Poweralto</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/brianaddicks/poweralto">View on GitHub</a>
+
+          <h1 id="project_title"><a href="http://poweralto.com">Poweralto</a></h1>
+          <h2 id="project_tagline">Palo Alto powershell</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/brianaddicks/poweralto/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/brianaddicks/poweralto/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <section id="main_content" class="inner">
+
+        
+        <h1>Send-PaApiQuery</h1>
+
+          <h2>Synopsis</h2>
+            <p>Query Palo Alto for custom data.</p>
+
+          <h2>Syntax</h2>
+            <p>Send-PaApiQuery [-Config] &lt;String> [-XPath] &lt;String> [-Element &lt;String>] [-Member &lt;String>] [-NewName &lt;String>] [-CloneFrom &lt;String>] [-MoveWhere &lt;String>] [-MoveDestination &lt;String>] [-PaConnection &lt;String>] [&lt;CommonParameters>]</p>
+
+          <h2>Description</h2>
+            <p>Query Palo Alto for custom data</p>
+
+          <h2>Parameters</h2>
+            <h3>-Config &lt;String></h3>
+              <p>CONFIG#############################</p><table>              <tr><td>Required</td><td>true</td></tr>
+              <tr><td>Position</td><td>1</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-XPath &lt;String></h3>
+              <p>Required?                    true</p><table>              <tr><td>Required</td><td>false</td></tr>
+              <tr><td>Position</td><td>named</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-Member &lt;String></h3>
+              <p>Required?                    false</p><table>              <tr><td>Required</td><td>false</td></tr>
+              <tr><td>Position</td><td>named</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-CloneFrom &lt;String></h3>
+              <p>========================CLONE=========================#</p><table>              <tr><td>Required</td><td>false</td></tr>
+              <tr><td>Position</td><td>named</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-MoveWhere &lt;String></h3>
+              <p>=========================MOVE=========================#</p><table>              <tr><td>Required</td><td>false</td></tr>
+              <tr><td>Position</td><td>named</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-MoveDestination &lt;String></h3>
+              <p>Required?                    false</p><table>              <tr><td>Required</td><td>true</td></tr>
+              <tr><td>Position</td><td>1</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-Report &lt;String></h3>
+              <p>REPORT#############################</p><table>              <tr><td>Required</td><td>true</td></tr>
+              <tr><td>Position</td><td>1</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-ReportName &lt;String></h3>
+              <p>Required?                    false</p><table>              <tr><td>Required</td><td>false</td></tr>
+              <tr><td>Position</td><td>named</td></tr>
+              <tr><td>Default Value</td><td>0</td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-Period &lt;String></h3>
+              <p>Required?                    false</p><table>              <tr><td>Required</td><td>false</td></tr>
+              <tr><td>Position</td><td>named</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-EndTime &lt;String></h3>
+              <p>Required?                    false</p><table>              <tr><td>Required</td><td>true</td></tr>
+              <tr><td>Position</td><td>1</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-From &lt;String></h3>
+              <p>Required?                    false</p><table>              <tr><td>Required</td><td>false</td></tr>
+              <tr><td>Position</td><td>named</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-DlpPassword &lt;String></h3>
+              <p>=========================DLP=========================#</p><table>              <tr><td>Required</td><td>false</td></tr>
+              <tr><td>Position</td><td>named</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-CertificateName &lt;String></h3>
+              <p>=====================CERTIFICATE=====================#</p><table>              <tr><td>Required</td><td>false</td></tr>
+              <tr><td>Position</td><td>named</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-CertificateFormat &lt;String></h3>
+              <p>Required?                    false</p><table>              <tr><td>Required</td><td>false</td></tr>
+              <tr><td>Position</td><td>named</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-TsAction &lt;String></h3>
+              <p>=====================TECH SUPPORT====================#</p><table>              <tr><td>Required</td><td>false</td></tr>
+              <tr><td>Position</td><td>named</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-Job &lt;Decimal></h3>
+              <p>Required?                    false</p><table>              <tr><td>Required</td><td>true</td></tr>
+              <tr><td>Position</td><td>named</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-Import &lt;String></h3>
+              <p>IMPORT#############################</p><table>              <tr><td>Required</td><td>true</td></tr>
+              <tr><td>Position</td><td>1</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-ImportFile &lt;String></h3>
+              <p>Required?                    true</p><table>              <tr><td>Required</td><td>false</td></tr>
+              <tr><td>Position</td><td>named</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-ImportCertificateFormat &lt;String></h3>
+              <p>Required?                    false</p><table>              <tr><td>Required</td><td>false</td></tr>
+              <tr><td>Position</td><td>named</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-ImportProfile &lt;String></h3>
+              <p>====================RESPONSE PAGES====================#</p><table>              <tr><td>Required</td><td>false</td></tr>
+              <tr><td>Position</td><td>named</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-ImportWhere &lt;String></h3>
+              <p>=====================CUSTOM LOGO======================#</p><table>              <tr><td>Required</td><td>false</td></tr>
+              <tr><td>Position</td><td>named</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-Log &lt;String></h3>
+              <p>LOGS##############################</p><table>              <tr><td>Required</td><td>true</td></tr>
+              <tr><td>Position</td><td>1</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-LogQuery &lt;String></h3>
+              <p>Required?                    false</p><table>              <tr><td>Required</td><td>false</td></tr>
+              <tr><td>Position</td><td>named</td></tr>
+              <tr><td>Default Value</td><td>0</td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-SkipLogs &lt;String></h3>
+              <p>Required?                    false</p><table>              <tr><td>Required</td><td>false</td></tr>
+              <tr><td>Position</td><td>named</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-LogJob &lt;Decimal></h3>
+              <p>Required?                    false</p><table>              <tr><td>Required</td><td>true</td></tr>
+              <tr><td>Position</td><td>1</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-Commit [&lt;SwitchParameter>]</h3>
+              <p>COMMIT#############################</p><table>              <tr><td>Required</td><td>true</td></tr>
+              <tr><td>Position</td><td>1</td></tr>
+              <tr><td>Default Value</td><td>False</td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-Force [&lt;SwitchParameter>]</h3>
+              <p>Required?                    false</p><table>              <tr><td>Required</td><td>false</td></tr>
+              <tr><td>Position</td><td>named</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>            <h3>-PaConnection &lt;String></h3>
+              <p>CONNECTION##########################</p><table>              <tr><td>Required</td><td>false</td></tr>
+              <tr><td>Position</td><td>named</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>          <h2>Example 1</h2>
+              <pre><code>C:\PS>Needs to write some examples</code></pre>
+          <h2>Example 2</h2>
+              <pre><code>C:\PS>Needs to write some examples</code></pre>
+
+
+
+            </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Poweralto maintained by <a href="https://github.com/brianaddicks">brianaddicks</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>

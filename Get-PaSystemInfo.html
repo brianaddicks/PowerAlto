@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Poweralto : Palo Alto powershell" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/stylesheet.css">
+
+    <title>Poweralto</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/brianaddicks/poweralto">View on GitHub</a>
+
+          <h1 id="project_title"><a href="http://poweralto.com">Poweralto</a></h1>
+          <h2 id="project_tagline">Palo Alto powershell</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/brianaddicks/poweralto/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/brianaddicks/poweralto/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <section id="main_content" class="inner">
+
+        
+        <h1>Get-PaSystemInfo</h1>
+
+          <h2>Synopsis</h2>
+            <p>Returns general information about the desired PA.</p>
+
+          <h2>Syntax</h2>
+            <p>Get-PaSystemInfo [[-PaConnection] &lt;String>] [&lt;CommonParameters>]</p>
+
+          <h2>Description</h2>
+            <p>Returns the version number of various components of a Palo Alto firewall.</p>
+
+          <h2>Parameters</h2>
+            <h3>-PaConnection &lt;String></h3>
+              <p> </p><table>              <tr><td>Required</td><td>false</td></tr>
+              <tr><td>Position</td><td>1</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
+</table>          <h2>Example 1</h2>
+              <pre><code>C:\PS>Get-PaVersion -PaConnectionString https://192.168.1.1/api/?key=apikey
+    
+    
+    hostname                              : pegasus
+    ip-address                            : 192.168.1.1
+    netmask                               : 255.255.255.0
+    default-gateway                       : 192.168.1.10
+    ipv6-address                          : 
+    ipv6-link-local-address               : fe80::b60c:23ff:fe0c:5500/64
+    ipv6-default-gateway                  : 
+    mac-address                           : b4:0c:25:03:55:00
+    time                                  : Mon Nov 19 17:02:19 2012
+                                    
+    uptime                                : 2 days, 15:26:48
+    devicename                            : pegasus
+    family                                : 200
+    model                                 : PA-200
+    serial                                : 012345678901
+    sw-version                            : 5.0.0
+    global-protect-client-package-version : 1.2.0
+    app-version                           : 338-1582
+    app-release-date                      : 2012/11/13  12:46:13
+    av-version                            : 882-1216
+    av-release-date                       : 2012/11/15  18:13:58
+    threat-version                        : 338-1582
+    threat-release-date                   : 2012/11/13  12:46:13
+    wildfire-version                      : 0
+    wildfire-release-date                 : unknown
+    url-filtering-version                 : 3984
+    global-protect-datafile-version       : 0
+    global-protect-datafile-release-date  : unknown
+    logdb-version                         : 5.0.2
+    platform-family                       : 200
+    logger_mode                           : False
+    vpn-disable-mode                      : off
+    operational-mode                      : normal
+    multi-vsys                            : off</code></pre>
+          <h2>Example 2</h2>
+              <pre><code>C:\PS>Get-PaVersion https://192.168.1.1/api/?key=apikey</code></pre>
+
+
+
+            </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Poweralto maintained by <a href="https://github.com/brianaddicks">brianaddicks</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>

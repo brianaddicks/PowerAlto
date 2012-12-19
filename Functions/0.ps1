@@ -1,2 +1,1 @@
-Import-module ipv4math
-
+Import-module ipv4math -global

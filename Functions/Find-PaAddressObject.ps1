@@ -3,19 +3,32 @@ function Find-PaAddressObject {
 	.SYNOPSIS
 		Search Address Objects and Address Groups for a given IP, FQDN, or string.
 	.DESCRIPTION
-		Returns objects from Palo Alto firewall.  If no objectname is specfied, all objects of the specified type are returned.  if -Exact is not used, an inclusive search of the specified ObjectName will be performed.
-	.EXAMPLE
-        Needs to write some examples
-	.EXAMPLE
-		Needs to write some examples
-	.PARAMETER PaConnectionString
+		Returns objects from Palo Alto firewall.  If no objectname is specfied, all objects of the specified type are returned.
+	.PARAMETER SearchString
 		Specificies the Palo Alto connection string with address and apikey.
-    .PARAMETER ObjectType
+    .PARAMETER PaConnection
 		Specifies the type of objects to return.  Supports address, addressgroup, service, servicegroup
     .PARAMETER ObjectName
         Declares a specific object to return.
-    .PARAMETER Exact
+    .PARAMETER Update
         Specifies that only an exact name match should be returned.  No inclusive search is performed.
+    .EXAMPLE
+        PS C:\Users\user> Find-PaAddressObject server-triton | ft -AutoSize
+
+        Groups Addresses                                                     
+        ------ ---------                                                     
+        {}     {@{Name=server-triton; Value=10.10.64.10/32; Type=ip-netmask}}
+
+        if the global variables global:address and global:addressgroups exist, the search is performed locally.  If they do not exist and update will be performed.
+    .EXAMPLE
+        PS C:\Users\user> Find-PaAddressObject server-triton -update | ft -AutoSize
+        updating addresses
+
+        Groups Addresses                                                     
+        ------ ---------                                                     
+        {}     {@{Name=server-triton; Value=10.10.64.10/32; Type=ip-netmask}}
+
+        The update parameter updates the global variables global:address and global:addressgroups searching.
 	#>
     
     Param (

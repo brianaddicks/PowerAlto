@@ -62,7 +62,6 @@
                 $ProgressParams.add("Status",$Status)
                 $ProgressParams.add("PercentComplete",$JobProgress)
                 Write-Progress @ProgressParams
-                #Write-Progress -Activity $Caption -Status $Status -PercentComplete ($JobProgress)
                 $JobStatus = Send-PaApiQuery -op "$cmd"
             }
             return $JobStatus

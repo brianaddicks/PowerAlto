@@ -1,7 +1,7 @@
 ﻿function Update-PaSoftware {
     <#
 	.SYNOPSIS
-		**IN PROGRESS** Updates PanOS software to desired version.
+		Updates PanOS software to desired version.
 	.DESCRIPTION
 		
 	.EXAMPLE

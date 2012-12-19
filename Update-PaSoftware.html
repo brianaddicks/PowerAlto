@@ -31,6 +31,12 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
+        <section id="main_content" class="inner">
+        <h3>Welcome to PowerAlto Wiki.</h3>
+
+          <p><strong>PowerAlto</strong> is a PowerShell module that provides tools for discovering, configuring, and troubleshooting <strong>Palo Alto Next-Gen Firewalls</strong> through their XML API.</p>
+          
+
         <h1>Update-PaSoftware</h1>
 
           <h2>Synopsis</h2>
@@ -62,6 +68,17 @@
           <h2>Example 2</h2>
               <pre><code>C:\PS>EXAMPLES!</code></pre>
 
+
+              <p>To install poweralto, download <a href="https://github.com/brianaddicks/poweralto/raw/master/poweralto.psm1">poweralto.psm1</a>.</p>
+          
+              <p>Place it inside a it's own directory (named poweralto) inside your Powershell Module path.  You can get your PSModule path from $env:PSModulePath. For example:</p>
+              <ul>
+                <li>Current User scope: <pre><code>C:\Users\user\Documents\WindowsPowerShell\Modules\poweralto\poweralto.psm1</code></pre></li>
+                <li>Local Machine scope: <pre><code>C:\Windows\system32\WindowsPowerShell\v1.0\Modules\poweralto\poweralto.psm1</code></pre></li>
+              </ul>
+          
+              <p>After the file is in place, you can then import it into your PowerShell session:</p>
+              <pre><code>Import-Module poweralto</code></pre>
             </section>
     </div>
 

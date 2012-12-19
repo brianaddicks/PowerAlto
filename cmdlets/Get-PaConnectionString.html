@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1" />
     <meta name="description" content="Poweralto : Palo Alto powershell" />
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/stylesheet.css">
 
     <title>Poweralto</title>
   </head>
@@ -18,7 +18,7 @@
         <header class="inner">
           <a id="forkme_banner" href="https://github.com/brianaddicks/poweralto">View on GitHub</a>
 
-          <h1 id="project_title"><a href="index.html">Poweralto</a></h1>
+          <h1 id="project_title"><a href="http://poweralto.com">Poweralto</a></h1>
           <h2 id="project_tagline">Palo Alto powershell</h2>
 
             <section id="downloads">
@@ -32,46 +32,47 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <section id="main_content" class="inner">
-        <h3>Welcome to PowerAlto Wiki.</h3>
 
-          <p><strong>PowerAlto</strong> is a PowerShell module that provides tools for discovering, configuring, and troubleshooting <strong>Palo Alto Next-Gen Firewalls</strong> through their XML API.</p>
-          
-
-        <h1>Get-PaNatRule</h1>
+        
+        <h1>Get-PaConnectionString</h1>
 
           <h2>Synopsis</h2>
-            <p>Returns NAT Ruleset from Palo Alto firewall.</p>
+            <p>Connects to a Palo Alto firewall and returns an connection string with API key. adds value to global:PaConnectionArray for other functions to access</p>
 
           <h2>Syntax</h2>
-            <p>Get-PaNatRule [[-PaConnection] &lt;String>] [&lt;CommonParameters>]</p>
+            <p>Get-PaConnectionString [-Address] &lt;String> [-Cred] &lt;PSCredential> [&lt;CommonParameters>]</p>
 
           <h2>Description</h2>
-            <p>PARAMETERS</p>
+            <p>Connects to a Palo Alto firewall and returns an connection string with API key.</p>
 
           <h2>Parameters</h2>
-            <h3>-PaConnection &lt;String></h3>
-              <p> </p><table>              <tr><td>Required</td><td>false</td></tr>
+            <h3>-Address &lt;String></h3>
+              <p>Specifies the IP or DNS name of the system to connect to.</p><table>              <tr><td>Required</td><td>true</td></tr>
               <tr><td>Position</td><td>1</td></tr>
               <tr><td>Default Value</td><td></td></tr>
               <tr><td>Accept pipeline input</td><td>false</td></tr>
               <tr><td>Accept wildcard characters</td><td>false</td></tr>
 
+</table>            <h3>-Cred &lt;PSCredential></h3>
+              <p> </p><table>              <tr><td>Required</td><td>true</td></tr>
+              <tr><td>Position</td><td>2</td></tr>
+              <tr><td>Default Value</td><td></td></tr>
+              <tr><td>Accept pipeline input</td><td>false</td></tr>
+              <tr><td>Accept wildcard characters</td><td>false</td></tr>
+
 </table>          <h2>Example 1</h2>
-              <pre><code>C:\PS>EXAMPLES!</code></pre>
+              <pre><code>C:\PS>Connect-Pa -Address 192.168.1.1 -Cred $PSCredential
+    
+    
+    https://192.168.1.1/api/?key=LUFRPT1SanJaQVpiNEg4TnBkNGVpTmRpZTRIamR4OUE9Q2lMTUJGREJXOCs3SjBTbzEyVSt6UT01</code></pre>
           <h2>Example 2</h2>
-              <pre><code>C:\PS>EXAMPLES!</code></pre>
+              <pre><code>C:\PS>Connect-Pa 192.168.1.1
+    
+    
+    https://192.168.1.1/api/?key=LUFRPT1SanJaQVpiNEg4TnBkNGVpTmRpZTRIamR4OUE9Q2lMTUJGREJXOCs3SjBTbzEyVSt6UT01</code></pre>
 
 
-              <p>To install poweralto, download <a href="https://github.com/brianaddicks/poweralto/raw/master/poweralto.psm1">poweralto.psm1</a>.</p>
-          
-              <p>Place it inside a it's own directory (named poweralto) inside your Powershell Module path.  You can get your PSModule path from $env:PSModulePath. For example:</p>
-              <ul>
-                <li>Current User scope: <pre><code>C:\Users\user\Documents\WindowsPowerShell\Modules\poweralto\poweralto.psm1</code></pre></li>
-                <li>Local Machine scope: <pre><code>C:\Windows\system32\WindowsPowerShell\v1.0\Modules\poweralto\poweralto.psm1</code></pre></li>
-              </ul>
-          
-              <p>After the file is in place, you can then import it into your PowerShell session:</p>
-              <pre><code>Import-Module poweralto</code></pre>
+
             </section>
     </div>
 

@@ -234,10 +234,14 @@ hr {
   background: url('../images/bg_hr.png') repeat-x center;
 }
 
-table {
+/*table {
   border: 1px solid #373737;
   margin-bottom: 20px;
   text-align: left;
+ }*/
+ 
+ table {
+  border: 0px;
  }
 
 th {
@@ -247,11 +251,18 @@ th {
   color: #fff;
  }
 
-td {
+/*td {
   padding: 10px;
   border: 1px solid #373737;
- }
+ }*/
 
+td {
+  padding-right: 2px;
+  padding-left: 2px;
+  border: 0px;
+  
+ }
+ 
 form {
   background: #f2f2f2;
   padding: 20px;
@@ -272,7 +283,7 @@ Full-Width Styles
 
 .inner {
   position: relative;
-  max-width: 640px;
+  max-width: 750px;
   padding: 20px 10px;
   margin: 0 auto;
 }

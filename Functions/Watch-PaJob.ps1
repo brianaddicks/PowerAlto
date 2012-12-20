@@ -43,27 +43,29 @@
             $cmd = "<show><jobs><id>$Job</id></jobs></show>"
             $JobStatus = Send-PaApiQuery -op "$cmd"
             $TimerStart = Get-Date
+            
+            $ProgressParams = @{}
+            $ProgressParams.add("Activity",$Caption)
+            if ($Id)       { $ProgressParams.add("Id",$Id) }
+            if ($ParentId) { $ProgressParams.add("ParentId",$ParentId) }
+            $ProgressParams.add("Status",$null)
+            $ProgressParams.add("PercentComplete",$null)
+
             while ($JobStatus.response.result.job.status -ne "FIN") {
                 $JobProgress = $JobStatus.response.result.job.progress
                 $SizeComplete = ([decimal]$JobProgress * $Size)/100
                 $Elapsed = ((Get-Date) - $TimerStart).TotalSeconds
-                if ($Elapsed -gt 0) {
-                    $Speed = [math]::Truncate($SizeComplete/$Elapsed*1024)
-                }
+                if ($Elapsed -gt 0) { $Speed = [math]::Truncate($SizeComplete/$Elapsed*1024) }
                 $Status = $null
-                if ($size) {
-                    $Status = "$Speed`KB/s "
-                } 
+                if ($size)          { $Status = "$Speed`KB/s " } 
                 $Status += "$($JobProgress)% complete"
-                $ProgressParams = @{}
-                $ProgressParams.add("Activity",$Caption)
-                if ($Id)       { $ProgressParams.add("Id",$Id) }
-                if ($ParentId) { $ProgressParams.add("ParentId",$Id) }
-                $ProgressParams.add("Status",$Status)
-                $ProgressParams.add("PercentComplete",$JobProgress)
+                $ProgressParams.Set_Item("Status",$Status)
+                $ProgressParams.Set_Item("PercentComplete",$JobProgress)
                 Write-Progress @ProgressParams
                 $JobStatus = Send-PaApiQuery -op "$cmd"
             }
+            $ProgressParams.Set_Item("PercentComplete",100)
+            Write-Progress @ProgressParams
             return $JobStatus
         }
     }

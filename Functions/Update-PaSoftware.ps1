@@ -42,7 +42,6 @@
                 if (!($DesiredVersion)) { return "version $Version not listed" }
                 $DesiredBase = $DesiredVersion.version.Substring(0,3)
                 $CurrentVersion = (Get-PaSystemInfo)."sw-version"
-                $CurrentVersion = "4.0.0"
                 $CurrentBase = $CurrentVersion.Substring(0,3)
                 if ($CurrentBase -eq $DesiredBase) {
                     $Stepping += $Version
@@ -69,7 +68,7 @@
                 if ($DesiredVersion.downloaded -eq "no") {
                     $Download = Send-PaApiQuery -Op "<request><system><software><download><version>$($DesiredVersion.version)</version></download></software></system></request>"
                     $job = [decimal]($Download.response.result.job)
-                    $Status = Watch-PaJob -j $job -c "Downloading $($DesiredVersion.version)" -s $DesiredVersion.size
+                    $Status = Watch-PaJob -j $job -c "Downloading $($DesiredVersion.version)" -s $DesiredVersion.size -i 2 -p 1
                     if ($Status.response.result.job.result -eq "FAIL") {
                         return $Status.response.result.job.details.line
                     }
@@ -93,7 +92,7 @@
                     $xpath = "<request><system><software><install><version>$Version</version></install></software></system></request>"
                     $Install = Send-PaApiQuery -Op $xpath
                     $Job = [decimal]($Install.response.result.job)
-                    $Status = Watch-PaJob -j $job -c "Installing $Version"
+                    $Status = Watch-PaJob -j $job -c "Installing $Version" -i 2 -p 1
                     if ($Status.response.result.job.result -eq "FAIL") {
                         return $Status.response.result.job.details.line
                     }
@@ -133,26 +132,51 @@
             Write-host "it will take $($steps.count) upgrades to get to the current firmware"
 
             if (($Steps.count -gt 1) -and ($NoRestart)) {
-                "gotta restart for multiples"
+                Throw "Must use -Restart for multiple steps"
             }
             
-            <#
-            foreach ($s in $Steps) {
-                $pacom = $false
-                "downloading $s"
-                while (!($pacom)) {
-                    $Download = Download-Update $s
-                }
-            }
+            $status = 0
+            if ($DownloadOnly)      { $Total = ($Steps.count) } 
+                elseif ($NoRestart) { $Total = ($Steps.count)*2 }
+                else                { $Total = ($Steps.count)*3 }
+
+            Write-Progress -Activity "Updating Software $Status/$Total" -Status "$($Status + 1)/$Total`: downloading $s" -id 1 -PercentComplete 0
 
             foreach ($s in $Steps) {
                 $pacom = $false
-                "installing $s"
+                
                 while (!($pacom)) {
+                    $Download += Download-Update $s
+                }
+                $Status++
+                $Progress = ($Status / $total) * 100
+                Write-Progress -Activity "Updating Software $Status/$Total" -Status "$($Status + 1)/$Total`: downloading $s" -id 1 -PercentComplete $Progress
+            }
+            sleep 5
+
+            if ($DownloadOnly) { return $Download }
+            
+            
+            
+            foreach ($s in $Steps) {
+                $pacom = $false
+                Write-Progress -Activity "Updating Software $Status/$Total" -Status "$($Status + 1)/$Total`: installing $s" -id 1 -PercentComplete $Progress
+                while (!($pacom)) {
+                    $pacom = $true
                     $Install = Install-Update $s
                 }
-                Restart-PaSystem
-            }#>
+                $Status++
+                $Progress = ($Status / $total) * 100
+                Write-Progress -Activity "Updating Software $Status/$Total" -Status "$($Status + 1)/$Total`: restarting $s" -id 1 -PercentComplete $Progress
+                if (!($NoRestart)) {
+                    Restart-PaSystem -i 2 -p 1
+                    $Status++
+                    $Progress = ($Status / $total) * 100
+                    
+                }
+                Write-Progress -Activity "Updating Software $Status/$Total" -Status "Restarting" -id 1 -PercentComplete $Progress
+            }
+            Write-Progress -Activity "Updating Software $Status/$Total" -Status "Restarting" -id 1 -PercentComplete 100
         }
     }
 

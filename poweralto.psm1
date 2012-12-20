@@ -731,29 +731,72 @@ function Restart-PaSystem {
 
         [Parameter(Mandatory=$False)]
         [alias('dw')]
-        [String]$DontWait
+        [String]$DontWait,
+        
+        [Parameter(Mandatory=$False)]
+        [alias('i')]
+        [Decimal]$Id,
+        
+        [Parameter(Mandatory=$False)]
+        [alias('p')]
+        [Decimal]$Parentid
     )
 
     BEGIN {
         Function Process-Query ( [String]$PaConnectionString ) {
+            #Configure progress bar for waiting for a response
+            $WaitJobParams = @{Activity = "Sending Reboot Commnad"}
+            if ($Id)          { $WaitJobParams.Add("Id",$id) }
+            if ($ParentId)    { $WaitJobParams.Add("ParentId",$Parentid) }
+
+            #Reboot the system
             $xpath = "<request><restart><system></system></restart></request>"
             $Reboot = Send-PaApiQuery -Op $xpath
+            
+            #If desired, down't wait for the system to come back up
             if ($DontWait) { return $Reboot }
             
-            sleep 15
+            #Wait for system to go down (so we don't get a false positive and think it's already back up)
+            for ($w = 0;$w -le 14;$w++) {
+                $Caption = "Sleeping $(15 - $w)"
+                $WaitJobParams.Set_Item("Activity",$Caption)
+                Write-Progress @WaitJobParams
+                sleep 1
+            }
+
+            #Update Progress Bar
+            $WaitJobParams.Set_Item("Activity","Trying to connect")
+
+            #Set our test condition to false
             $RebootTest = $false
+
+            #Configure progress bar for waiting for job 1 to complete after reboot
+            $WatchJobParams = @{ job = 1
+                                 caption = "Waiting for reboot" }
+            if ($Id)           { $WatchJobParams.Add("Id",$id) }
+            if ($ParentId)     { $WatchJobParams.Add("ParentId",$Parentid) }
+
+            #Attempt counter
+            $a = 1
+
+            #Loop until $RebootTest is true
             while (!($RebootTest)) {
                 try {
-                    Write-Host -NoNewline "Trying"
-                    $RebootJob = Watch-PaJob -job 1 -c "Waiting for reboot"
+                    #attempt to connect
+                    $WaitJobParams.Set_Item("Activity","Attempting to connect")
+                    Write-Progress @WaitJobParams
+                    $RebootJob = Watch-PaJob @WatchJobParams
                     if ($RebootJob.response) { $RebootTest = $true }
                 } catch {
-                    Write-Host -NoNewline ", Waiting 15 seconds"
-                    for ($w = 0;$w -le 13;$w++) {
-                        Write-Host -NoNewline "."
+                    #if exception from try block (thrown by $RebootJob), wait 15 seconds, updates progress
+                    for ($w = 0;$w -le 14;$w++) {
+                        $Caption = "Attempt $a`: Unable to connect, Trying again in $(15 - $w)"
+                        $WaitJobParams.Set_Item("Activity",$Caption)
+                        Write-Progress @WaitJobParams
                         sleep 1
+                        #increment attempt counter
                     }
-                    Write-Host "."
+                    $a++
                     $RebootTest = $false
                 }
                 
@@ -1679,7 +1722,6 @@ function Update-PaSoftware {
                 if (!($DesiredVersion)) { return "version $Version not listed" }
                 $DesiredBase = $DesiredVersion.version.Substring(0,3)
                 $CurrentVersion = (Get-PaSystemInfo)."sw-version"
-                $CurrentVersion = "4.0.0"
                 $CurrentBase = $CurrentVersion.Substring(0,3)
                 if ($CurrentBase -eq $DesiredBase) {
                     $Stepping += $Version
@@ -1706,7 +1748,7 @@ function Update-PaSoftware {
                 if ($DesiredVersion.downloaded -eq "no") {
                     $Download = Send-PaApiQuery -Op "<request><system><software><download><version>$($DesiredVersion.version)</version></download></software></system></request>"
                     $job = [decimal]($Download.response.result.job)
-                    $Status = Watch-PaJob -j $job -c "Downloading $($DesiredVersion.version)" -s $DesiredVersion.size
+                    $Status = Watch-PaJob -j $job -c "Downloading $($DesiredVersion.version)" -s $DesiredVersion.size -i 2 -p 1
                     if ($Status.response.result.job.result -eq "FAIL") {
                         return $Status.response.result.job.details.line
                     }
@@ -1730,7 +1772,7 @@ function Update-PaSoftware {
                     $xpath = "<request><system><software><install><version>$Version</version></install></software></system></request>"
                     $Install = Send-PaApiQuery -Op $xpath
                     $Job = [decimal]($Install.response.result.job)
-                    $Status = Watch-PaJob -j $job -c "Installing $Version"
+                    $Status = Watch-PaJob -j $job -c "Installing $Version" -i 2 -p 1
                     if ($Status.response.result.job.result -eq "FAIL") {
                         return $Status.response.result.job.details.line
                     }
@@ -1770,26 +1812,51 @@ function Update-PaSoftware {
             Write-host "it will take $($steps.count) upgrades to get to the current firmware"
 
             if (($Steps.count -gt 1) -and ($NoRestart)) {
-                "gotta restart for multiples"
+                Throw "Must use -Restart for multiple steps"
             }
             
-            <#
-            foreach ($s in $Steps) {
-                $pacom = $false
-                "downloading $s"
-                while (!($pacom)) {
-                    $Download = Download-Update $s
-                }
-            }
+            $status = 0
+            if ($DownloadOnly)      { $Total = ($Steps.count) } 
+                elseif ($NoRestart) { $Total = ($Steps.count)*2 }
+                else                { $Total = ($Steps.count)*3 }
+
+            Write-Progress -Activity "Updating Software $Status/$Total" -Status "$($Status + 1)/$Total`: downloading $s" -id 1 -PercentComplete 0
 
             foreach ($s in $Steps) {
                 $pacom = $false
-                "installing $s"
+                
                 while (!($pacom)) {
+                    $Download += Download-Update $s
+                }
+                $Status++
+                $Progress = ($Status / $total) * 100
+                Write-Progress -Activity "Updating Software $Status/$Total" -Status "$($Status + 1)/$Total`: downloading $s" -id 1 -PercentComplete $Progress
+            }
+            sleep 5
+
+            if ($DownloadOnly) { return $Download }
+            
+            
+            
+            foreach ($s in $Steps) {
+                $pacom = $false
+                Write-Progress -Activity "Updating Software $Status/$Total" -Status "$($Status + 1)/$Total`: installing $s" -id 1 -PercentComplete $Progress
+                while (!($pacom)) {
+                    $pacom = $true
                     $Install = Install-Update $s
                 }
-                Restart-PaSystem
-            }#>
+                $Status++
+                $Progress = ($Status / $total) * 100
+                Write-Progress -Activity "Updating Software $Status/$Total" -Status "$($Status + 1)/$Total`: restarting $s" -id 1 -PercentComplete $Progress
+                if (!($NoRestart)) {
+                    Restart-PaSystem -i 2 -p 1
+                    $Status++
+                    $Progress = ($Status / $total) * 100
+                    
+                }
+                Write-Progress -Activity "Updating Software $Status/$Total" -Status "Restarting" -id 1 -PercentComplete $Progress
+            }
+            Write-Progress -Activity "Updating Software $Status/$Total" -Status "Restarting" -id 1 -PercentComplete 100
         }
     }
 
@@ -1852,27 +1919,29 @@ function Watch-PaJob {
             $cmd = "<show><jobs><id>$Job</id></jobs></show>"
             $JobStatus = Send-PaApiQuery -op "$cmd"
             $TimerStart = Get-Date
+            
+            $ProgressParams = @{}
+            $ProgressParams.add("Activity",$Caption)
+            if ($Id)       { $ProgressParams.add("Id",$Id) }
+            if ($ParentId) { $ProgressParams.add("ParentId",$ParentId) }
+            $ProgressParams.add("Status",$null)
+            $ProgressParams.add("PercentComplete",$null)
+
             while ($JobStatus.response.result.job.status -ne "FIN") {
                 $JobProgress = $JobStatus.response.result.job.progress
                 $SizeComplete = ([decimal]$JobProgress * $Size)/100
                 $Elapsed = ((Get-Date) - $TimerStart).TotalSeconds
-                if ($Elapsed -gt 0) {
-                    $Speed = [math]::Truncate($SizeComplete/$Elapsed*1024)
-                }
+                if ($Elapsed -gt 0) { $Speed = [math]::Truncate($SizeComplete/$Elapsed*1024) }
                 $Status = $null
-                if ($size) {
-                    $Status = "$Speed`KB/s "
-                } 
+                if ($size)          { $Status = "$Speed`KB/s " } 
                 $Status += "$($JobProgress)% complete"
-                $ProgressParams = @{}
-                $ProgressParams.add("Activity",$Caption)
-                if ($Id)       { $ProgressParams.add("Id",$Id) }
-                if ($ParentId) { $ProgressParams.add("ParentId",$Id) }
-                $ProgressParams.add("Status",$Status)
-                $ProgressParams.add("PercentComplete",$JobProgress)
+                $ProgressParams.Set_Item("Status",$Status)
+                $ProgressParams.Set_Item("PercentComplete",$JobProgress)
                 Write-Progress @ProgressParams
                 $JobStatus = Send-PaApiQuery -op "$cmd"
             }
+            $ProgressParams.Set_Item("PercentComplete",100)
+            Write-Progress @ProgressParams
             return $JobStatus
         }
     }

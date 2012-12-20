@@ -1,15 +1,15 @@
 ﻿function Update-PaSoftware {
     <#
 	.SYNOPSIS
-		Updates PanOS software to desired version.
+		Updates PanOS System Software to desired level.
 	.DESCRIPTION
-		
+		Updates PanOS System Software to desired level.  Can do multiple stepped updated, download only and restart or not.
 	.EXAMPLE
         EXAMPLES!
 	.EXAMPLE
 		EXAMPLES!
 	.PARAMETER PaConnectionString
-		Specificies the Palo Alto connection string with address and apikey.
+		Specificies the Palo Alto connection string with address and apikey. If ommitted, $global:PaConnectionArray will be used
 	#>
 
     Param (

@@ -7,8 +7,8 @@ function Find-PaAddressObject {
 		Returns objects from Palo Alto firewall.  If no objectname is specfied, all objects of the specified type are returned.
 	.PARAMETER SearchString
 		Specificies the Palo Alto connection string with address and apikey.
-    .PARAMETER PaConnection
-		Specifies the type of objects to return.  Supports address, addressgroup, service, servicegroup
+  .PARAMETER PaConnectionString
+		Specificies the Palo Alto connection string with address and apikey. If ommitted, $global:PaConnectionArray will be used
     .PARAMETER ObjectName
         Declares a specific object to return.
     .PARAMETER Update
@@ -157,7 +157,7 @@ function Find-PaUnusedObjects {
 	.EXAMPLE
 		EXAMPLES!
 	.PARAMETER PaConnectionString
-		Specificies the Palo Alto connection string with address and apikey.
+		Specificies the Palo Alto connection string with address and apikey. If ommitted, $global:PaConnectionArray will be used
 	#>
 
     Param (
@@ -223,25 +223,32 @@ function Find-PaUnusedObjects {
 function Get-PaConnectionString {
 	<#
 	.SYNOPSIS
-		Connects to a Palo Alto firewall and returns an connection string with API key. adds value to global:PaConnectionArray for other functions to access
-	.DESCRIPTION
 		Connects to a Palo Alto firewall and returns an connection string with API key.
-	.EXAMPLE
-		C:\PS> Connect-Pa -Address 192.168.1.1 -Cred $PSCredential
-        https://192.168.1.1/api/?key=LUFRPT1SanJaQVpiNEg4TnBkNGVpTmRpZTRIamR4OUE9Q2lMTUJGREJXOCs3SjBTbzEyVSt6UT01
+	.DESCRIPTION
+		Connects to a Palo Alto firewall and returns an connection string with API key. Return values are added to $global:PaConnectionArray
 	.EXAMPLE
 		C:\PS> Connect-Pa 192.168.1.1
         https://192.168.1.1/api/?key=LUFRPT1SanJaQVpiNEg4TnBkNGVpTmRpZTRIamR4OUE9Q2lMTUJGREJXOCs3SjBTbzEyVSt6UT01
+
+        c:\PS> $global:PaConnectionArray
+
+        ConnectionString                 ApiKey                           Address
+        ----------------                 ------                           -------
+        https://10.10.42.72/api/?key=... LUFRPT1SanJaQVpiNEg4TnBkNGVpT... 10.10.42.72
+	.EXAMPLE
+		C:\PS> Connect-Pa -Address 192.168.1.1 -Cred $PSCredential
+        https://192.168.1.1/api/?key=LUFRPT1SanJaQVpiNEg4TnBkNGVpTmRpZTRIamR4OUE9Q2lMTUJGREJXOCs3SjBTbzEyVSt6UT01
 	.PARAMETER Address
-		Specifies the IP or DNS name of the system to connect to.
-    .PARAMETER Credential
-        If no credential object is specified, the user will be prompted.
+		Specifies the IP or FQDN of the system to connect to.
+    .PARAMETER Cred
+        Specifiy a PSCredential object, If no credential object is specified, the user will be prompted.
     .OUTPUTS
         System.String
 	#>
 
     Param (
         [Parameter(Mandatory=$True,Position=0)]
+        [ValidatePattern("\d+\.\d+\.\d+\.\d+|(\w\.)+\w")]
         [string]$Address,
 
         [Parameter(Mandatory=$True,Position=1)]
@@ -289,7 +296,7 @@ function Get-PaNatRule {
 	.EXAMPLE
 		EXAMPLES!
 	.PARAMETER PaConnectionString
-		Specificies the Palo Alto connection string with address and apikey.
+		Specificies the Palo Alto connection string with address and apikey. If ommitted, $global:PaConnectionArray will be used
 	#>
 
     Param (
@@ -388,7 +395,7 @@ function Get-PaObjectUsage {
 	.EXAMPLE
 		EXAMPLES!
 	.PARAMETER PaConnectionString
-		Specificies the Palo Alto connection string with address and apikey.
+		Specificies the Palo Alto connection string with address and apikey. If ommitted, $global:PaConnectionArray will be used
 	#>
 
     Param (
@@ -465,7 +472,7 @@ function Get-PaSecurityRule {
 	.EXAMPLE
 		EXAMPLES!
 	.PARAMETER PaConnectionString
-		Specificies the Palo Alto connection string with address and apikey.
+		Specificies the Palo Alto connection string with address and apikey. If ommitted, $global:PaConnectionArray will be used
 	#>
 
     Param (
@@ -609,7 +616,7 @@ function Get-PaSystemInfo {
 	.EXAMPLE
 		C:\PS> Get-PaVersion https://192.168.1.1/api/?key=apikey
 	.PARAMETER PaConnectionString
-		Specificies the Palo Alto connection string with address and apikey.
+		Specificies the Palo Alto connection string with address and apikey. If ommitted, $global:PaConnectionArray will be used
 	#>
 
     Param (
@@ -653,7 +660,7 @@ function Invoke-PaCommit {
 	.EXAMPLE
 		Needs to write some examples
 	.PARAMETER PaConnectionString
-		Specificies the Palo Alto connection string with address and apikey.
+		Specificies the Palo Alto connection string with address and apikey. If ommitted, $global:PaConnectionArray will be used
     .PARAMETER Force
 		Forces the commit command in the event of a conflict.
 	#>
@@ -721,7 +728,7 @@ function Restart-PaSystem {
 	.EXAMPLE
 		EXAMPLES!
 	.PARAMETER PaConnectionString
-		Specificies the Palo Alto connection string with address and apikey.
+		Specificies the Palo Alto connection string with address and apikey. If ommitted, $global:PaConnectionArray will be used
 	#>
 
     Param (
@@ -830,7 +837,7 @@ function Restore-PaPreviousVersion {
 	.EXAMPLE
 		EXAMPLES!
 	.PARAMETER PaConnectionString
-		Specificies the Palo Alto connection string with address and apikey.
+		Specificies the Palo Alto connection string with address and apikey. If ommitted, $global:PaConnectionArray will be used
 	#>
 
     Param (
@@ -873,7 +880,7 @@ function Send-PaApiQuery {
 	.EXAMPLE
 		Needs to write some examples
 	.PARAMETER PaConnectionString
-		Specificies the Palo Alto connection string with address and apikey.
+		Specificies the Palo Alto connection string with address and apikey. If ommitted, $global:PaConnectionArray will be used
 	#>
     Param (
         #############################CONFIG#############################
@@ -1251,7 +1258,7 @@ function Set-PaSecurityRule {
 	.EXAMPLE
 		Needs to write some examples
 	.PARAMETER PaConnectionString
-		Specificies the Palo Alto connection string with address and apikey.
+		Specificies the Palo Alto connection string with address and apikey. If ommitted, $global:PaConnectionArray will be used
 	#>
     
     Param (
@@ -1453,7 +1460,7 @@ function Set-PaUpdateSchedule {
 	.EXAMPLE
 		EXAMPLES!
 	.PARAMETER PaConnectionString
-		Specificies the Palo Alto connection string with address and apikey.
+		Specificies the Palo Alto connection string with address and apikey. If ommitted, $global:PaConnectionArray will be used
 	#>
 
     Param (
@@ -1579,7 +1586,7 @@ function Update-PaContent {
 	.EXAMPLE
 		EXAMPLES!
 	.PARAMETER PaConnectionString
-		Specificies the Palo Alto connection string with address and apikey.
+		Specificies the Palo Alto connection string with address and apikey. If ommitted, $global:PaConnectionArray will be used
 	#>
 
     Param (
@@ -1681,15 +1688,15 @@ function Update-PaContent {
 function Update-PaSoftware {
     <#
 	.SYNOPSIS
-		Updates PanOS software to desired version.
+		Updates PanOS System Software to desired level.
 	.DESCRIPTION
-		
+		Updates PanOS System Software to desired level.  Can do multiple stepped updated, download only and restart or not.
 	.EXAMPLE
         EXAMPLES!
 	.EXAMPLE
 		EXAMPLES!
 	.PARAMETER PaConnectionString
-		Specificies the Palo Alto connection string with address and apikey.
+		Specificies the Palo Alto connection string with address and apikey. If ommitted, $global:PaConnectionArray will be used
 	#>
 
     Param (
@@ -1885,7 +1892,7 @@ function Watch-PaJob {
 	.EXAMPLE
 		EXAMPLES!
 	.PARAMETER PaConnectionString
-		Specificies the Palo Alto connection string with address and apikey.
+		Specificies the Palo Alto connection string with address and apikey. If ommitted, $global:PaConnectionArray will be used
 	#>
 
     Param (

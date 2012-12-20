@@ -9,7 +9,7 @@
 	.EXAMPLE
 		EXAMPLES!
 	.PARAMETER PaConnectionString
-		Specificies the Palo Alto connection string with address and apikey.
+		Specificies the Palo Alto connection string with address and apikey. If ommitted, $global:PaConnectionArray will be used
 	#>
 
     Param (

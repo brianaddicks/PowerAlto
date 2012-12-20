@@ -43,7 +43,7 @@ function Get-PaSystemInfo {
 	.EXAMPLE
 		C:\PS> Get-PaVersion https://192.168.1.1/api/?key=apikey
 	.PARAMETER PaConnectionString
-		Specificies the Palo Alto connection string with address and apikey.
+		Specificies the Palo Alto connection string with address and apikey. If ommitted, $global:PaConnectionArray will be used
 	#>
 
     Param (

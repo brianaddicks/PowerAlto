@@ -6,8 +6,8 @@ function Find-PaAddressObject {
 		Returns objects from Palo Alto firewall.  If no objectname is specfied, all objects of the specified type are returned.
 	.PARAMETER SearchString
 		Specificies the Palo Alto connection string with address and apikey.
-    .PARAMETER PaConnection
-		Specifies the type of objects to return.  Supports address, addressgroup, service, servicegroup
+  .PARAMETER PaConnectionString
+		Specificies the Palo Alto connection string with address and apikey. If ommitted, $global:PaConnectionArray will be used
     .PARAMETER ObjectName
         Declares a specific object to return.
     .PARAMETER Update

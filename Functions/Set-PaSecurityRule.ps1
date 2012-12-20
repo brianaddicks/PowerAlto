@@ -9,7 +9,7 @@ function Set-PaSecurityRule {
 	.EXAMPLE
 		Needs to write some examples
 	.PARAMETER PaConnectionString
-		Specificies the Palo Alto connection string with address and apikey.
+		Specificies the Palo Alto connection string with address and apikey. If ommitted, $global:PaConnectionArray will be used
 	#>
     
     Param (

@@ -1,25 +1,32 @@
 function Get-PaConnectionString {
 	<#
 	.SYNOPSIS
-		Connects to a Palo Alto firewall and returns an connection string with API key. adds value to global:PaConnectionArray for other functions to access
-	.DESCRIPTION
 		Connects to a Palo Alto firewall and returns an connection string with API key.
-	.EXAMPLE
-		C:\PS> Connect-Pa -Address 192.168.1.1 -Cred $PSCredential
-        https://192.168.1.1/api/?key=LUFRPT1SanJaQVpiNEg4TnBkNGVpTmRpZTRIamR4OUE9Q2lMTUJGREJXOCs3SjBTbzEyVSt6UT01
+	.DESCRIPTION
+		Connects to a Palo Alto firewall and returns an connection string with API key. Return values are added to $global:PaConnectionArray
 	.EXAMPLE
 		C:\PS> Connect-Pa 192.168.1.1
         https://192.168.1.1/api/?key=LUFRPT1SanJaQVpiNEg4TnBkNGVpTmRpZTRIamR4OUE9Q2lMTUJGREJXOCs3SjBTbzEyVSt6UT01
+
+        c:\PS> $global:PaConnectionArray
+
+        ConnectionString                 ApiKey                           Address
+        ----------------                 ------                           -------
+        https://10.10.42.72/api/?key=... LUFRPT1SanJaQVpiNEg4TnBkNGVpT... 10.10.42.72
+	.EXAMPLE
+		C:\PS> Connect-Pa -Address 192.168.1.1 -Cred $PSCredential
+        https://192.168.1.1/api/?key=LUFRPT1SanJaQVpiNEg4TnBkNGVpTmRpZTRIamR4OUE9Q2lMTUJGREJXOCs3SjBTbzEyVSt6UT01
 	.PARAMETER Address
-		Specifies the IP or DNS name of the system to connect to.
-    .PARAMETER Credential
-        If no credential object is specified, the user will be prompted.
+		Specifies the IP or FQDN of the system to connect to.
+    .PARAMETER Cred
+        Specifiy a PSCredential object, If no credential object is specified, the user will be prompted.
     .OUTPUTS
         System.String
 	#>
 
     Param (
         [Parameter(Mandatory=$True,Position=0)]
+        [ValidatePattern("\d+\.\d+\.\d+\.\d+|(\w\.)+\w")]
         [string]$Address,
 
         [Parameter(Mandatory=$True,Position=1)]

@@ -37,36 +37,42 @@
         <h1>Get-PaConnectionString</h1>
 
           <h2>Synopsis</h2>
-            <p>Connects to a Palo Alto firewall and returns an connection string with API key. adds value to global:PaConnectionArray for other functions to access</p>
+            <p>Connects to a Palo Alto firewall and returns an connection string with API key.</p>
 
           <h2>Syntax</h2>
             <p>Get-PaConnectionString [-Address] &lt;String> [-Cred] &lt;PSCredential> [&lt;CommonParameters>]</p>
 
           <h2>Description</h2>
-            <p>Connects to a Palo Alto firewall and returns an connection string with API key.</p>
+            <p>PARAMETERS</p>
 
           <h2>Parameters</h2>
             <h3>-Address &lt;String></h3>
-              <p>Specifies the IP or DNS name of the system to connect to.</p><table>              <tr><td>Required</td><td>true</td></tr>
+              <p>Specifies the IP or FQDN of the system to connect to.</p><table>              <tr><td>Required</td><td>true</td></tr>
               <tr><td>Position</td><td>1</td></tr>
               <tr><td>Default Value</td><td></td></tr>
               <tr><td>Accept pipeline input</td><td>false</td></tr>
               <tr><td>Accept wildcard characters</td><td>false</td></tr>
 
 </table>            <h3>-Cred &lt;PSCredential></h3>
-              <p> </p><table>              <tr><td>Required</td><td>true</td></tr>
+              <p>Specifiy a PSCredential object, If no credential object is specified, the user will be prompted.</p><table>              <tr><td>Required</td><td>true</td></tr>
               <tr><td>Position</td><td>2</td></tr>
               <tr><td>Default Value</td><td></td></tr>
               <tr><td>Accept pipeline input</td><td>false</td></tr>
               <tr><td>Accept wildcard characters</td><td>false</td></tr>
 
 </table>          <h2>Example 1</h2>
-              <pre><code>C:\PS>Connect-Pa -Address 192.168.1.1 -Cred $PSCredential
-    
-    
-    https://192.168.1.1/api/?key=LUFRPT1SanJaQVpiNEg4TnBkNGVpTmRpZTRIamR4OUE9Q2lMTUJGREJXOCs3SjBTbzEyVSt6UT01</code></pre>
-          <h2>Example 2</h2>
               <pre><code>C:\PS>Connect-Pa 192.168.1.1
+    
+    
+    https://192.168.1.1/api/?key=LUFRPT1SanJaQVpiNEg4TnBkNGVpTmRpZTRIamR4OUE9Q2lMTUJGREJXOCs3SjBTbzEyVSt6UT01
+    
+          c:\PS> $global:PaConnectionArray
+    
+          ConnectionString                 ApiKey                           Address
+          ----------------                 ------                           -------
+          https://10.10.42.72/api/?key=... LUFRPT1SanJaQVpiNEg4TnBkNGVpT... 10.10.42.72</code></pre>
+          <h2>Example 2</h2>
+              <pre><code>C:\PS>Connect-Pa -Address 192.168.1.1 -Cred $PSCredential
     
     
     https://192.168.1.1/api/?key=LUFRPT1SanJaQVpiNEg4TnBkNGVpTmRpZTRIamR4OUE9Q2lMTUJGREJXOCs3SjBTbzEyVSt6UT01</code></pre>

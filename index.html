@@ -37,35 +37,24 @@
           <p><strong>PowerAlto</strong> is a PowerShell module that provides tools for discovering, configuring, and troubleshooting <strong>Palo Alto Next-Gen Firewalls</strong> through their XML API.</p>
           
 
-          <p>So far, this module adds 27 new cmdlets as follows:</p>
+          <p>So far, this module adds 16 new cmdlets as follows:</p>
             <ul>
-            <li><strong><a href="cmdlets/ConvertTo-BinaryIP.html">ConvertTo-BinaryIP</a></strong>: Converts a Decimal IP address into a binary format.</li>
-            <li><strong><a href="cmdlets/ConvertTo-DecimalIP.html">ConvertTo-DecimalIP</a></strong>: Converts a Decimal IP address into a 32-bit unsigned integer.</li>
-            <li><strong><a href="cmdlets/ConvertTo-DottedDecimalIP.html">ConvertTo-DottedDecimalIP</a></strong>: Returns a dotted decimal IP address from either an unsigned 32-bit integer or a dotted binary string.</li>
-            <li><strong><a href="cmdlets/ConvertTo-Mask.html">ConvertTo-Mask</a></strong>: Returns a dotted decimal subnet mask from a mask length.</li>
-            <li><strong><a href="cmdlets/ConvertTo-MaskLength.html">ConvertTo-MaskLength</a></strong>: Returns the length of a subnet mask.</li>
-            <li><strong><a href="cmdlets/Find-PaAddressObject.html">Find-PaAddressObject</a></strong>: Search Object values for a given IP or FQDN</li>
-            <li><strong><a href="cmdlets/Find-PaUnusedObjects.html">Find-PaUnusedObjects</a></strong>: Returns Security Ruleset from Palo Alto firewall.</li>
-            <li><strong><a href="cmdlets/Get-BroadcastAddress.html">Get-BroadcastAddress</a></strong>: Takes an IP address and subnet mask then calculates the broadcast address for the range.</li>
-            <li><strong><a href="cmdlets/Get-IpRange.html">Get-IpRange</a></strong>: </li>
-            <li><strong><a href="cmdlets/Get-NetworkAddress.html">Get-NetworkAddress</a></strong>: Takes an IP address and subnet mask then calculates the network address for the range.</li>
-            <li><strong><a href="cmdlets/Get-NetworkRange.html">Get-NetworkRange</a></strong>: </li>
-            <li><strong><a href="cmdlets/Get-NetworkSummary.html">Get-NetworkSummary</a></strong>: </li>
-            <li><strong><a href="cmdlets/Get-PaConnectionString.html">Get-PaConnectionString</a></strong>: Connects to a Palo Alto firewall and returns an connection string with API key.</li>
-            <li><strong><a href="cmdlets/Get-PaNatRule.html">Get-PaNatRule</a></strong>: Returns Security Ruleset from Palo Alto firewall.</li>
-            <li><strong><a href="cmdlets/Get-PaObjectUsage.html">Get-PaObjectUsage</a></strong>: Returns Security Ruleset from Palo Alto firewall.</li>
+            <li><strong><a href="cmdlets/Find-PaAddressObject.html">Find-PaAddressObject</a></strong>: Search Address Objects and Address Groups for a given IP, FQDN, or string.</li>
+            <li><strong><a href="cmdlets/Find-PaUnusedObjects.html">Find-PaUnusedObjects</a></strong>: Find unused Address Objects and Address Groups.</li>
+            <li><strong><a href="cmdlets/Get-PaConnectionString.html">Get-PaConnectionString</a></strong>: Connects to a Palo Alto firewall and returns an connection string with API key. adds value to global:PaConnectionArray for other functions to access</li>
+            <li><strong><a href="cmdlets/Get-PaNatRule.html">Get-PaNatRule</a></strong>: Returns NAT Ruleset from Palo Alto firewall.</li>
+            <li><strong><a href="cmdlets/Get-PaObjectUsage.html">Get-PaObjectUsage</a></strong>: Returns Security, Nat, Address and Address Group usge of specific search string.</li>
             <li><strong><a href="cmdlets/Get-PaSecurityRule.html">Get-PaSecurityRule</a></strong>: Returns Security Ruleset from Palo Alto firewall.</li>
-            <li><strong><a href="cmdlets/Get-PaSystemInfo.html">Get-PaSystemInfo</a></strong>: Returns the version number of various components of a Palo Alto firewall.</li>
+            <li><strong><a href="cmdlets/Get-PaSystemInfo.html">Get-PaSystemInfo</a></strong>: Returns general information about the desired PA.</li>
             <li><strong><a href="cmdlets/Invoke-PaCommit.html">Invoke-PaCommit</a></strong>: Commits candidate config to Palo Alto firewall</li>
-            <li><strong><a href="cmdlets/Restart-PaSystem.html">Restart-PaSystem</a></strong>: Returns Security Ruleset from Palo Alto firewall.</li>
+            <li><strong><a href="cmdlets/Restart-PaSystem.html">Restart-PaSystem</a></strong>: Restarts PA and watches initial autocommit job for completion.</li>
             <li><strong><a href="cmdlets/Restore-PaPreviousVersion.html">Restore-PaPreviousVersion</a></strong>: Reverts to previous configuration version</li>
             <li><strong><a href="cmdlets/Send-PaApiQuery.html">Send-PaApiQuery</a></strong>: Query Palo Alto for custom data.</li>
             <li><strong><a href="cmdlets/Set-PaSecurityRule.html">Set-PaSecurityRule</a></strong>: Edits settings on a Palo Alto Security Rule</li>
-            <li><strong><a href="cmdlets/Test-IpRange.html">Test-IpRange</a></strong>: </li>
-            <li><strong><a href="cmdlets/Test-PaConnection.html">Test-PaConnection</a></strong>: </li>
-            <li><strong><a href="cmdlets/Update-PaContent.html">Update-PaContent</a></strong>: Watch a given Jobs progress</li>
-            <li><strong><a href="cmdlets/Update-PaSoftware.html">Update-PaSoftware</a></strong>: Returns Security Ruleset from Palo Alto firewall.</li>
-            <li><strong><a href="cmdlets/Watch-PaJob.html">Watch-PaJob</a></strong>: Watch a given Jobs progress</li>
+            <li><strong><a href="cmdlets/Set-PaUpdateSchedule.html">Set-PaUpdateSchedule</a></strong>: Defines schedule for content updates.</li>
+            <li><strong><a href="cmdlets/Update-PaContent.html">Update-PaContent</a></strong>: Updates Pa Content files.</li>
+            <li><strong><a href="cmdlets/Update-PaSoftware.html">Update-PaSoftware</a></strong>: <strong><span style="color:#f00">**IN PROGRESS**</span></strong> Updates PanOS software to desired version.</li>
+            <li><strong><a href="cmdlets/Watch-PaJob.html">Watch-PaJob</a></strong>: Watch a given Jobs progress.</li>
 
             <ul>
 

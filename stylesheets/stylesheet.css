@@ -55,6 +55,18 @@ a:focus {
 Theme Styles
 *******************************************************************************/
 
+/* exempts the header  some odd CSS applied to img tags */
+#project_title img {
+      border:none;
+      box-shadow:none;
+      width:500px;
+      max-width:500px;
+}
+
+/* hides the second line ("Palo Alto powershell") */
+#project_tagline { display:none; }
+
+
 body {
   box-sizing: border-box;
   color:#373737;

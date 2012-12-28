@@ -1,13 +1,9 @@
 function Send-PaApiQuery {
 	<#
 	.SYNOPSIS
-		Query Palo Alto for custom data.
+		Formulate and send an api query to a PA firewall.
 	.DESCRIPTION
-		Query Palo Alto for custom data
-	.EXAMPLE
-        Needs to write some examples
-	.EXAMPLE
-		Needs to write some examples
+		Formulate and send an api query to a PA firewall.
 	.PARAMETER PaConnectionString
 		Specificies the Palo Alto connection string with address and apikey. If ommitted, $global:PaConnectionArray will be used
 	#>
@@ -18,7 +14,7 @@ function Send-PaApiQuery {
         [ValidateSet("show","get","set","edit","delete","rename","clone","move")] 
         [String]$Config,
 
-        [Parameter(ParameterSetName="config",Mandatory=$True,Position=2)]
+        [Parameter(ParameterSetName="config",Mandatory=$True)]
         [ValidatePattern("\/config\/.*")]
         [String]$XPath,
 

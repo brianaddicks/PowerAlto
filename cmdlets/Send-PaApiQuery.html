@@ -12,6 +12,19 @@
   </head>
 
   <body>
+  <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37299747-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
 
     <!-- HEADER -->
     <div id="header_wrap" class="outer">
@@ -37,13 +50,13 @@
         <h1>Send-PaApiQuery</h1>
 
           <h2>Synopsis</h2>
-            <p>Query Palo Alto for custom data.</p>
+            <p>Formulate and send an api query to a PA firewall.</p>
 
           <h2>Syntax</h2>
-            <p>Send-PaApiQuery [-Config] &lt;String> [-XPath] &lt;String> [-Element &lt;String>] [-Member &lt;String>] [-NewName &lt;String>] [-CloneFrom &lt;String>] [-MoveWhere &lt;String>] [-MoveDestination &lt;String>] [-PaConnection &lt;String>] [&lt;CommonParameters>]</p>
+            <p>Send-PaApiQuery [-Config] &lt;String> -XPath &lt;String> [-Element &lt;String>] [-Member &lt;String>] [-NewName &lt;String>] [-CloneFrom &lt;String>] [-MoveWhere &lt;String>] [-MoveDestination &lt;String>] [-PaConnection &lt;String>] [&lt;CommonParameters>]</p>
 
           <h2>Description</h2>
-            <p>Query Palo Alto for custom data</p>
+            <p>Formulate and send an api query to a PA firewall.</p>
 
           <h2>Parameters</h2>
             <h3>-Config &lt;String></h3>
@@ -242,11 +255,7 @@
               <tr><td>Accept pipeline input</td><td>false</td></tr>
               <tr><td>Accept wildcard characters</td><td>false</td></tr>
 
-</table>          <h2>Example 1</h2>
-              <pre><code>C:\PS>Needs to write some examples</code></pre>
-          <h2>Example 2</h2>
-              <pre><code>C:\PS>Needs to write some examples</code></pre>
-
+</table>
 
 
             </section>

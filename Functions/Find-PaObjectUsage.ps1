@@ -1,4 +1,4 @@
-﻿function Find-PaUnusedObjects {
+﻿function Find-PaObjectUsage {
     <#
 	.SYNOPSIS
 		Find unused Address Objects and Address Groups.

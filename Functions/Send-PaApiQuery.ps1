@@ -237,6 +237,7 @@ function Send-PaApiQuery {
                 $url += "&action=$Config"
                 $url += "&xpath=$xpath"
                 if (($Config -eq "set") -or ($Config -eq "edit")-or ($Config -eq "delete")) {
+                    "set"
                     if ($Element) { $url += "/$Element" }
                     $Member = $Member.replace(" ",'%20')
                     if ($Member -match ",") {

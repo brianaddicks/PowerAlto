@@ -225,6 +225,7 @@ function Send-PaApiQuery {
     )
 
     BEGIN {
+        Add-Type -AssemblyName System.Web
         $WebClient = New-Object System.Net.WebClient
         [Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
         Function Process-Query ( [String]$PaConnectionString ) {
@@ -244,7 +245,14 @@ function Send-PaApiQuery {
                         }
                         $Member = $Members
                     }
-                    if ($Element) { $url+= "&element=<$element>$Member</$element>" }
+                    if ($Element) {
+                        if ($element -match "<") {
+                            "test"
+                            $url+= "&element=$element"
+                        } else {
+                            $url+= "&element=<$element>$Member</$element>"
+                        }
+                    }
                 } elseif ($Config -eq "rename") {
                     $url += "&newname=$NewName"
                 } elseif ($Config -eq "clone") {
@@ -258,6 +266,7 @@ function Send-PaApiQuery {
                         $url += "&dst=$MoveDestination"
                     }
                 }
+
                 $global:lasturl = $url
                 $global:response = [xml]$WebClient.DownloadString($url)
                 return $global:response
@@ -267,6 +276,7 @@ function Send-PaApiQuery {
                 $ReturnType = "String"
                 $url += "&type=op"
                 $url += "&cmd=$Op"
+
                 $global:lasturl = $url
                 $global:response = [xml]$WebClient.DownloadString($url)
                 return $global:response

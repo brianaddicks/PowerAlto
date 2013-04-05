@@ -1237,8 +1237,8 @@ function Send-PaApiQuery {
                 if ($NumberLogs) { $url += "&nlogs=$NumberLogs" }
                 if ($SkipLogs) { $url += "&skip=$SkipLogs" }
                 if ($LogAction) {
-                    "action=$LogAction"
-                    "job-id=$LogJob"
+                    $url += "&action=$LogAction"
+                    $url += "&job-id=$LogJob"
                 }
                 $global:lasturl = $url
 

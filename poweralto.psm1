@@ -1096,7 +1096,7 @@ function Send-PaApiQuery {
     )
 
     BEGIN {
-        function Send-WebFile ($url,$data) {
+        function Send-WebFile ($url) {
             $buffer = [System.Text.Encoding]::UTF8.GetBytes($data)
 
             [System.Net.HttpWebRequest] $webRequest = [System.Net.WebRequest]::Create($url)
@@ -1240,7 +1240,9 @@ function Send-PaApiQuery {
                     "action=$LogAction"
                     "job-id=$LogJob"
                 }
-                return "Haven't gotten to this yet"
+                $global:lasturl = $url
+
+                return $url
 
             #############################USER-ID############################
             } elseif ($UserId) {

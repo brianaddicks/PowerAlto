@@ -1231,11 +1231,11 @@ function Send-PaApiQuery {
 
             ##############################LOGS##############################
             } elseif ($Log) {
-                $url += "type=log"
-                $url += "log-type=$Log"
-                if ($LogQuery) { $url += "query=$($LogQuery.Replace(" ",'%20'))" }
-                if ($NumberLogs) { $url += "nlogs=$NumberLogs" }
-                if ($SkipLogs) { $url += "skip=$SkipLogs" }
+                $url += "&type=log"
+                $url += "&log-type=$Log"
+                if ($LogQuery) { $url += "&query=$($LogQuery.Replace(" ",'%20'))" }
+                if ($NumberLogs) { $url += "&nlogs=$NumberLogs" }
+                if ($SkipLogs) { $url += "&skip=$SkipLogs" }
                 if ($LogAction) {
                     "action=$LogAction"
                     "job-id=$LogJob"

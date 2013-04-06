@@ -1045,7 +1045,7 @@ function Send-PaApiQuery {
         ##############################LOGS##############################
 
         [Parameter(ParameterSetName="log",Mandatory=$True,Position=0)]
-        [ValidateSet("traffic","threat","config","system","hip-match")]
+        [ValidateSet("traffic","threat","config","system","hip-match","get","finish")]
         [String]$Log,
 
         [Parameter(ParameterSetName="log")]
@@ -1225,23 +1225,27 @@ function Send-PaApiQuery {
                 if ($ImportWhere) { $url += "&where=$ImportWhere" }
                 $global:lasturl = $url
 
-                return Send-WebFile $url $ImportFile
-                #return "Currently non-functional, not sure how to do this with webclient"
+                #return Send-WebFile $url $ImportFile
+                return "Currently non-functional, not sure how to do this with webclient"
 
 
             ##############################LOGS##############################
             } elseif ($Log) {
                 $url += "&type=log"
-                $url += "&log-type=$Log"
+                if ($Log -eq "get") {
+                    $url += "&action=$log"
+                    $url += "&job-id=$LogJob"
+                } else {
+                    $url += "&log-type=$Log"
+                }
                 if ($LogQuery) { $url += "&query=$($LogQuery.Replace(" ",'%20'))" }
                 if ($NumberLogs) { $url += "&nlogs=$NumberLogs" }
                 if ($SkipLogs) { $url += "&skip=$SkipLogs" }
-                if ($LogAction) {
-                    $url += "&action=$LogAction"
-                    $url += "&job-id=$LogJob"
-                }
-                $global:lasturl = $url
 
+                $global:lasturl  = $url
+                #$global:response = [xml]$WebClient.DownloadString($url)
+
+                #return $global:response
                 return $url
 
             #############################USER-ID############################

@@ -1,4 +1,4 @@
-﻿function Create-PaLogJob {
+﻿function New-PaLogJob {
 	<#
 	.SYNOPSIS
 		Formulate and send an api query to a PA firewall.

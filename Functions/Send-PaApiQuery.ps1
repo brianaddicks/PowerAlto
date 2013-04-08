@@ -225,6 +225,7 @@ function Send-PaApiQuery {
     )
 
     BEGIN {
+        Add-Type -AssemblyName System.Web
         function Send-WebFile ($url) {
             $buffer = [System.Text.Encoding]::UTF8.GetBytes($data)
 
@@ -367,7 +368,12 @@ function Send-PaApiQuery {
                 } else {
                     $url += "&log-type=$Log"
                 }
-                if ($LogQuery) { $url += "&query=$($LogQuery.Replace(" ",'%20'))" }
+
+                
+                if ($LogQuery) {
+                    $LogQuery = [System.Web.HttpUtility]::UrlEncode($LogQuery)
+                    #$url += "&query=$($LogQuery.Replace(" ",'%20'))"
+                    }
                 if ($NumberLogs) { $url += "&nlogs=$NumberLogs" }
                 if ($SkipLogs) { $url += "&skip=$SkipLogs" }
 

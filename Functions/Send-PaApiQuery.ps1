@@ -371,7 +371,8 @@ function Send-PaApiQuery {
 
                 
                 if ($LogQuery) {
-                    $LogQuery = [System.Web.HttpUtility]::UrlEncode($LogQuery)
+                    $LogQuery  = [System.Web.HttpUtility]::UrlEncode($LogQuery)
+                    $url      += "&query=$LogQuery"
                     #$url += "&query=$($LogQuery.Replace(" ",'%20'))"
                     }
                 if ($NumberLogs) { $url += "&nlogs=$NumberLogs" }

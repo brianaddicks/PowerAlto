@@ -372,17 +372,16 @@ function Send-PaApiQuery {
                 
                 if ($LogQuery) {
                     $Query  = [System.Web.HttpUtility]::UrlEncode($LogQuery)
-                    $Query
-                    $url += "&query=$Query"
+                    $url   += "&query=$Query"
                 }
                 if ($NumberLogs) { $url += "&nlogs=$NumberLogs" }
                 if ($SkipLogs) { $url += "&skip=$SkipLogs" }
 
                 $global:lasturl  = $url
-                #$global:response = [xml]$WebClient.DownloadString($url)
+                $global:response = [xml]$WebClient.DownloadString($url)
 
-                #return $global:response
-                return $url
+                return $global:response
+                #return $url
 
             #############################USER-ID############################
             } elseif ($UserId) {

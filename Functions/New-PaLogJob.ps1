@@ -34,6 +34,7 @@
     BEGIN {
         Add-Type -AssemblyName System.Web
         $WebClient = New-Object System.Net.WebClient
+        [Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
 
         Function Process-Query ( [String]$PaConnectionString ) {
             $url = $PaConnectionString

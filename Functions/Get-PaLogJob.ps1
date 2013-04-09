@@ -15,7 +15,11 @@
 
         [Parameter(Mandatory=$True)]
         [alias('j')]
-        [String]$Job
+        [String]$Job,
+
+        [Parameter(Mandatory=$False)]
+        [alias('pc')]
+        [String]$PaConnection
     )
 
     BEGIN {

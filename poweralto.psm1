@@ -302,7 +302,11 @@ function Get-PaLogJob {
 
         [Parameter(Mandatory=$True)]
         [alias('j')]
-        [String]$Job
+        [String]$Job,
+
+        [Parameter(Mandatory=$False)]
+        [alias('pc')]
+        [String]$PaConnection
     )
 
     BEGIN {
@@ -798,7 +802,11 @@ function New-PaLogJob {
 
         [Parameter(Mandatory=$False)]
         [alias('s')]
-        [String]$Skip
+        [String]$Skip,
+
+        [Parameter(Mandatory=$False)]
+        [alias('pc')]
+        [String]$PaConnection
     )
 
     BEGIN {

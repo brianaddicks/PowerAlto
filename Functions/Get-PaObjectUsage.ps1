@@ -29,8 +29,8 @@
         Function Process-Query ( [String]$PaConnectionString ) {
             if ((!($Global:SecurityRuleBase)) -or ($Update)) {
                 "updating rules"
-                $Global:SecurityRuleBase = Get-PaSecurityRule
-                $Global:NatRuleBase = Get-PaNatRule
+                $Global:SecurityRuleBase = Get-PaSecurityRule -pc $PaConnection
+                $Global:NatRuleBase = Get-PaNatRule -pc $PaConnection
             }
             $SecurityRuleBase = $Global:SecurityRuleBase
             $NatRuleBase = $Global:NatRuleBase
@@ -38,7 +38,7 @@
 
             #if (!($SecurityRuleBase)) { $SecurityRuleBase = Get-PaSecurityRule }
             #if (!($NatRuleBase)) { $NatRuleBase = Get-PaNatRule }
-            $Objects = Find-PaAddressObject $SearchString
+            $Objects = Find-PaAddressObject $SearchString -pc $PaConnection
 
             $SecurityRuleUse = @()
             $NatRuleUse      = @()

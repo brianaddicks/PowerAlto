@@ -558,8 +558,7 @@ $data = @'
                 <p>Access to the application you were trying to use has been blocked in accordance with company policy. Please contact your system administrator if you believe this is in error.</p>
                 <p><b>User:</b> <user/> </p>
                 <p><b>Application:</b> <appname/> </p>
-                <p>test</p>
-                <p id="warningText">asdf</p>
+                <p id="warningText"></p>
         </div>
         <script type="text/javascript">
             var cat = "<appname/>";

@@ -182,16 +182,16 @@ function Find-PaObjectUsage {
             if ((!($Global:Addresses)) -or ($Update)) {
                 "updating addresses and rulebase"
                 $Global:Addresses = (Send-PaApiQuery -Config get -xpath "/config/devices/entry/vsys/entry/address" -pc $PaConnectionString).response.result.address.entry
-                $Global:AddressGroups = (Send-PaApiQuery -Config get -xpath "/config/devices/entry/vsys/entry/address-group"-pc $PaConnectionString).response.result."address-group".entry
-                $Global:SecurityRuleBase = Get-PaSecurityRule
-                $Global:NatRuleBase = Get-PaNatRule
+                $Global:AddressGroups = (Send-PaApiQuery -Config get -xpath "/config/devices/entry/vsys/entry/address-group" -pc $PaConnectionString).response.result."address-group".entry
+                $Global:SecurityRuleBase = Get-PaSecurityRule -pc $PaConnectionString
+                $Global:NatRuleBase = Get-PaNatRule -pc $PaConnectionString
             }
             $Addresses = $Global:Addresses
             $AddressGroups = $Global:AddressGroups
             $All = $Addresses + $AddressGroups
             $i = 0
             foreach ($item in $All) {
-                $Usage = Get-PaObjectUsage $item.name
+                $Usage = Get-PaObjectUsage $item.name -pc $PaConnectionString
                 $CurrentResult = New-Object PsObject -Property $ResultObject
                 $CurrentResult.Name     = $item.name
                 $CurrentResult.Groups   = ($Usage.Groups | measure).count

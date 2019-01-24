@@ -11,6 +11,7 @@ function Get-PaSessionInfo {
     PROCESS {
         $Query = Invoke-PaApiOperation -Cmd $Cmd
         $Results = $Query.response.result
+        #Write-Verbose $Results
 
         $ReturnObject = "" | Select-Object SupportedSessions, AllocatedSessions, TcpSessions, UdpSessions, SessionsSinceBoot
 

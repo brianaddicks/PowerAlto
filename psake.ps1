@@ -72,48 +72,23 @@ Task Build -Depends Test {
 Task Documentation -Depends Build {
     $lines
 
-    $DocRoot = Join-Path -Path $env:BHProjectPath -ChildPath 'docs'
     $MkDocsYamlPath = Join-Path -Path $env:BHProjectPath -ChildPath 'mkdocs.yml'
-    $DocCmdletPath = Join-Path -Path $DocRoot -ChildPath 'cmdlets'
-    $DocExternalHelpPath = Join-Path $env:BHPSModulePath -ChildPath 'en-US'
 
     If ($ENV:BHBuildSystem -ne 'AppVeyor') {
-        # Create mkdocs.yml file for readthedocs
-        $mkdocs = [ordered]@{
-            site_name = "$($env:BHProjectName) Docs"
-            theme     = 'readthedocs'
-            pages     = @()
-        }
-        $mkdocs.pages += @{ Home = 'index.md' }
+        # Create mkdocs.yml file for readthedocs, would love to use powershell-yaml for this, but it was unreliable at best
+        $mkdocs = "site_name: $($env:BHProjectName) Docs`r`n"
+        $mkdocs += "theme: readthedocs`r`n"
+        $mkdocs += "pages:`r`n"
+        $mkdocs += "  - Home: index.md`r`n"
+        $mkdocs += "  - Cmdlets:`r`n"
+
         Import-Module $env:BHPSModulePath
         $Cmdlets = Get-Command -Module $env:BHProjectName
-        $OrderedCmdlets = @()
         foreach ($cmdlet in $Cmdlets) {
-            $CmdletName = $cmdlet.Name
-            $OrderedCmdlets += @{"$CmdletName" = "cmdlets/$CmdletName`.md"}
-        }
-        $mkdocs.pages += @{cmdlets = $OrderedCmdlets}
-
-        $mkdocs | ConvertTo-Yaml | Out-File -FilePath $MkDocsYamlPath -Force
-
-        ## Update help with PlatyPS
-
-        # Mark Down Help
-        $ExistingMarkDownFiles = Get-ChildItem -Path $DocCmdletPath
-        $MissingMarkDownFiles = $Cmdlets | Where-Object { $ExistingMarkDownFiles.BaseName -notcontains $_.Name }
-        foreach ($file in $MissingMarkDownFiles) {
-            $MissingName = $file.Name
-            Write-Host "Added MarkDowm help for $MissingName"
-            $NewMarkdownFile = New-MarkdownHelp -Command $MissingName -OutputFolder $DocCmdletPath
-
+            $mkdocs += "    - $($cmdlet.Name): cmdlets/$($cmdlet.Name).md`r`n"
         }
 
-        Write-host "Updating MarkDown help in $DocCmdletPath"
-        $UpdateMarkdownHelp = Update-MarkdownHelp -Path $DocCmdletPath
-
-        # External Help File
-        Write-Host "Updating External help file in $DocExternalHelpPath"
-        $UpdateExternalHelp = New-ExternalHelp -Path $DocCmdletPath -OutputPath $DocExternalHelpPath -Force
+        $mkdocs | Out-File -FilePath $MkDocsYamlPath -Force
     }
 }
 

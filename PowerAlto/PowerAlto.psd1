@@ -4,7 +4,7 @@
     RootModule        = 'PowerAlto.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '4.0.42'
+    ModuleVersion     = '4.0.44'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -22,11 +22,11 @@
     Copyright         = '(c) Brian Addicks. All rights reserved.'
 
     # Description of the functionality provided by this module
-    Description       = '@
+    Description       = @'
 PowerShell wrapper for Palo Alto Firewall/Panorama API.
 
 Full docs available at https://poweralto.com
-@'
+'@
 
     # Minimum version of the PowerShell engine required by this module
     PowerShellVersion = '5.0'
@@ -133,6 +133,8 @@ Initial public release for version 4 of the module.
     # DefaultCommandPrefix = ''
 
 }
+
+
 
 
 

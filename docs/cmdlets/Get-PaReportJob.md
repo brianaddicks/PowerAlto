@@ -1,6 +1,6 @@
 ---
-external help file: PowerAlto4-help.xml
-Module Name: PowerAlto4
+external help file: PowerAlto-help.xml
+Module Name: PowerAlto
 online version:
 schema: 2.0.0
 ---
@@ -45,7 +45,7 @@ Parameter Sets: singlejob
 Aliases:
 
 Required: True
-Position: 1
+Position: 0
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -57,14 +57,14 @@ Parameter Sets: alljobs
 Aliases:
 
 Required: False
-Position: 1
+Position: 0
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Wait
-{{Fill Wait Description}}
+### -ShowProgress
+{{Fill ShowProgress Description}}
 
 ```yaml
 Type: SwitchParameter
@@ -78,8 +78,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ShowProgress
-{{Fill ShowProgress Description}}
+### -Wait
+{{Fill Wait Description}}
 
 ```yaml
 Type: SwitchParameter

@@ -1,6 +1,6 @@
 ---
-external help file: PowerAlto4-help.xml
-Module Name: PowerAlto4
+external help file: PowerAlto-help.xml
+Module Name: PowerAlto
 online version:
 schema: 2.0.0
 ---
@@ -51,22 +51,6 @@ This will generate a keygen call and the user's API Key will be used for all sub
 
 ## PARAMETERS
 
-### -DeviceAddress
-Fully-qualified domain name for the Palo Alto Device.
-Don't include the protocol ("https://" or "http://").
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -ApiKey
 ApiKey used to access Palo Alto Device.
 
@@ -76,7 +60,7 @@ Parameter Sets: ApiKey
 Aliases:
 
 Required: True
-Position: 2
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -91,24 +75,24 @@ Parameter Sets: Credential
 Aliases:
 
 Required: True
-Position: 2
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Port
-The port the Palo Alto Device is using for management communicatins.
-This defaults to port 443 over HTTPS, and port 80 over HTTP.
+### -DeviceAddress
+Fully-qualified domain name for the Palo Alto Device.
+Don't include the protocol ("https://" or "http://").
 
 ```yaml
-Type: Int32
+Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
-Position: 3
-Default value: 443
+Required: True
+Position: 0
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -129,17 +113,18 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -SkipCertificateCheck
-When used, all certificate warnings are ignored.
+### -Port
+The port the Palo Alto Device is using for management communicatins.
+This defaults to port 443 over HTTPS, and port 80 over HTTP.
 
 ```yaml
-Type: SwitchParameter
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
-Default value: False
+Position: 2
+Default value: 443
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -151,6 +136,21 @@ When used, the cmdlet returns nothing on success.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: q
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SkipCertificateCheck
+When used, all certificate warnings are ignored.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named

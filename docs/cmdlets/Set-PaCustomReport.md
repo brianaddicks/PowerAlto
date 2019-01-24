@@ -1,6 +1,6 @@
 ---
-external help file: PowerAlto4-help.xml
-Module Name: PowerAlto4
+external help file: PowerAlto-help.xml
+Module Name: PowerAlto
 online version:
 schema: 2.0.0
 ---
@@ -38,16 +38,31 @@ Creates/Configures a custom report on a Palo Alto device.
 
 ## PARAMETERS
 
-### -Name
-{{Fill Name Description}}
+### -Columns
+{{Fill Columns Description}}
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 1
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -68,36 +83,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Vsys
-{{Fill Vsys Description}}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -SummaryDatabase
-{{Fill SummaryDatabase Description}}
-
-```yaml
-Type: String
-Parameter Sets: summary
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -DetailedLog
 {{Fill DetailedLog Description}}
 
@@ -105,21 +90,7 @@ Accept wildcard characters: False
 Type: String
 Parameter Sets: detailed
 Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -TimeFrame
-{{Fill TimeFrame Description}}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
+Accepted values: Traffic, Threat, URL, WildFire Submissions, Data Filtering, HIP Match, User-ID, Tunnel, Authentication
 
 Required: True
 Position: Named
@@ -135,6 +106,7 @@ Accept wildcard characters: False
 Type: Int32
 Parameter Sets: (All)
 Aliases:
+Accepted values: 5, 10, 25, 50, 100, 250, 500, 1000, 5000, 10000
 
 Required: False
 Position: Named
@@ -150,6 +122,7 @@ Accept wildcard characters: False
 Type: Int32
 Parameter Sets: (All)
 Aliases:
+Accepted values: 5, 10, 25, 50
 
 Required: False
 Position: Named
@@ -158,16 +131,16 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Columns
-{{Fill Columns Description}}
+### -Name
+{{Fill Name Description}}
 
 ```yaml
-Type: String[]
+Type: String
 Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: Named
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -203,14 +176,44 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -WhatIf
-Shows what would happen if the cmdlet runs.
-The cmdlet is not run.
+### -SummaryDatabase
+{{Fill SummaryDatabase Description}}
 
 ```yaml
-Type: SwitchParameter
+Type: String
+Parameter Sets: summary
+Aliases:
+Accepted values: Application Statistics, Traffic, Threat, URL, Tunnel
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TimeFrame
+{{Fill TimeFrame Description}}
+
+```yaml
+Type: String
 Parameter Sets: (All)
-Aliases: wi
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Vsys
+{{Fill Vsys Description}}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named
@@ -219,13 +222,14 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Confirm
-Prompts you for confirmation before running the cmdlet.
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: cf
+Aliases: wi
 
 Required: False
 Position: Named

@@ -1,6 +1,6 @@
 ---
-external help file: PowerAlto4-help.xml
-Module Name: PowerAlto4
+external help file: PowerAlto-help.xml
+Module Name: PowerAlto
 online version:
 schema: 2.0.0
 ---
@@ -36,6 +36,36 @@ Creates/Configures an address object on a Palo Alto device.
 
 ## PARAMETERS
 
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Description
+{{Fill Description Description}}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Name
 {{Fill Name Description}}
 
@@ -45,7 +75,7 @@ Parameter Sets: name
 Aliases:
 
 Required: True
-Position: 1
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -60,9 +90,24 @@ Parameter Sets: paaddress
 Aliases:
 
 Required: True
-Position: 1
+Position: 0
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Tag
+{{Fill Tag Description}}
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -73,6 +118,7 @@ Accept wildcard characters: False
 Type: String
 Parameter Sets: name
 Aliases:
+Accepted values: ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn
 
 Required: True
 Position: Named
@@ -85,6 +131,7 @@ Accept wildcard characters: False
 Type: String
 Parameter Sets: paaddress
 Aliases:
+Accepted values: ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn
 
 Required: False
 Position: Named
@@ -120,36 +167,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Description
-{{Fill Description Description}}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Tag
-{{Fill Tag Description}}
-
-```yaml
-Type: String[]
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -WhatIf
 Shows what would happen if the cmdlet runs.
 The cmdlet is not run.
@@ -158,21 +175,6 @@ The cmdlet is not run.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Confirm
-Prompts you for confirmation before running the cmdlet.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: cf
 
 Required: False
 Position: Named

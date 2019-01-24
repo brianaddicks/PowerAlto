@@ -1,6 +1,6 @@
 ---
-external help file: PowerAlto4-help.xml
-Module Name: PowerAlto4
+external help file: PowerAlto-help.xml
+Module Name: PowerAlto
 online version:
 schema: 2.0.0
 ---
@@ -48,33 +48,33 @@ Creates/Configures an address object on a Palo Alto device.
 
 ## PARAMETERS
 
-### -Name
-{{Fill Name Description}}
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
 
 ```yaml
-Type: String
-Parameter Sets: name-filter, name-member
-Aliases:
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
 
-Required: True
-Position: 1
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -PaAddressGroup
-{{Fill PaAddressGroup Description}}
+### -Description
+{{Fill Description Description}}
 
 ```yaml
-Type: PaAddressGroup
-Parameter Sets: object-filter, object-member
+Type: String
+Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 1
+Required: False
+Position: Named
 Default value: None
-Accept pipeline input: True (ByValue)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -132,18 +132,33 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Description
-{{Fill Description Description}}
+### -Name
+{{Fill Name Description}}
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: name-filter, name-member
 Aliases:
 
-Required: False
-Position: Named
+Required: True
+Position: 0
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PaAddressGroup
+{{Fill PaAddressGroup Description}}
+
+```yaml
+Type: PaAddressGroup
+Parameter Sets: object-filter, object-member
+Aliases:
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
@@ -170,21 +185,6 @@ The cmdlet is not run.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Confirm
-Prompts you for confirmation before running the cmdlet.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: cf
 
 Required: False
 Position: Named

@@ -1,6 +1,6 @@
 ---
-external help file: PowerAlto4-help.xml
-Module Name: PowerAlto4
+external help file: PowerAlto-help.xml
+Module Name: PowerAlto
 online version:
 schema: 2.0.0
 ---
@@ -51,16 +51,16 @@ Returns interface configuration for the currently connected Palo Alto Device.
 
 ## PARAMETERS
 
-### -Get
-get parameters
+### -Delete
+move parameters
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: get
+Parameter Sets: delete
 Aliases:
 
 Required: True
-Position: 1
+Position: 0
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -75,22 +75,7 @@ Parameter Sets: edit
 Aliases:
 
 Required: True
-Position: 1
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Set
-set parameters
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: set
-Aliases:
-
-Required: True
-Position: 1
+Position: 0
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -102,6 +87,36 @@ Accept wildcard characters: False
 ```yaml
 Type: String
 Parameter Sets: edit, set
+Aliases:
+
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Get
+get parameters
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: get
+Aliases:
+
+Required: True
+Position: 0
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Location
+{{Fill Location Description}}
+
+```yaml
+Type: String
+Parameter Sets: move
 Aliases:
 
 Required: True
@@ -120,37 +135,22 @@ Parameter Sets: move
 Aliases:
 
 Required: True
-Position: 1
+Position: 0
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Location
-{{Fill Location Description}}
-
-```yaml
-Type: String
-Parameter Sets: move
-Aliases:
-
-Required: True
-Position: 3
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Delete
-move parameters
+### -Set
+set parameters
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: delete
+Parameter Sets: set
 Aliases:
 
 Required: True
-Position: 1
+Position: 0
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -165,7 +165,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 2
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

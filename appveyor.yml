@@ -1,0 +1,27 @@
+# See http://www.appveyor.com/docs/appveyor-yml for many more options
+
+# Publish to PowerShell Gallery with this key
+environment:
+  NuGetApiKey:
+    secure: pqFgvQ46X0mWdDt3CZzuOwBe1R2HHBhK0aPYsrNYqQEezJIVhYSq8XX/VJqN/kWJ
+
+# Skip on updates to the readme.
+# We can force this by adding [skip ci] or [ci skip] anywhere in commit message
+skip_commits:
+  message: /updated readme.*|update readme.*s/
+
+# Don't use a build system, our test_script does that
+build: false
+
+# Kick off the CI/CD pipeline
+test_script:
+  - ps: . ./build.ps1
+
+# Notify Slack
+notifications:
+- provider: Slack
+  incoming_webhook:
+    secure: +hsTjowVQ0VzNCAKjdHZ+zHbyxax38iBzTWupua+IG2vrh+BknPHXcUJ6ZJysSbuYPGfkA7vl61WD6dI4mY+7dNHfHvFuvxeKAo4k0nyhE8=
+  on_build_success: true
+  on_build_failure: true
+  on_build_status_changed: true

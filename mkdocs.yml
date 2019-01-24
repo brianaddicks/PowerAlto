@@ -1,0 +1,37 @@
+site_name: PowerAlto Docs
+theme: readthedocs
+pages:
+- Home: index.md
+- cmdlets:
+  - Get-PaAddress: cmdlets/Get-PaAddress.md
+  - Get-PaAddressGroup: cmdlets/Get-PaAddressGroup.md
+  - Get-PaConfigDiff: cmdlets/Get-PaConfigDiff.md
+  - Get-PaCustomReport: cmdlets/Get-PaCustomReport.md
+  - Get-PaDevice: cmdlets/Get-PaDevice.md
+  - Get-PaInterface: cmdlets/Get-PaInterface.md
+  - Get-PaJob: cmdlets/Get-PaJob.md
+  - Get-PaNatPolicy: cmdlets/Get-PaNatPolicy.md
+  - Get-PaReportJob: cmdlets/Get-PaReportJob.md
+  - Get-PaSecurityPolicy: cmdlets/Get-PaSecurityPolicy.md
+  - Get-PaTag: cmdlets/Get-PaTag.md
+  - Get-PaUrlCategory: cmdlets/Get-PaUrlCategory.md
+  - Invoke-PaApiConfig: cmdlets/Invoke-PaApiConfig.md
+  - Invoke-PaApiOperation: cmdlets/Invoke-PaApiOperation.md
+  - Invoke-PaApiReport: cmdlets/Invoke-PaApiReport.md
+  - Invoke-PaCommit: cmdlets/Invoke-PaCommit.md
+  - Invoke-PaCustomReport: cmdlets/Invoke-PaCustomReport.md
+  - Move-PaSecurityPolicy: cmdlets/Move-PaSecurityPolicy.md
+  - New-PaTag: cmdlets/New-PaTag.md
+  - Remove-PaAddress: cmdlets/Remove-PaAddress.md
+  - Remove-PaAddressGroup: cmdlets/Remove-PaAddressGroup.md
+  - Remove-PaSecurityPolicy: cmdlets/Remove-PaSecurityPolicy.md
+  - Remove-PaTag: cmdlets/Remove-PaTag.md
+  - Set-PaAddress: cmdlets/Set-PaAddress.md
+  - Set-PaAddressGroup: cmdlets/Set-PaAddressGroup.md
+  - Set-PaCustomReport: cmdlets/Set-PaCustomReport.md
+  - Set-PaSecurityPolicy: cmdlets/Set-PaSecurityPolicy.md
+  - Set-PaTag: cmdlets/Set-PaTag.md
+  - Set-PaTargetDeviceGroup: cmdlets/Set-PaTargetDeviceGroup.md
+  - Set-PaTargetVsys: cmdlets/Set-PaTargetVsys.md
+  - Set-PaUrlCategory: cmdlets/Set-PaUrlCategory.md
+

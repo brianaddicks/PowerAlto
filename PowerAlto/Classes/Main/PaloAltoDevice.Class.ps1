@@ -129,6 +129,10 @@ class PaloAltoDevice {
             $QueryParams.Uri = $url
             $QueryParams.UseBasicParsing = $true
 
+            if ($queryString.type -eq "keygen") {
+                $QueryParams.Method = 'POST'
+            }
+
             switch ($global:PSVersionTable.PSEdition) {
                 'Core' {
                     $QueryParams.SkipCertificateCheck = $true

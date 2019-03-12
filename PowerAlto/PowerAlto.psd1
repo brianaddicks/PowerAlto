@@ -4,7 +4,7 @@
     RootModule        = 'PowerAlto.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '4.0.44'
+    ModuleVersion     = '4.0.45'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -133,6 +133,7 @@ Initial public release for version 4 of the module.
     # DefaultCommandPrefix = ''
 
 }
+
 
 
 

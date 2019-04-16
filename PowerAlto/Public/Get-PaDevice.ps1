@@ -1,7 +1,8 @@
 function Get-PaDevice {
     [CmdletBinding(DefaultParameterSetName = 'ApiKey')]
     Param (
-        [Parameter(Mandatory = $True, Position = 0)]
+        [Parameter(ParameterSetName = "ApiKey", Mandatory = $True, Position = 0)]
+        [Parameter(ParameterSetName = "Credential", Mandatory = $True, Position = 0)]
         [ValidatePattern("\d+\.\d+\.\d+\.\d+|(\w\.)+\w")]
         [string]$DeviceAddress,
 
@@ -13,14 +14,17 @@ function Get-PaDevice {
         [System.Management.Automation.Credential()]
         $Credential,
 
-        [Parameter(Mandatory = $False, Position = 2)]
+        [Parameter(ParameterSetName = "ApiKey", Mandatory = $False, Position = 2)]
+        [Parameter(ParameterSetName = "Credential", Mandatory = $False, Position = 2)]
         [int]$Port = 443,
 
-        [Parameter(Mandatory = $False)]
+        [Parameter(ParameterSetName = "ApiKey", Mandatory = $False)]
+        [Parameter(ParameterSetName = "Credential", Mandatory = $False)]
         [alias('http')]
         [switch]$HttpOnly,
 
-        [Parameter(Mandatory = $False)]
+        [Parameter(ParameterSetName = "ApiKey", Mandatory = $False)]
+        [Parameter(ParameterSetName = "Credential", Mandatory = $False)]
         [switch]$SkipCertificateCheck,
 
         [Parameter(Mandatory = $False)]
@@ -28,7 +32,10 @@ function Get-PaDevice {
         [switch]$Quiet,
 
         [Parameter(Mandatory = $False)]
-        [string]$Vsys
+        [string]$Vsys,
+
+        [Parameter(ParameterSetName = "offline", Mandatory = $True, Position = 0)]
+        [string]$ConfigFile
     )
 
     BEGIN {

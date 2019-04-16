@@ -24,7 +24,7 @@ Get-PaDevice [-DeviceAddress] <String> [-Credential] <PSCredential> [[-Port] <In
  [-SkipCertificateCheck] [-Quiet] [-Vsys <String>] [<CommonParameters>]
 ```
 
-### offline
+### ConfigFile
 ```
 Get-PaDevice [-Quiet] [-Vsys <String>] -ConfigFile <String> [<CommonParameters>]
 ```
@@ -184,7 +184,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: offline
+Parameter Sets: ConfigFile
 Aliases:
 
 Required: True

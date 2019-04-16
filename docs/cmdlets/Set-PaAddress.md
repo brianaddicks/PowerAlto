@@ -118,7 +118,7 @@ Accept wildcard characters: False
 Type: String
 Parameter Sets: name
 Aliases:
-Accepted values: ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn
+Accepted values: ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn
 
 Required: True
 Position: Named
@@ -131,7 +131,7 @@ Accept wildcard characters: False
 Type: String
 Parameter Sets: paaddress
 Aliases:
-Accepted values: ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn
+Accepted values: ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn, ip-netmask, ip-range, fqdn
 
 Required: False
 Position: Named

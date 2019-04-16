@@ -15,6 +15,7 @@ class PaloAltoDevice {
 
     # Settings
     [bool]$VsysEnabled
+    [xml]$Config
 
     [ValidateRange(1, 65535)]
     [int]$Port = 443
@@ -325,5 +326,13 @@ class PaloAltoDevice {
     PaloAltoDevice([string]$Hostname, [PSCredential]$Credential) {
         $this.Hostname = $Hostname
         $this.invokeKeygenQuery($Credential)
+    }
+
+    # Initiator with configfile
+    PaloAltoDevice([string]$ConfigFilePath) {
+        $this.Config = [xml](Get-Content -Path $ConfigFilePath -Raw)
+        $this.OsVersion = $this.Config.config.version
+        $this.Name = $this.Config.config.devices.entry.deviceconfig.system.hostname
+        $this.HostName = $this.Config.config.devices.entry.deviceconfig.system.'ip-address'
     }
 }

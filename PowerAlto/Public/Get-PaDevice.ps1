@@ -34,7 +34,7 @@ function Get-PaDevice {
         [Parameter(Mandatory = $False)]
         [string]$Vsys,
 
-        [Parameter(ParameterSetName = "offline", Mandatory = $True, Position = 0)]
+        [Parameter(ParameterSetName = "ConfigFile", Mandatory = $True, Position = 0)]
         [string]$ConfigFile
     )
 
@@ -52,30 +52,43 @@ function Get-PaDevice {
 
     PROCESS {
 
-        if ($ApiKey) {
-            Write-Verbose "$VerbosePrefix API Key supplied"
-            $global:PaDeviceObject = [PaloAltoDevice]::new($DeviceAddress, $ApiKey)
-        } else {
-            Write-Verbose "$VerbosePrefix Attempting to generate API Key."
-            $global:PaDeviceObject = [PaloAltoDevice]::new($DeviceAddress, $Credential)
-            Write-Verbose "$VerbosePrefix API Key successfully generated."
+        switch ($PsCmdlet.ParameterSetName) {
+            'ApiKey' {
+                Write-Verbose "$VerbosePrefix API Key supplied"
+                $global:PaDeviceObject = [PaloAltoDevice]::new($DeviceAddress, $ApiKey)
+            }
+            'Credential' {
+                Write-Verbose "$VerbosePrefix Attempting to generate API Key."
+                $global:PaDeviceObject = [PaloAltoDevice]::new($DeviceAddress, $Credential)
+                Write-Verbose "$VerbosePrefix API Key successfully generated."
+            }
+            'ConfigFile' {
+                Write-Verbose "$VerbosePrefix Creating PaloAltoDevice object with ConfigFile."
+                $global:PaDeviceObject = [PaloAltoDevice]::new($ConfigFile)
+            }
         }
 
-        # Test API connection
-        # When generating an api key, the connection is already tested.
-        # This grabs serial/version info from the box and tests if you're just
-        # supplying an api key yourself.
-        Write-Verbose "$VerbosePrefix Attempting to test connection"
-        $TestConnect = $global:PaDeviceObject.testConnection()
-        if ($TestConnect) {
-            if ($Vsys) {
-                $global:PaDeviceObject.Vsys = $Vsys
+        if ($PsCmdlet.ParameterSetName -ne 'ConfigFile') {
+            # Test API connection
+            # When generating an api key, the connection is already tested.
+            # This grabs serial/version info from the box and tests if you're just
+            # supplying an api key yourself.
+            Write-Verbose "$VerbosePrefix Attempting to test connection"
+            $TestConnect = $global:PaDeviceObject.testConnection()
+            if ($TestConnect) {
+                if ($Vsys) {
+                    $global:PaDeviceObject.Vsys = $Vsys
+                }
+                if (!($Quiet)) {
+                    return $global:PaDeviceObject
+                }
+            } else {
+                Throw "$VerbosePrefix testConnection() failed."
             }
+        } else {
             if (!($Quiet)) {
                 return $global:PaDeviceObject
             }
-        } else {
-            Throw "$VerbosePrefix testConnection() failed."
         }
     }
 }

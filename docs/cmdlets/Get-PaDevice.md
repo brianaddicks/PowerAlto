@@ -24,6 +24,11 @@ Get-PaDevice [-DeviceAddress] <String> [-Credential] <PSCredential> [[-Port] <In
  [-SkipCertificateCheck] [-Quiet] [-Vsys <String>] [<CommonParameters>]
 ```
 
+### offline
+```
+Get-PaDevice [-Quiet] [-Vsys <String>] -ConfigFile <String> [<CommonParameters>]
+```
+
 ## DESCRIPTION
 The Get-PaDevice cmdlet establishes and validates connection parameters to allow further communications to the Palo Alto API.
 The cmdlet needs at least two parameters:
@@ -87,7 +92,7 @@ Don't include the protocol ("https://" or "http://").
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: ApiKey, Credential
 Aliases:
 
 Required: True
@@ -103,7 +108,7 @@ Not recommended!
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: ApiKey, Credential
 Aliases: http
 
 Required: False
@@ -119,7 +124,7 @@ This defaults to port 443 over HTTPS, and port 80 over HTTP.
 
 ```yaml
 Type: Int32
-Parameter Sets: (All)
+Parameter Sets: ApiKey, Credential
 Aliases:
 
 Required: False
@@ -149,7 +154,7 @@ When used, all certificate warnings are ignored.
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: ApiKey, Credential
 Aliases:
 
 Required: False
@@ -168,6 +173,21 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ConfigFile
+{{Fill ConfigFile Description}}
+
+```yaml
+Type: String
+Parameter Sets: offline
+Aliases:
+
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False

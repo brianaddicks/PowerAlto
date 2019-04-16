@@ -34,11 +34,9 @@ function Get-PaSecurityPolicy {
     }
 
     PROCESS {
-        if ($null -ne $Global:PaDeviceObject) {
+        if ($null -ne $Global:PaDeviceObject.Config) {
             $Entries = $global:PaDeviceObject.Config.config.devices.entry.vsys.entry.rulebase.security.rules.entry
         } else {
-            # Get the config info for the report
-            # This is required for the call to run the report
             $Response = Invoke-PaApiConfig -Get -Xpath $XPath
             if ($Response.response.result.$ResponseNode) {
                 $Entries = $Response.response.result.$ResponseNode.entry

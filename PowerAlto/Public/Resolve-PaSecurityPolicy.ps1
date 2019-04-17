@@ -8,7 +8,13 @@ function Resolve-PaSecurityPolicy {
         [PaAddress[]]$Addresses = (Get-PaAddress),
 
         [Parameter(Mandatory = $False, Position = 2)]
-        [PaAddressGroup[]]$AddressGroups = (Get-PaAddressGroup)
+        [PaAddressGroup[]]$AddressGroups = (Get-PaAddressGroup),
+
+        [Parameter(Mandatory = $False, Position = 3)]
+        [PaService[]]$Services = (Get-PaService),
+
+        [Parameter(Mandatory = $False, Position = 4)]
+        [PaServiceGroup[]]$ServiceGroups = (Get-PaServiceGroup)
     )
 
     Begin {
@@ -17,12 +23,12 @@ function Resolve-PaSecurityPolicy {
     }
 
     Process {
-        # Source resolution
-        $Field = 'SourceAddress'
-        $ResolvedField = Resolve-PaAddress -Name $PaSecurityPolicy -Addresses $Addresses -AddressGroups $AddressGroups
-        foreach ($r in $ResolvedField) {
+        # Addresses
+        $ReturnObject = $PaSecurityPolicy | Resolve-PaField -Addresses $Addresses -AddressGroups $AddressGroups -FieldName SourceAddress
+        $ReturnObject = $ReturnObject | Resolve-PaField -Addresses $Addresses -AddressGroups $AddressGroups -FieldName DestinationAddress
 
-        }
+        # Service
+        $ReturnObject = $ReturnObject | Resolve-PaField -Services $Services -ServiceGroups $ServiceGroups -FieldName DestinationAddress
     }
 
     End {

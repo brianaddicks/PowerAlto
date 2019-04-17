@@ -13,6 +13,8 @@ pages:
     - Get-PaNatPolicy: cmdlets/Get-PaNatPolicy.md
     - Get-PaReportJob: cmdlets/Get-PaReportJob.md
     - Get-PaSecurityPolicy: cmdlets/Get-PaSecurityPolicy.md
+    - Get-PaService: cmdlets/Get-PaService.md
+    - Get-PaServiceGroup: cmdlets/Get-PaServiceGroup.md
     - Get-PaSessionInfo: cmdlets/Get-PaSessionInfo.md
     - Get-PaTag: cmdlets/Get-PaTag.md
     - Get-PaUrlCategory: cmdlets/Get-PaUrlCategory.md

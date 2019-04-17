@@ -1,4 +1,4 @@
-class PaSecurityPolicy {
+class PaSecurityPolicy:ICloneable {
     # General
     [int]$Number
     [string]$Name
@@ -53,6 +53,15 @@ class PaSecurityPolicy {
     [bool]$Dsri
 
     ###################################### Methods #######################################
+    # Clone
+    [Object] Clone () {
+        $NewObject = [PaSecurityPolicy]::New()
+        foreach ($Property in ($this | Get-Member -MemberType Property)) {
+            $NewObject.$($Property.Name) = $this.$($Property.Name)
+        } # foreach
+        return $NewObject
+    }
+
     # ToXml
     [Xml] ToXml() {
         [xml]$Doc = New-Object System.Xml.XmlDocument
@@ -396,8 +405,12 @@ class PaSecurityPolicy {
     }
 
     ##################################### Initiators #####################################
-    # Initiator
+    # Initiator with Name
     PaSecurityPolicy([string]$Name) {
         $this.Name = $Name
+    }
+
+    # Empty Initiator
+    PaSecurityPolicy() {
     }
 }

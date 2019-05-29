@@ -37,13 +37,11 @@ function Resolve-PaField {
     }
 
     Process {
-        if ($PaSecurityPolicy) {
-            $PaPolicy = $PaSecurityPolicy
-        } elseif ($PaNatPolicy) {
-            $PaPolicy = $PaNatPolicy
+        if ($SecurityPolicy) {
+            $PaPolicy = $SecurityPolicy
+        } elseif ($NatPolicy) {
+            $PaPolicy = $NatPolicy
         }
-        $global:PaPolicy = $PaPolicy
-        $global:FieldName = $FieldName
 
         # Source resolution
         switch -Regex ($FieldName) {

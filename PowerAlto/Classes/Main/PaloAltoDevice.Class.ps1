@@ -50,6 +50,8 @@ class PaloAltoDevice {
             } else {
                 $XPath += '/shared'
             }
+        } elseif ($ConfigNode -match 'deviceconfig') {
+            $XPath += "/devices/entry[@name='localhost.localdomain']"
         } else {
             if ($this.VsysEnabled) {
                 if ($this.TargetVsys -eq 'shared') {

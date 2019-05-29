@@ -72,11 +72,19 @@ function Get-PaNatPolicy {
             ## Static IP
             $SourceTranslationType = [HelperXml]::parseCandidateConfigXml($entry.'source-translation', $true)
             $Object.SourceTranslationType = $SourceTranslationType
-            $Object.SourceTranslatedAddress = [HelperXml]::parseCandidateConfigXml($entry.'source-translation'.$SourceTranslationType.'translated-address', $false)
+            if ($entry.'source-translation'.$SourceTranslationType.'translated-address'.member) {
+                $Object.SourceTranslatedAddress = [HelperXml]::parseCandidateConfigXml($entry.'source-translation'.$SourceTranslationType.'translated-address'.member, $false)
+            } else {
+                $Object.SourceTranslatedAddress = [HelperXml]::parseCandidateConfigXml($entry.'source-translation'.$SourceTranslationType.'translated-address', $false)
+            }
 
             $Bidirectional = [HelperXml]::parseCandidateConfigXml($entry.'source-translation'.$SourceTranslationType.'bi-directional', $false)
             if ($Bidirectional -eq 'yes') {
                 $Object.BiDirectional = $true
+            }
+
+            if ($entry.'destination-translation') {
+                $Object.TranslatedDestinationAddress = [HelperXml]::parseCandidateConfigXml($entry.'destination-translation'.'translated-address', $false)
             }
 
             #$Object.TranslatedDestinationAddress

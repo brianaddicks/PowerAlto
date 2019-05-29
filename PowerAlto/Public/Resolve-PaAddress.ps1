@@ -33,7 +33,10 @@ function Resolve-PaAddress {
             $ReturnObject += $AddressLookup.Value
         } elseif ($ReturnSameValue -contains $Name) {
             $ReturnObject += $Name
-        } elseif ([HelperRegex]::isFqdnOrIpv4($Name, $true)) {
+        } elseif ([HelperRegex]::isFqdnOrIpv4($Name, $true) -or [HelperRegex]::isIpv4Range($Name, $true)) {
+            $ReturnObject += $Name
+        } elseif ($Name -cmatch '[A-Z]{2}') {
+            # match region
             $ReturnObject += $Name
         } else {
             Throw "$VerbosePrefix Could not find address: $Name"

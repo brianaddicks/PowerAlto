@@ -24,11 +24,12 @@ function Resolve-PaSecurityPolicy {
 
     Process {
         # Addresses
-        $ReturnObject = $PaSecurityPolicy | Resolve-PaField -Addresses $Addresses -AddressGroups $AddressGroups -FieldName SourceAddress
-        $ReturnObject = $ReturnObject | Resolve-PaField -Addresses $Addresses -AddressGroups $AddressGroups -FieldName DestinationAddress
+        $ResolvedPolicy = $PaSecurityPolicy | Resolve-PaField -Addresses $Addresses -AddressGroups $AddressGroups -FieldName SourceAddress
+        $ResolvedPolicy = $ResolvedPolicy | Resolve-PaField -Addresses $Addresses -AddressGroups $AddressGroups -FieldName DestinationAddress
 
         # Service
-        $ReturnObject = $ReturnObject | Resolve-PaField -Services $Services -ServiceGroups $ServiceGroups -FieldName DestinationAddress
+        $ResolvedPolicy = $ResolvedPolicy | Resolve-PaField -Services $Services -ServiceGroups $ServiceGroups -FieldName DestinationAddress
+        $ReturnObject += $ResolvedPolicy
     }
 
     End {

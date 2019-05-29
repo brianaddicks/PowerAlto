@@ -17,6 +17,7 @@ function Resolve-PaService {
 
         $ReturnSameValue = @(
             'any'
+            'application-default'
         )
     }
 

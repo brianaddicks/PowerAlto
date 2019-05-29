@@ -24,6 +24,18 @@ function Get-PaService {
         }
 
         $ReturnObject = @()
+
+        # add default services
+        $Object = [PaService]::new('service-http')
+        $Object.Protocol = 'tcp'
+        $Object.DestinationPort = '80'
+        $ReturnObject += $Object
+
+        $Object = [PaService]::new('service-https')
+        $Object.Protocol = 'tcp'
+        $Object.DestinationPort = '443'
+        $ReturnObject += $Object
+
         foreach ($entry in $Entries) {
             # Initialize Report object, add to returned array
             $Object = [PaService]::new($entry.name)

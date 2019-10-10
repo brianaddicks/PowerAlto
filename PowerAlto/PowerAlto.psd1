@@ -4,7 +4,7 @@
     RootModule        = 'PowerAlto.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '4.0.47'
+    ModuleVersion     = '4.0.48'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -104,13 +104,7 @@ Full docs available at https://poweralto.com
 
             # ReleaseNotes of this module
             ReleaseNotes = @'
-Initial public release for version 4 of the module.
-
-* PowerShell Classes
-* PowerShell Core compatibility
-* Loads of new functionality
-* CI Pipeline for faster releases
-* More docunmentation
+Added lots of new cmdlets, mostly Resolve-* cmdlets.
 '@
 
             # Prerelease string of this module

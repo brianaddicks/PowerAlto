@@ -4,7 +4,7 @@
     RootModule        = 'PowerAlto.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '4.0.48'
+    ModuleVersion     = '4.0.49'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -127,6 +127,7 @@ Added lots of new cmdlets, mostly Resolve-* cmdlets.
     # DefaultCommandPrefix = ''
 
 }
+
 
 
 

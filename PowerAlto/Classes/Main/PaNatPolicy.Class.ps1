@@ -22,25 +22,34 @@ class PaNatPolicy {
     [int]$TranslatedDestinationPort
 
     ###################################### Methods #######################################
+    # Clone
+    [Object] Clone () {
+        $NewObject = [PaNatPolicy]::New()
+        foreach ($Property in ($this | Get-Member -MemberType Property)) {
+            $NewObject.$($Property.Name) = $this.$($Property.Name)
+        } # foreach
+        return $NewObject
+    }
+
     # ToXml
     [Xml] ToXml() {
         [xml]$Doc = New-Object System.Xml.XmlDocument
-        $root = $Doc.CreateNode("element","address",$null)
-        
+        $root = $Doc.CreateNode("element", "address", $null)
+
         # Start Entry Node
-        $EntryNode = $Doc.CreateNode("element","entry",$null)
-        $EntryNode.SetAttribute("name",$this.Name)
+        $EntryNode = $Doc.CreateNode("element", "entry", $null)
+        $EntryNode.SetAttribute("name", $this.Name)
 
         # Start Type Node with Value
-        $TypeNode = $Doc.CreateNode("element",$this.Type,$null)
+        $TypeNode = $Doc.CreateNode("element", $this.Type, $null)
         $TypeNode.InnerText = $this.Value
         $EntryNode.AppendChild($TypeNode)
 
         if ($this.Tags) {
             # Tag Members
-            $MembersNode = $Doc.CreateNode("element",'tag',$null)
+            $MembersNode = $Doc.CreateNode("element", 'tag', $null)
             foreach ($member in $this.Tags) {
-                $MemberNode = $Doc.CreateNode("element",'member',$null)
+                $MemberNode = $Doc.CreateNode("element", 'member', $null)
                 $MemberNode.InnerText = $member
                 $MembersNode.AppendChild($MemberNode)
             }
@@ -49,7 +58,7 @@ class PaNatPolicy {
 
         if ($this.Description) {
             # Description
-            $DescriptionNode = $Doc.CreateNode("element","description",$null)
+            $DescriptionNode = $Doc.CreateNode("element", "description", $null)
             $DescriptionNode.InnerText = $this.Description
             $EntryNode.AppendChild($DescriptionNode)
         }
@@ -65,5 +74,9 @@ class PaNatPolicy {
     # Initiator
     PaNatPolicy([string]$Name) {
         $this.Name = $Name
+    }
+
+    # Empty Initiator
+    PaNatPolicy() {
     }
 }

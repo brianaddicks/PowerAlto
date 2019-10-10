@@ -1,8 +1,8 @@
-function Resolve-PaSecurityPolicy {
+function Resolve-PaNatPolicy {
     [CmdletBinding()]
     Param (
         [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $true)]
-        [PaSecurityPolicy]$PaSecurityPolicy,
+        [PaNatPolicy]$PaNatPolicy,
 
         [Parameter(Mandatory = $False, Position = 1)]
         [PaAddress[]]$Addresses = (Get-PaAddress),
@@ -18,14 +18,18 @@ function Resolve-PaSecurityPolicy {
     )
 
     Begin {
-        $VerbosePrefix = "Resolve-PaSecurityPolicy:"
+        $VerbosePrefix = "Resolve-PaNatPolicy:"
         $ReturnObject = @()
     }
 
     Process {
         # Addresses
-        $ResolvedPolicy = $PaSecurityPolicy | Resolve-PaField -Addresses $Addresses -AddressGroups $AddressGroups -FieldName SourceAddress
+        $ResolvedPolicy = $PaNatPolicy | Resolve-PaField -Addresses $Addresses -AddressGroups $AddressGroups -FieldName SourceAddress
         $ResolvedPolicy = $ResolvedPolicy | Resolve-PaField -Addresses $Addresses -AddressGroups $AddressGroups -FieldName DestinationAddress
+
+        # Translated Addresses
+        $ResolvedPolicy = $ResolvedPolicy | Resolve-PaField -Addresses $Addresses -AddressGroups $AddressGroups -FieldName SourceTranslatedAddress
+        $ResolvedPolicy = $ResolvedPolicy | Resolve-PaField -Addresses $Addresses -AddressGroups $AddressGroups -FieldName TranslatedDestinationAddress
 
         # Service
         $ResolvedPolicy = $ResolvedPolicy | Resolve-PaField -Services $Services -ServiceGroups $ServiceGroups -FieldName Service

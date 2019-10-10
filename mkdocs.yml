@@ -8,9 +8,11 @@ pages:
     - Get-PaConfigDiff: cmdlets/Get-PaConfigDiff.md
     - Get-PaCustomReport: cmdlets/Get-PaCustomReport.md
     - Get-PaDevice: cmdlets/Get-PaDevice.md
+    - Get-PaHaSetup: cmdlets/Get-PaHaSetup.md
     - Get-PaInterface: cmdlets/Get-PaInterface.md
     - Get-PaJob: cmdlets/Get-PaJob.md
     - Get-PaNatPolicy: cmdlets/Get-PaNatPolicy.md
+    - Get-PaPanoramaConfig: cmdlets/Get-PaPanoramaConfig.md
     - Get-PaReportJob: cmdlets/Get-PaReportJob.md
     - Get-PaSecurityPolicy: cmdlets/Get-PaSecurityPolicy.md
     - Get-PaService: cmdlets/Get-PaService.md
@@ -24,14 +26,24 @@ pages:
     - Invoke-PaCommit: cmdlets/Invoke-PaCommit.md
     - Invoke-PaCustomReport: cmdlets/Invoke-PaCustomReport.md
     - Move-PaSecurityPolicy: cmdlets/Move-PaSecurityPolicy.md
+    - New-PaHaSetup: cmdlets/New-PaHaSetup.md
+    - New-PaPanoramaConfig: cmdlets/New-PaPanoramaConfig.md
+    - New-PaSecurityPolicy: cmdlets/New-PaSecurityPolicy.md
     - New-PaTag: cmdlets/New-PaTag.md
     - Remove-PaAddress: cmdlets/Remove-PaAddress.md
     - Remove-PaAddressGroup: cmdlets/Remove-PaAddressGroup.md
     - Remove-PaSecurityPolicy: cmdlets/Remove-PaSecurityPolicy.md
     - Remove-PaTag: cmdlets/Remove-PaTag.md
+    - Resolve-PaAddress: cmdlets/Resolve-PaAddress.md
+    - Resolve-PaField: cmdlets/Resolve-PaField.md
+    - Resolve-PaNatPolicy: cmdlets/Resolve-PaNatPolicy.md
+    - Resolve-PaSecurityPolicy: cmdlets/Resolve-PaSecurityPolicy.md
+    - Resolve-PaService: cmdlets/Resolve-PaService.md
     - Set-PaAddress: cmdlets/Set-PaAddress.md
     - Set-PaAddressGroup: cmdlets/Set-PaAddressGroup.md
     - Set-PaCustomReport: cmdlets/Set-PaCustomReport.md
+    - Set-PaHaSetup: cmdlets/Set-PaHaSetup.md
+    - Set-PaPanoramaConfig: cmdlets/Set-PaPanoramaConfig.md
     - Set-PaSecurityPolicy: cmdlets/Set-PaSecurityPolicy.md
     - Set-PaTag: cmdlets/Set-PaTag.md
     - Set-PaTargetDeviceGroup: cmdlets/Set-PaTargetDeviceGroup.md

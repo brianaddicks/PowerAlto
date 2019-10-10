@@ -37,15 +37,20 @@ function Resolve-PaField {
     }
 
     Process {
-        if ($SecurityPolicy) {
-            $PaPolicy = $SecurityPolicy
-        } elseif ($NatPolicy) {
-            $PaPolicy = $NatPolicy
+        if ($PaSecurityPolicy) {
+            Write-Verbose "$VerbosePrefix Processing SecurityPolicy"
+            $PaPolicy = $PaSecurityPolicy
+        } elseif ($PaNatPolicy) {
+            Write-Verbose "$VerbosePrefix Processing NatPolicy"
+            $PaPolicy = $PaNatPolicy
         }
+        $Global:testpolicy = $PaPolicy
 
         # Source resolution
         switch -Regex ($FieldName) {
             '.*Address' {
+                Write-Verbose "$VerbosePrefix FieldName: $FieldName"
+                Write-Verbose "$VerbosePrefix FieldValue: $($PaPolicy.$FieldName)"
                 $ResolvedField = $PaPolicy.$FieldName | Resolve-PaAddress -Addresses $Addresses -AddressGroups $AddressGroups
             }
             'Service' {

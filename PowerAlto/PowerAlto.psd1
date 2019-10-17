@@ -65,7 +65,7 @@ Full docs available at https://poweralto.com
     # NestedModules = @()
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    FunctionsToExport = '*'
+    FunctionsToExport = @('Get-PaAddress','Get-PaAddressGroup','Get-PaConfigDiff','Get-PaCustomReport','Get-PaDevice','Get-PaHaSetup','Get-PaInterface','Get-PaJob','Get-PaNatPolicy','Get-PaPanoramaConfig','Get-PaReportJob','Get-PaSecurityPolicy','Get-PaService','Get-PaServiceGroup','Get-PaSessionInfo','Get-PaTag','Get-PaUrlCategory','Invoke-PaApiConfig','Invoke-PaApiOperation','Invoke-PaApiReport','Invoke-PaCommit','Invoke-PaCommitAll','Invoke-PaCustomReport','Move-PaSecurityPolicy','New-PaHaSetup','New-PaPanoramaConfig','New-PaSecurityPolicy','New-PaTag','Remove-PaAddress','Remove-PaAddressGroup','Remove-PaSecurityPolicy','Remove-PaTag','Resolve-PaAddress','Resolve-PaNatPolicy','Resolve-PaSecurityPolicy','Resolve-PaService','Set-PaAddress','Set-PaAddressGroup','Set-PaCustomReport','Set-PaHaSetup','Set-PaPanoramaConfig','Set-PaSecurityPolicy','Set-PaTag','Set-PaTargetDeviceGroup','Set-PaTargetVsys','Set-PaUrlCategory')
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
     CmdletsToExport   = '*'
@@ -127,53 +127,3 @@ Added lots of new cmdlets, mostly Resolve-* cmdlets.
     # DefaultCommandPrefix = ''
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

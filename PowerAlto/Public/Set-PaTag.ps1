@@ -1,34 +1,47 @@
 function Set-PaTag {
     [CmdletBinding(SupportsShouldProcess = $True)]
     Param (
-        [Parameter(Mandatory = $True, Position = 0)]
+        [Parameter(ParameterSetName = "name", Mandatory = $True, Position = 0)]
         [string]$Name,
 
-        [Parameter(Mandatory = $False, Position = 1)]
+        [Parameter(ParameterSetName = "name", Mandatory = $False, Position = 1)]
         [ValidateSet('Red', 'Green', 'Blue', 'Yellow', 'Copper', 'Orange', 'Purple', 'Gray', 'Light Green', 'Cyan', 'Light Gray', 'Blue Gray', 'Lime', 'Black', 'Gold', 'Brown', 'Green')]
         [string]$Color,
 
-        [Parameter(Mandatory = $False, Position = 2)]
-        [string]$Comments
+        [Parameter(ParameterSetName = "name", Mandatory = $False, Position = 2)]
+        [string]$Comments,
+
+        [Parameter(ValueFromPipeline, ParameterSetName = "PaTag", Mandatory = $True, Position = 0)]
+        [PaTag]$PaTag
     )
 
     BEGIN {
         $ConfigNode = 'tag'
-        $Xpath = $Global:PaDeviceObject.createXPath($ConfigNode, $Name)
     }
 
     PROCESS {
 
-        if ($Color) {
-            $ConfigObject = [PaTag]::new($Name, $Color)
-            $global:configobject = $ConfigObject
-        } else {
-            $ConfigObject = [PaTag]::new($Name)
+        switch ($PsCmdlet.ParameterSetName) {
+            'name' {
+                if ($Color) {
+                    $ConfigObject = [PaTag]::new($Name, $Color)
+                } else {
+                    $ConfigObject = [PaTag]::new($Name)
+                }
+
+                $ConfigObject.Comments = $Comments
+                continue
+            }
+            'PaTag' {
+                $ConfigObject = $PaTag
+                continue
+            }
         }
 
-        $ConfigObject.Comments = $Comments
+
 
         $ElementXml = $ConfigObject.ToXml().$ConfigNode.entry.InnerXml
+        $Xpath = $Global:PaDeviceObject.createXPath($ConfigNode, $ConfigObject.Name)
 
         if ($PSCmdlet.ShouldProcess("Creating new Tag: $($ConfigObject.Name)")) {
             $Set = Invoke-PaApiConfig -Set -Xpath $XPath -Element $ElementXml

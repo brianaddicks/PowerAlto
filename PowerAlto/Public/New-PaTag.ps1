@@ -20,22 +20,11 @@ function New-PaTag {
         if ($Color) {
             Write-Verbose "Color specified: $Color"
             $ConfigObject = [PaTag]::new($Name, $Color)
-            $global:configobject = $ConfigObject
         } else {
             $ConfigObject = [PaTag]::new($Name)
         }
 
         $ConfigObject.Comments = $Comments
-        $global:test = $ConfigObject
-
-        $ElementXml = $ConfigObject.ToXml().tag.InnerXml
-        $Xpath = $Global:PaDeviceObject.createXPath('tag', '')
-
-        if ($PSCmdlet.ShouldProcess($ShouldProcessMessage)) {
-            $Set = Invoke-PaApiConfig -Set -Xpath $XPath -Element $ElementXml
-
-            $Set
-        }
 
         return $ConfigObject
     }

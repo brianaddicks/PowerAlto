@@ -104,7 +104,7 @@ Full docs available at https://poweralto.com
 
             # ReleaseNotes of this module
             ReleaseNotes = @'
-Added lots of new cmdlets, mostly Resolve-* cmdlets.
+Added new cmdlets for NAT Policies
 '@
 
             # Prerelease string of this module
@@ -127,6 +127,7 @@ Added lots of new cmdlets, mostly Resolve-* cmdlets.
     # DefaultCommandPrefix = ''
 
 }
+
 
 
 

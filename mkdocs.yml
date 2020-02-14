@@ -26,7 +26,9 @@ pages:
     - Invoke-PaCommit: cmdlets/Invoke-PaCommit.md
     - Invoke-PaCustomReport: cmdlets/Invoke-PaCustomReport.md
     - Move-PaSecurityPolicy: cmdlets/Move-PaSecurityPolicy.md
+    - New-PaAddress: cmdlets/New-PaAddress.md
     - New-PaHaSetup: cmdlets/New-PaHaSetup.md
+    - New-PaNatPolicy: cmdlets/New-PaNatPolicy.md
     - New-PaPanoramaConfig: cmdlets/New-PaPanoramaConfig.md
     - New-PaSecurityPolicy: cmdlets/New-PaSecurityPolicy.md
     - New-PaTag: cmdlets/New-PaTag.md
@@ -35,7 +37,6 @@ pages:
     - Remove-PaSecurityPolicy: cmdlets/Remove-PaSecurityPolicy.md
     - Remove-PaTag: cmdlets/Remove-PaTag.md
     - Resolve-PaAddress: cmdlets/Resolve-PaAddress.md
-    - Resolve-PaField: cmdlets/Resolve-PaField.md
     - Resolve-PaNatPolicy: cmdlets/Resolve-PaNatPolicy.md
     - Resolve-PaSecurityPolicy: cmdlets/Resolve-PaSecurityPolicy.md
     - Resolve-PaService: cmdlets/Resolve-PaService.md
@@ -43,6 +44,7 @@ pages:
     - Set-PaAddressGroup: cmdlets/Set-PaAddressGroup.md
     - Set-PaCustomReport: cmdlets/Set-PaCustomReport.md
     - Set-PaHaSetup: cmdlets/Set-PaHaSetup.md
+    - Set-PaNatPolicy: cmdlets/Set-PaNatPolicy.md
     - Set-PaPanoramaConfig: cmdlets/Set-PaPanoramaConfig.md
     - Set-PaSecurityPolicy: cmdlets/Set-PaSecurityPolicy.md
     - Set-PaTag: cmdlets/Set-PaTag.md

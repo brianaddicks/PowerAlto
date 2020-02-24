@@ -224,7 +224,7 @@ class PaSecurityPolicy:ICloneable {
             'group' {
                 # group node
                 $MembersNode = $Doc.CreateNode("element", 'group', $null)
-                foreach ($member in $this.UrlCategory) {
+                foreach ($member in $this.GroupProfile) {
                     $MemberNode = $Doc.CreateNode("element", 'member', $null)
                     $MemberNode.InnerText = $member
                     $MembersNode.AppendChild($MemberNode)

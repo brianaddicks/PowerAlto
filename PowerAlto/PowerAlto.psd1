@@ -4,7 +4,7 @@
     RootModule        = 'PowerAlto.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '4.0.50'
+    ModuleVersion     = '4.0.51'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -127,6 +127,7 @@ Added new cmdlets for NAT Policies
     # DefaultCommandPrefix = ''
 
 }
+
 
 
 

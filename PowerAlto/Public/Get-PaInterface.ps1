@@ -28,6 +28,19 @@ function Get-PaInterface {
             foreach ($entry in $Entries) {
                 # Initialize Report object, add to returned array
                 $Object = [PaInterface]::new($entry.name)
+
+                $Object.comment = $entry.comment
+
+                switch ($type) {
+                    'ethernet' {
+                        if ($entry.'aggregate-group') {
+                            $Object.Type = 'AggregateEthernet'
+                            $Object.AggregateGroup = $entry.'aggregate-group'
+                        }
+                    }
+                }
+
+
                 $ReturnObject += $Object
             }
         }

@@ -43,11 +43,14 @@ function Get-PaInterface {
                             # pppoe
                             if ($entry.layer3.pppoe) {
                                 $Object.Type += 'PPPoE'
+                                if ($entry.layer3.pppoe.'static-address') {
+                                    $Object.IpAddress = $entry.layer3.pppoe.'static-address'.ip
+                                }
                             }
 
                             # normal interface
                             if ($entry.layer3.ip) {
-                                $Object.IpAddress = $entry.layer3.ip.name
+                                $Object.IpAddress = $entry.layer3.ip.entry.name
                             }
 
                             # subinterface
@@ -58,6 +61,8 @@ function Get-PaInterface {
                                     $SubObject.Tag = $subinterface.Tag
                                     $SubObject.IpAddress = $subinterface.ip.entry.name
                                     $SubObject.Comment = $subinterface.comment
+
+                                    $ReturnObject += $SubObject
                                 }
                             }
                         }

@@ -37,6 +37,30 @@ function Get-PaInterface {
                             $Object.Type = 'AggregateEthernet'
                             $Object.AggregateGroup = $entry.'aggregate-group'
                         }
+                        if ($entry.layer3) {
+                            $Object.Type = 'Layer3'
+
+                            # pppoe
+                            if ($entry.layer3.pppoe) {
+                                $Object.Type += 'PPPoE'
+                            }
+
+                            # normal interface
+                            if ($entry.layer3.ip) {
+                                $Object.IpAddress = $entry.layer3.ip.name
+                            }
+
+                            # subinterface
+                            if ($entry.layer3.units) {
+                                foreach ($subinterface in $entry.layer3.units.entry) {
+                                    $SubObject = [PaInterface]::new($subinterface.name)
+                                    $SubObject.Type = 'Layer3Subinterface'
+                                    $SubObject.Tag = $subinterface.Tag
+                                    $SubObject.IpAddress = $subinterface.ip.entry.name
+                                    $SubObject.Comment = $subinterface.comment
+                                }
+                            }
+                        }
                     }
                 }
 

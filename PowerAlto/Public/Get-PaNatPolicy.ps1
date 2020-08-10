@@ -53,8 +53,6 @@ function Get-PaNatPolicy {
 
             # Add simple properties
 
-
-
             # General
             $Object.Description = [HelperXml]::parseCandidateConfigXml($entry.description, $false)
             $Object.NatType = [HelperXml]::parseCandidateConfigXml($entry.'nat-type', $false)
@@ -81,6 +79,11 @@ function Get-PaNatPolicy {
             $Bidirectional = [HelperXml]::parseCandidateConfigXml($entry.'source-translation'.$SourceTranslationType.'bi-directional', $false)
             if ($Bidirectional -eq 'yes') {
                 $Object.BiDirectional = $true
+            }
+
+            $Disabled = [HelperXml]::parseCandidateConfigXml($entry.disabled, $false)
+            if ($Disabled -eq 'yes') {
+                $Object.Disabled = $true
             }
 
             if ($entry.'destination-translation') {

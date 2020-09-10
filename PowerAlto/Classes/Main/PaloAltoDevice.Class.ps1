@@ -52,7 +52,7 @@ class PaloAltoDevice {
             }
         } elseif ($ConfigNode -match 'deviceconfig') {
             $XPath += "/devices/entry[@name='localhost.localdomain']"
-        } elseif ($ConfigNode -eq 'network/interface') {
+        } elseif ($ConfigNode -match 'network/') {
             $XPath += "/devices/entry[@name='localhost.localdomain']"
         } else {
             if ($this.VsysEnabled) {

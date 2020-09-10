@@ -1,11 +1,11 @@
-Class PaIpsecTunnel {
+Class PaIkeGateway {
     [string]$Name
 
     #region Initiators
     ########################################################################
 
     # empty initiator
-    PaIpsecTunnel() {
+    PaIkeGateway() {
     }
 
     ########################################################################

@@ -1,10 +1,10 @@
-function Get-PaIpsecTunnel {
+<# function Get-PaIkeGateway {
     [CmdletBinding()]
     Param (
     )
 
     BEGIN {
-        $VerbosePrefix = "Get-PaIpsecTunnel:"
+        $VerbosePrefix = "Get-PaIkeGateway:"
     }
 
     PROCESS {
@@ -13,3 +13,4 @@ function Get-PaIpsecTunnel {
     END {
     }
 }
+ #>

@@ -44,25 +44,6 @@ function Get-PaIkeGatewayConfig {
             $Object.LocalIPAddress = [HelperXml]::parseCandidateConfigXml($entry.'local-address'.ip, $false)
 
             $Object.PeerIpAddress = [HelperXml]::parseCandidateConfigXml($entry.'peer-address'.ip, $false)
-
-            <# # disabled
-            $Disabled = [HelperXml]::parseCandidateConfigXml($entry.disabled, $false)
-            if ($Disabled -eq 'yes') {
-                $Object.Disabled = $true
-            }
-
-            # Add other properties
-            $Object.IkeGateway = [HelperXml]::parseCandidateConfigXml($entry.'auto-key'.'ike-gateway'.entry.name, $false)
-            $Object.IpsecCryptoProfile = [HelperXml]::parseCandidateConfigXml($entry.'auto-key'.'ipsec-crypto-profile', $false)
-            $Object.TunnelInterface = [HelperXml]::parseCandidateConfigXml($entry.'tunnel-interface', $false)
-
-            foreach ($proxyid in $entry.'auto-key'.'proxy-id'.entry) {
-                $NewProxyId = [PaProxyId]::new($proxyid.name)
-                $NewProxyId.LocalNetwork = $proxyid.local
-                $NewProxyId.RemoteNetwork = $proxyid.remote
-
-                $Object.ProxyId += $NewProxyId
-            } #>
         }
 
         $ReturnObject

@@ -104,7 +104,18 @@ Full docs available at https://poweralto.com
 
             # ReleaseNotes of this module
             ReleaseNotes = @'
-Added new cmdlets for NAT Policies
+Added new cmdlets for IPSEC Tunnels
+* Clear-PaIpsecTunnel
+* Get-PaIpsecTunnel
+* Get-PaIpsecTunnelConfig
+* New-PaIpsecTunnel
+* Restart-PaIpsecTunnel
+* Test-PaIpsecTunnel
+* Clear-PaIkeGateway
+* Get-PaIkeGatewayConfig
+* New-PaIkeGateway
+* New-PaIkeGatewayConfig
+* Test-PaIkeGateway
 '@
 
             # Prerelease string of this module

@@ -12,8 +12,14 @@ Creates/Configures an Tag object on a Palo Alto device.
 
 ## SYNTAX
 
+### name
 ```
 Set-PaTag [-Name] <String> [[-Color] <String>] [[-Comments] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### PaTag
+```
+Set-PaTag -PaTag <PaTag> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -33,7 +39,7 @@ Creates/Configures an Tag object on a Palo Alto device.
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: name
 Aliases:
 Accepted values: Red, Green, Blue, Yellow, Copper, Orange, Purple, Gray, Light Green, Cyan, Light Gray, Blue Gray, Lime, Black, Gold, Brown, Green
 
@@ -49,7 +55,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: name
 Aliases:
 
 Required: False
@@ -79,7 +85,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: name
 Aliases:
 
 Required: True
@@ -102,6 +108,21 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PaTag
+{{Fill PaTag Description}}
+
+```yaml
+Type: PaTag
+Parameter Sets: PaTag
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

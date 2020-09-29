@@ -20,6 +20,7 @@ if (
     $env:BHBranchName -eq "master" -and
     $env:BHCommitMessage -match '!deploy'
 ) {
+    Write-Verbose "Deploying to PSGallery!"
     Deploy Module {
         By PSGalleryModule {
             FromSource $ENV:BHPSModulePath

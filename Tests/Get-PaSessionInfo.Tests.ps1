@@ -1,4 +1,4 @@
-if (-not $ENV:BHProjectPath) {
+<# if (-not $ENV:BHProjectPath) {
     Set-BuildEnvironment -Path $PSScriptRoot\..
 }
 Remove-Module $ENV:BHProjectName -ErrorAction SilentlyContinue
@@ -6,27 +6,29 @@ Import-Module (Join-Path $ENV:BHProjectPath $ENV:BHProjectName) -Force
 
 
 InModuleScope $ENV:BHProjectName {
-    $PSVersion = $PSVersionTable.PSVersion.Major
-    $ProjectRoot = $ENV:BHProjectPath
+    BeforeAll {
+        $PSVersion = $PSVersionTable.PSVersion.Major
+        $ProjectRoot = $ENV:BHProjectPath
 
-    $Verbose = @{}
-    if ($ENV:BHBranchName -notlike "master" -or $env:BHCommitMessage -match "!verbose") {
-        $Verbose.add("Verbose", $True)
-    }
+        $Verbose = @{}
+        if ($ENV:BHBranchName -notlike "master" -or $env:BHCommitMessage -match "!verbose") {
+            $Verbose.add("Verbose", $True)
+        }
 
-    Mock -CommandName Invoke-PaApiOperation {
-        return @{
-            response = @{
-                result = @{
-                    'num-max'       = 1000;
-                    'num-active'    = 900;
-                    'num-tcp'       = 800;
-                    'num-udp'       = 700;
-                    'num-installed' = 600
+        Mock -CommandName Invoke-PaApiOperation {
+            return @{
+                response = @{
+                    result = @{
+                        'num-max'       = 1000;
+                        'num-active'    = 900;
+                        'num-tcp'       = 800;
+                        'num-udp'       = 700;
+                        'num-installed' = 600
+                    }
                 }
             }
-        }
-    } -Verifiable
+        } -Verifiable
+    }
 
     Describe "Get-PaSessionInfo" {
         $SessionInfo = Get-PaSessionInfo
@@ -46,4 +48,4 @@ InModuleScope $ENV:BHProjectName {
             $SessionInfo.SessionsSinceBoot | Should -BeExactly 600
         }
     }
-}
+} #>

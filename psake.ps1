@@ -94,7 +94,7 @@ Task Documentation -Depends Build {
 
 Task Deploy -Depends Documentation {
     $lines
-
+    $global:test = $ProjectRoot
     $Params = @{
         Path    = $ProjectRoot
         Force   = $true

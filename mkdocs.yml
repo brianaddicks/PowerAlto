@@ -3,13 +3,18 @@ theme: readthedocs
 pages:
   - Home: index.md
   - Cmdlets:
+    - Clear-PaIkeGateway: cmdlets/Clear-PaIkeGateway.md
+    - Clear-PaIpsecTunnel: cmdlets/Clear-PaIpsecTunnel.md
     - Get-PaAddress: cmdlets/Get-PaAddress.md
     - Get-PaAddressGroup: cmdlets/Get-PaAddressGroup.md
     - Get-PaConfigDiff: cmdlets/Get-PaConfigDiff.md
     - Get-PaCustomReport: cmdlets/Get-PaCustomReport.md
     - Get-PaDevice: cmdlets/Get-PaDevice.md
     - Get-PaHaSetup: cmdlets/Get-PaHaSetup.md
+    - Get-PaIkeGatewayConfig: cmdlets/Get-PaIkeGatewayConfig.md
     - Get-PaInterface: cmdlets/Get-PaInterface.md
+    - Get-PaIpsecTunnel: cmdlets/Get-PaIpsecTunnel.md
+    - Get-PaIpsecTunnelConfig: cmdlets/Get-PaIpsecTunnelConfig.md
     - Get-PaJob: cmdlets/Get-PaJob.md
     - Get-PaNatPolicy: cmdlets/Get-PaNatPolicy.md
     - Get-PaPanoramaConfig: cmdlets/Get-PaPanoramaConfig.md
@@ -28,6 +33,9 @@ pages:
     - Move-PaSecurityPolicy: cmdlets/Move-PaSecurityPolicy.md
     - New-PaAddress: cmdlets/New-PaAddress.md
     - New-PaHaSetup: cmdlets/New-PaHaSetup.md
+    - New-PaIkeGateway: cmdlets/New-PaIkeGateway.md
+    - New-PaIkeGatewayConfig: cmdlets/New-PaIkeGatewayConfig.md
+    - New-PaIpsecTunnel: cmdlets/New-PaIpsecTunnel.md
     - New-PaNatPolicy: cmdlets/New-PaNatPolicy.md
     - New-PaPanoramaConfig: cmdlets/New-PaPanoramaConfig.md
     - New-PaSecurityPolicy: cmdlets/New-PaSecurityPolicy.md
@@ -40,6 +48,7 @@ pages:
     - Resolve-PaNatPolicy: cmdlets/Resolve-PaNatPolicy.md
     - Resolve-PaSecurityPolicy: cmdlets/Resolve-PaSecurityPolicy.md
     - Resolve-PaService: cmdlets/Resolve-PaService.md
+    - Restart-PaIpsecTunnel: cmdlets/Restart-PaIpsecTunnel.md
     - Set-PaAddress: cmdlets/Set-PaAddress.md
     - Set-PaAddressGroup: cmdlets/Set-PaAddressGroup.md
     - Set-PaCustomReport: cmdlets/Set-PaCustomReport.md
@@ -51,4 +60,7 @@ pages:
     - Set-PaTargetDeviceGroup: cmdlets/Set-PaTargetDeviceGroup.md
     - Set-PaTargetVsys: cmdlets/Set-PaTargetVsys.md
     - Set-PaUrlCategory: cmdlets/Set-PaUrlCategory.md
+    - Test-PaIkeGateway: cmdlets/Test-PaIkeGateway.md
+    - Test-PaIpsecTunnel: cmdlets/Test-PaIpsecTunnel.md
+    - Test-PaVpn: cmdlets/Test-PaVpn.md
 

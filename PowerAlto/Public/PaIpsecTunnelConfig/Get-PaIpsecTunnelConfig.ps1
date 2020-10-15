@@ -8,13 +8,14 @@ function Get-PaIpsecTunnelConfig {
     BEGIN {
         $VerbosePrefix = "Get-PaIpsecTunnelConfig:"
         $XPathNode = 'network/tunnel/ipsec'
+        $ResultNode = 'ipsec'
         $Xpath = $Global:PaDeviceObject.createXPath($XPathNode, $Name)
     }
 
     PROCESS {
         $Response = Invoke-PaApiConfig -Get -Xpath $XPath
-        if ($Response.response.result.$XPathNode) {
-            $Entries = $Response.response.result.$XPathNode.entry
+        if ($Response.response.result.$ResultNode) {
+            $Entries = $Response.response.result.$ResultNode.entry
         } else {
             $Entries = $Response.response.result.entry
         }

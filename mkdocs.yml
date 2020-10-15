@@ -1,5 +1,4 @@
 site_name: PowerAlto Docs
-repo_url: https://github.com/brianaddicks/PowerAlto
 theme: readthedocs
 pages:
   - Home: index.md

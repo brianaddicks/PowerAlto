@@ -44,11 +44,32 @@ class PaloAltoDevice {
         $ObjectsInSharedOnNonVsysSystems += 'reports'
 
         # choose correct vsys/device-group
+
+        $PanoramaNodesinDevices = @(
+            'device-group'
+            'deviceconfig'
+            'log-collector'
+            'log-colletor-group'
+            'platform'
+            'plugins'
+            'template'
+            'template-stack'
+            'wildfire-appliance'
+            'wildfire-appliance-cluster'
+        )
+
         if ($this.Model -eq "Panorama") {
             if ($this.TargetDeviceGroup) {
                 $XPath += "/devices/entry[@name='localhost.localdomain']/device-group/entry[@name='$($this.TargetDeviceGroup)']"
             } else {
-                $XPath += '/shared'
+                :PanoramaNodesinDevices foreach ($node in $PanoramaNodesinDevices) {
+                    if ($ConfigNode -match $node) {
+                        $XPath += "/devices/entry[@name='localhost.localdomain']"
+                        break PanoramaNodesinDevices
+                    } else {
+                        $XPath += '/shared'
+                    }
+                }
             }
         } elseif ($ConfigNode -match 'deviceconfig') {
             $XPath += "/devices/entry[@name='localhost.localdomain']"

@@ -27,6 +27,8 @@ function Get-PaAddress {
         foreach ($entry in $Entries) {
             # Initialize Report object, add to returned array
             $Object = [PaAddress]::new($entry.name)
+            $Object.Vsys = $Global:PaDeviceObject.TargetVsys
+            $Object.DeviceGroup = $Global:PaDeviceObject.PaDeviceObject.TargetDeviceGroup
             $ReturnObject += $Object
 
             # Type and Value

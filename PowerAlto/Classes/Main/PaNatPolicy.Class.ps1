@@ -51,6 +51,13 @@ class PaNatPolicy {
         $TypeNode.InnerText = $this.NatType
         $EntryNode.AppendChild($TypeNode)
 
+        # Disabled
+        if ($this.Disabled) {
+            $TypeNode = $Doc.CreateNode("element", 'disabled', $null)
+            $TypeNode.InnerText = 'yes'
+            $EntryNode.AppendChild($TypeNode)
+        }
+
         # Service
         $TypeNode = $Doc.CreateNode("element", 'service', $null)
         $TypeNode.InnerText = $this.Service

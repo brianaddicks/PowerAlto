@@ -5,12 +5,15 @@ class PaAddress {
     [string]$Value
     [string[]]$Tags
 
+    [string]$DeviceGroup
+    [string]$Vsys
+
     ###################################### Methods #######################################
     # invokeReportGetQuery
     [Xml] ToXml() {
         [xml]$Doc = New-Object System.Xml.XmlDocument
         $root = $Doc.CreateNode("element","address",$null)
-        
+
         # Start Entry Node
         $EntryNode = $Doc.CreateNode("element","entry",$null)
         $EntryNode.SetAttribute("name",$this.Name)

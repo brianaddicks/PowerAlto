@@ -266,6 +266,10 @@ class PaloAltoDevice {
                 $queryString.element = $Element
                 continue
             }
+			'rename' {
+                $queryString.newname = $Element
+                continue
+            } 
         }
 
         $result = $this.invokeApiQuery($queryString)

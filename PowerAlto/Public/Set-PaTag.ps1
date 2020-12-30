@@ -5,7 +5,7 @@ function Set-PaTag {
         [string]$Name,
 
         [Parameter(ParameterSetName = "name", Mandatory = $False, Position = 1)]
-        [ValidateSet('Red', 'Green', 'Blue', 'Yellow', 'Copper', 'Orange', 'Purple', 'Gray', 'Light Green', 'Cyan', 'Light Gray', 'Blue Gray', 'Lime', 'Black', 'Gold', 'Brown', 'Green')]
+        [ValidateSet('Red', 'Green', 'Blue', 'Yellow', 'Copper', 'Orange', 'Purple', 'Gray', 'Light Green', 'Cyan', 'Light Gray', 'Blue Gray', 'Lime', 'Black', 'Gold', 'Brown', 'Olive', 'Maroon', 'Red-Orange', 'Yellow-Orange', 'Forest Green', 'Turquoise Blue', 'Azure Blue', 'Cerulean Blue', 'Midnight Blue', 'Medium Blue', 'Cobalt Blue', 'Violet Blue', 'Blue Violet', 'Medium Violet', 'Medium Rose', 'Lavender', 'Orchid', 'Thistle', 'Peach', 'Salmon', 'Magenta', 'Red Violet', 'Mahogany', 'Burnt Sienna', 'Chestnut')]
         [string]$Color,
 
         [Parameter(ParameterSetName = "name", Mandatory = $False, Position = 2)]

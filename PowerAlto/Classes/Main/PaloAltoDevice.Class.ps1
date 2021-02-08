@@ -62,13 +62,17 @@ class PaloAltoDevice {
             if ($this.TargetDeviceGroup) {
                 $XPath += "/devices/entry[@name='localhost.localdomain']/device-group/entry[@name='$($this.TargetDeviceGroup)']"
             } else {
+                $ConfigNodeFound = $false
                 :PanoramaNodesinDevices foreach ($node in $PanoramaNodesinDevices) {
                     if ($ConfigNode -match $node) {
                         $XPath += "/devices/entry[@name='localhost.localdomain']"
+                        $ConfigNodeFound = $true
                         break PanoramaNodesinDevices
-                    } else {
-                        $XPath += '/shared'
                     }
+                }
+
+                if (-not $ConfigNodeFound) {
+                    $XPath += '/shared'
                 }
             }
         } elseif ($ConfigNode -match 'deviceconfig') {

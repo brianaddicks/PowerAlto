@@ -10,7 +10,10 @@ function Get-PaNatPolicy {
         [switch]$PreRulebase,
 
         [Parameter(ParameterSetName = "postrulebase", Mandatory = $True)]
-        [switch]$PostRulebase
+        [switch]$PostRulebase,
+
+        [Parameter(ParameterSetName = "rulebase", Mandatory = $false)]
+        [switch]$PushedSharedPolicy
     )
 
     BEGIN {
@@ -37,16 +40,33 @@ function Get-PaNatPolicy {
         if ($null -ne $Global:PaDeviceObject.Config) {
             $Entries = $global:PaDeviceObject.Config.config.devices.entry.vsys.entry.rulebase.nat.rules.entry
         } else {
+
+            if ($PushedSharedPolicy) {
+                $PushedSharedPolicyResponse = Invoke-PaApiOperation '<show><config><pushed-shared-policy></pushed-shared-policy></config></show>'
+                $PreRulebaseResponse = $PushedSharedPolicyResponse.response.result.policy.panorama.'pre-rulebase'.nat.rules.entry
+                $PostRulebaseResponse = $PushedSharedPolicyResponse.response.result.policy.panorama.'post-rulebase'.nat.rules.entry
+            }
+
             $Response = Invoke-PaApiConfig -Get -Xpath $XPath
+
             if ($Response.response.result.$ResponseNode) {
                 $Entries = $Response.response.result.$ResponseNode.entry
             } else {
                 $Entries = $Response.response.result.entry
             }
+
+            $AllEntries = @()
+
+            foreach($rulebase in @($PreRulebaseResponse,$Entries,$PostRulebaseResponse)) {
+                foreach ($entry in $rulebase) {
+                    $AllEntries += $entry
+                }
+            }
         }
 
         $ReturnObject = @()
-        foreach ($entry in $Entries) {
+        #foreach ($entry in $Entries) {
+        foreach ($entry in $AllEntries) {
             # Initialize Report object, add to returned array
             $Object = [PaNatPolicy]::new([HelperXml]::parseCandidateConfigXml($entry.name, $false))
             $ReturnObject += $Object

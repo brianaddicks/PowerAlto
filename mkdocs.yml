@@ -10,6 +10,7 @@ pages:
     - Get-PaConfigDiff: cmdlets/Get-PaConfigDiff.md
     - Get-PaCustomReport: cmdlets/Get-PaCustomReport.md
     - Get-PaDevice: cmdlets/Get-PaDevice.md
+    - Get-PaDeviceGroup: cmdlets/Get-PaDeviceGroup.md
     - Get-PaHaSetup: cmdlets/Get-PaHaSetup.md
     - Get-PaIkeGatewayConfig: cmdlets/Get-PaIkeGatewayConfig.md
     - Get-PaInterface: cmdlets/Get-PaInterface.md
@@ -32,6 +33,7 @@ pages:
     - Invoke-PaCustomReport: cmdlets/Invoke-PaCustomReport.md
     - Move-PaSecurityPolicy: cmdlets/Move-PaSecurityPolicy.md
     - New-PaAddress: cmdlets/New-PaAddress.md
+    - New-PaDeviceGroup: cmdlets/New-PaDeviceGroup.md
     - New-PaHaSetup: cmdlets/New-PaHaSetup.md
     - New-PaIkeGateway: cmdlets/New-PaIkeGateway.md
     - New-PaIkeGatewayConfig: cmdlets/New-PaIkeGatewayConfig.md

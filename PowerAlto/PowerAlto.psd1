@@ -4,7 +4,7 @@
     RootModule        = 'PowerAlto.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '4.0.59'
+    ModuleVersion     = '4.0.60'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -138,6 +138,7 @@ Added new cmdlets for IPSEC Tunnels
     # DefaultCommandPrefix = ''
 
 }
+
 
 
 

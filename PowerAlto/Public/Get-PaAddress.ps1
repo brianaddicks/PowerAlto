@@ -13,8 +13,8 @@ function Get-PaAddress {
 
     BEGIN {
         $VerbosePrefix = "Get-PaAddress:"
-        $XPathNode = 'address'
-        $Xpath = $Global:PaDeviceObject.createXPath($XPathNode, $Name)
+        $ResponseNode = 'address'
+        $Xpath = $Global:PaDeviceObject.createXPath($ResponseNode, $Name)
     }
 
     PROCESS {
@@ -54,6 +54,7 @@ function Get-PaAddress {
                         $AllEntries += $entry
                     }
                 }
+                $global:ptest = $AllEntries
             }
 
             $ReturnObject = @()
@@ -72,13 +73,13 @@ function Get-PaAddress {
                 # Type and Value
                 if ($entry.'ip-netmask') {
                     $Object.Type = 'ip-netmask'
-                    $Object.Value = $entry.'ip-netmask'
+                    $Object.Value = [HelperXml]::parseCandidateConfigXml($entry.'ip-netmask', $false)
                 } elseif ($entry.'ip-range') {
                     $Object.Type = 'ip-range'
-                    $Object.Value = $entry.'ip-range'
+                    $Object.Value = [HelperXml]::parseCandidateConfigXml($entry.'ip-range', $false)
                 } elseif ($entry.fqdn) {
                     $Object.Type = 'fqdn'
-                    $Object.Value = $entry.'fqdn'
+                    $Object.Value = [HelperXml]::parseCandidateConfigXml($entry.'fqdn', $false)
                 }
 
                 # Add other properties to report

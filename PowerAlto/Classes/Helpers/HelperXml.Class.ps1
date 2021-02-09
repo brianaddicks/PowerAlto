@@ -6,7 +6,8 @@ class HelperXml {
         $UnWantedNodes += 'admin'
         $UnWantedNodes += 'dirtyId'
         $UnWantedNodes += 'time'
-        
+        $UnWantedNodes += 'loc'
+
         $ReturnValue = $null
         if ($XmlNode.'#text') {
             # '#text' node only shows up for Candidate configurations
@@ -34,17 +35,17 @@ class HelperXml {
 
     static [array] SplitXml ([xml]$Content) {
         # String Writer and XML Writer objects to write XML to string
-        $StringWriter = New-Object System.IO.StringWriter 
-        $XmlWriter = New-Object System.XMl.XmlTextWriter $StringWriter 
-        
+        $StringWriter = New-Object System.IO.StringWriter
+        $XmlWriter = New-Object System.XMl.XmlTextWriter $StringWriter
+
         # Default = None, change Formatting to Indented
-        $xmlWriter.Formatting = "indented" 
-        
-        # Gets or sets how many IndentChars to write for each level in 
+        $xmlWriter.Formatting = "indented"
+
+        # Gets or sets how many IndentChars to write for each level in
         # the hierarchy when Formatting is set to Formatting.Indented
-        $Content.WriteContentTo($XmlWriter) 
+        $Content.WriteContentTo($XmlWriter)
         $XmlWriter.Flush()
-        $StringWriter.Flush() 
+        $StringWriter.Flush()
         $ReturnObject = $StringWriter.ToString() -split '[\r\n]'
 
         return $ReturnObject

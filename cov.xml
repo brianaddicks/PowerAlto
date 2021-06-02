@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE report PUBLIC "-//JACOCO//DTD Report 1.1//EN" "report.dtd"[]>
-<report name="Pester (06/01/2021 21:10:21)">
-  <sessioninfo id="this" start="1622581819996" dump="1622581821933" />
+<report name="Pester (06/01/2021 21:10:57)">
+  <sessioninfo id="this" start="1622581855646" dump="1622581857190" />
   <package name="PowerAlto/Classes/Helpers">
     <class name="PowerAlto/Classes/Helpers/HelperApi.Class" sourcefilename="Classes/Helpers/HelperApi.Class.ps1">
       <method name="TranslatePaToBool" desc="()" line="4">

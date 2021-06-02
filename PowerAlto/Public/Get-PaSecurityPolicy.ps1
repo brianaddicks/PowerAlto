@@ -60,6 +60,11 @@ function Get-PaSecurityPolicy {
             $Object.Description = [HelperXml]::parseCandidateConfigXml($entry.description, $false)
             $Object.Tags = [HelperXml]::GetMembersFromXml($entry.tag)
 
+            $Disabled = [HelperXml]::parseCandidateConfigXml($entry.'disabled', $false)
+            if ($Disabled) {
+                $Object.LogAtSessionEnd = [HelperApi]::TranslatePaToBool($Disabled, $Object.Disabled)
+            }
+
             # Source
             $Object.SourceZone = [HelperXml]::GetMembersFromXml($entry.from)
             $Object.SourceAddress = [HelperXml]::GetMembersFromXml($entry.source)

@@ -46,22 +46,26 @@ function Resolve-PaField {
         }
         $Global:testpolicy = $PaPolicy
 
-        # Source resolution
-        switch -Regex ($FieldName) {
-            '.*Address' {
-                Write-Verbose "$VerbosePrefix FieldName: $FieldName"
-                Write-Verbose "$VerbosePrefix FieldValue: $($PaPolicy.$FieldName)"
-                $ResolvedField = $PaPolicy.$FieldName | Resolve-PaAddress -Addresses $Addresses -AddressGroups $AddressGroups
+        if ($PaPolicy.$FieldName) {
+            # Source resolution
+            switch -Regex ($FieldName) {
+                '.*Address' {
+                    Write-Verbose "$VerbosePrefix FieldName: $FieldName"
+                    Write-Verbose "$VerbosePrefix FieldValue: $($PaPolicy.$FieldName)"
+                    $ResolvedField = $PaPolicy.$FieldName | Resolve-PaAddress -Addresses $Addresses -AddressGroups $AddressGroups
+                }
+                'Service' {
+                    $ResolvedField = $PaPolicy.$FieldName | Resolve-PaService -Services $Services -ServiceGroups $ServiceGroups
+                }
             }
-            'Service' {
-                $ResolvedField = $PaPolicy.$FieldName | Resolve-PaService -Services $Services -ServiceGroups $ServiceGroups
-            }
-        }
 
-        foreach ($r in $ResolvedField) {
-            $NewPolicy = $PaPolicy.Clone()
-            $ReturnObject += $NewPolicy
-            $NewPolicy.$FieldName = $r
+            foreach ($r in $ResolvedField) {
+                $NewPolicy = $PaPolicy.Clone()
+                $ReturnObject += $NewPolicy
+                $NewPolicy.$FieldName = $r
+            }
+        } else {
+            $ReturnObject = $PaPolicy
         }
     }
 

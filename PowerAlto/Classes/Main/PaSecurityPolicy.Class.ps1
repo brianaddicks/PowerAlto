@@ -5,6 +5,7 @@ class PaSecurityPolicy:ICloneable {
     [string]$RuleType = 'universal'
     [string]$Description
     [string[]]$Tags
+    [bool]$Disabled = $false
 
     # Source
     [string[]]$SourceZone

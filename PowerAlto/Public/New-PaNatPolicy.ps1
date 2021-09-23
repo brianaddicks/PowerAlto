@@ -43,10 +43,27 @@ function New-PaNatPolicy {
         [bool]$BiDirectional,
 
         [Parameter(Mandatory = $False)]
-        [string]$TranslatedDestinationAddress,
+        [ValidateSet('dynamic-ip', 'static-ip', 'none')]
+        [string]$DestinationTranslationType,
 
         [Parameter(Mandatory = $False)]
-        [int]$TranslatedDestinationPort
+        [string]$DestinationTranslatedAddress,
+
+        [Parameter(Mandatory = $False)]
+        [ValidateRange(1, 65535)]
+        [int]$DestinationTranslatedPort,
+
+        [Parameter(Mandatory = $False)]
+        [bool]
+        $DnsRewrite,
+
+        [Parameter(Mandatory = $False)]
+        [ValidateSet('reverse', 'forward')]
+        [string]$DnsRewriteDirection = 'reverse',
+
+        [Parameter(Mandatory = $False)]
+        [ValidateSet('primary', 'both', "0", "1")]
+        [string]$ActiveActiveDeviceBinding
     )
 
     Begin {
@@ -78,14 +95,32 @@ function New-PaNatPolicy {
             $ReturnObject.BiDirectional = $BiDirectional
         }
 
-        # TranslatedDestinationAddress
-        if ($SourceTranslationType) {
-            $ReturnObject.TranslatedDestinationAddress = $TranslatedDestinationAddress
+        # DestinationTranslationType
+        if ($DestinationTranslationType) {
+            $ReturnObject.$DestinationTranslationType = $DestinationTranslationType
         }
 
-        # TranslatedDestinationPort
-        if ($TranslatedDestinationPort) {
-            $ReturnObject.TranslatedDestinationPort = $TranslatedDestinationPort
+        # DestinationTranslatedAddress
+        if ($DestinationTranslatedAddress) {
+            $ReturnObject.DestinationTranslatedAddress = $DestinationTranslatedAddress
+        }
+
+        # DestinationTranslatedPort
+        if ($DestinationTranslatedPort) {
+            $ReturnObject.DestinationTranslatedPort = $DestinationTranslatedPort
+        }
+
+        # DnsRewrite
+        if ($DnsRewrite) {
+            $ReturnObject.DnsRewrite = $DnsRewrite
+            if ($DnsRewriteDirection) {
+                $ReturnObject.DnsRewriteDirection = $DnsRewriteDirection
+            }
+        }
+
+        # ActiveActiveDeviceBinding
+        if ($ActiveActiveDeviceBinding) {
+            $ReturnObject.ActiveActiveDeviceBinding = $ActiveActiveDeviceBinding
         }
 
         # Mandatory Properties

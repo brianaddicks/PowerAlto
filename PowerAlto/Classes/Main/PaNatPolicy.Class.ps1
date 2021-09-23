@@ -15,12 +15,22 @@ class PaNatPolicy {
     [string[]]$DestinationAddress
 
     # Translated Packet
+    # Source Translation
     ## Static IP
     [string]$SourceTranslationType
     [string]$SourceTranslatedAddress
     [bool]$BiDirectional
-    [string]$TranslatedDestinationAddress
-    [int]$TranslatedDestinationPort
+
+    # Destination Translation
+    # Static IP
+    [string]$DestinationTranslationType
+    [string]$DestinationTranslatedAddress
+    [int]$DestinationTranslatedPort
+    [bool]$DnsRewrite
+    [string]$DnsRewriteDirection
+
+    # Active/Active HA Binding
+    [string]$ActiveActiveDeviceBinding
 
     static [string]$ConfigNode = 'rulebase/nat/rules'
 
@@ -145,8 +155,49 @@ class PaNatPolicy {
             $EntryNode.AppendChild($SourceTranslationNode)
         }
 
+        if ($this.DestinationTranslationType) {
+
+            switch ($this.DestinationTranslationType) {
+                'static-ip' {
+                    $DestinationTranslationNode = $Doc.CreateNode("element", 'destination-translation', $null)
+                    if ($this.DestinationTranslatedAddress) {
+                        $ChildNode = $Doc.CreateNode("element", 'translated-address', $null)
+                        $ChildNode.InnerText = $this.DestinationTranslatedAddress
+                        $DestinationTranslationNode.AppendChild($ChildNode)
+                    }
+                    if ($this.DestinationTranslatedPort) {
+                        $ChildNode = $Doc.CreateNode("element", 'translated-port', $null)
+                        $ChildNode.InnerText = $this.DestinationTranslatedPort
+                        $DestinationTranslationNode.AppendChild($ChildNode)
+                    }   
+                    if ($this.DnsRewrite) {
+                        $DnsRewriteTranslationNode = $Doc.CreateNode("element", 'dns-rewrite', $null)
+                        if ($this.DnsRewriteDirection) {
+                            $ChildNode = $Doc.CreateNode("element", 'direction', $null)
+                            $ChildNode.InnerText = $this.DnsRewriteDirection
+                            $DnsRewriteTranslationNode.AppendChild($ChildNode)
+                        }
+                        $DestinationTranslationNode.AppendChild($DnsRewriteTranslationNode)
+                    }
+                    $EntryNode.AppendChild($DestinationTranslationNode)
+                }
+            }
+        }
+
         #######################################################################
         #endregion translation
+
+        #region Active/Active HA Binding
+        #######################################################################
+
+        if ($this.ActiveActiveDeviceBinding) {
+            $ActiveActiveDeviceBindingNode = $Doc.CreateNode("element", "active-active-device-binding", $null)
+            $ActiveActiveDeviceBindingNode.InnerText = $this.ActiveActiveDeviceBinding
+            $EntryNode.AppendChild($ActiveActiveDeviceBindingNode)
+        }
+
+        #######################################################################
+        #endregion Active/Active HA Binding
 
         # Append Entry to Root and Root to Doc
         $root.AppendChild($EntryNode)

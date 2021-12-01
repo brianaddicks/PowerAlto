@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE report PUBLIC "-//JACOCO//DTD Report 1.1//EN" "report.dtd"[]>
-<report name="Pester (06/01/2021 21:10:57)">
-  <sessioninfo id="this" start="1622581855646" dump="1622581857190" />
+<report name="Pester (12/01/2021 13:31:07)">
+  <sessioninfo id="this" start="1638365461516" dump="1638365467444" />
   <package name="PowerAlto/Classes/Helpers">
     <class name="PowerAlto/Classes/Helpers/HelperApi.Class" sourcefilename="Classes/Helpers/HelperApi.Class.ps1">
       <method name="TranslatePaToBool" desc="()" line="4">
@@ -375,23 +375,23 @@
       <counter type="CLASS" missed="1" covered="0" />
     </class>
     <class name="PowerAlto/Classes/Main/PaNatPolicy.Class" sourcefilename="Classes/Main/PaNatPolicy.Class.ps1">
-      <method name="Clone" desc="()" line="30">
+      <method name="Clone" desc="()" line="40">
         <counter type="INSTRUCTION" missed="8" covered="0" />
         <counter type="LINE" missed="4" covered="0" />
         <counter type="METHOD" missed="1" covered="0" />
       </method>
-      <method name="ToXml" desc="()" line="39">
-        <counter type="INSTRUCTION" missed="65" covered="0" />
-        <counter type="LINE" missed="65" covered="0" />
+      <method name="ToXml" desc="()" line="49">
+        <counter type="INSTRUCTION" missed="88" covered="0" />
+        <counter type="LINE" missed="88" covered="0" />
         <counter type="METHOD" missed="1" covered="0" />
       </method>
-      <method name="PaNatPolicy" desc="()" line="161">
+      <method name="PaNatPolicy" desc="()" line="212">
         <counter type="INSTRUCTION" missed="1" covered="0" />
         <counter type="LINE" missed="1" covered="0" />
         <counter type="METHOD" missed="1" covered="0" />
       </method>
-      <counter type="INSTRUCTION" missed="74" covered="0" />
-      <counter type="LINE" missed="70" covered="0" />
+      <counter type="INSTRUCTION" missed="97" covered="0" />
+      <counter type="LINE" missed="93" covered="0" />
       <counter type="METHOD" missed="3" covered="0" />
       <counter type="CLASS" missed="1" covered="0" />
     </class>
@@ -839,78 +839,101 @@
       <counter type="CLASS" missed="1" covered="0" />
     </sourcefile>
     <sourcefile name="Classes/Main/PaNatPolicy.Class.ps1">
-      <line nr="30" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="31" mi="3" ci="0" mb="0" cb="0" />
-      <line nr="32" mi="3" ci="0" mb="0" cb="0" />
-      <line nr="34" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="39" mi="1" ci="0" mb="0" cb="0" />
       <line nr="40" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="43" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="41" mi="3" ci="0" mb="0" cb="0" />
+      <line nr="42" mi="3" ci="0" mb="0" cb="0" />
       <line nr="44" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="49" mi="1" ci="0" mb="0" cb="0" />
       <line nr="50" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="51" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="52" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="55" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="56" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="57" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="58" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="53" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="54" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="60" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="61" mi="1" ci="0" mb="0" cb="0" />
       <line nr="62" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="63" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="64" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="65" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="66" mi="1" ci="0" mb="0" cb="0" />
       <line nr="67" mi="1" ci="0" mb="0" cb="0" />
       <line nr="68" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="69" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="70" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="71" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="72" mi="1" ci="0" mb="0" cb="0" />
       <line nr="73" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="76" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="74" mi="1" ci="0" mb="0" cb="0" />
       <line nr="77" mi="1" ci="0" mb="0" cb="0" />
       <line nr="78" mi="1" ci="0" mb="0" cb="0" />
       <line nr="79" mi="1" ci="0" mb="0" cb="0" />
       <line nr="80" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="81" mi="1" ci="0" mb="0" cb="0" />
       <line nr="83" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="84" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="85" mi="1" ci="0" mb="0" cb="0" />
       <line nr="86" mi="1" ci="0" mb="0" cb="0" />
       <line nr="87" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="88" mi="1" ci="0" mb="0" cb="0" />
       <line nr="89" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="92" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="90" mi="1" ci="0" mb="0" cb="0" />
       <line nr="93" mi="1" ci="0" mb="0" cb="0" />
       <line nr="94" mi="1" ci="0" mb="0" cb="0" />
       <line nr="95" mi="1" ci="0" mb="0" cb="0" />
       <line nr="96" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="98" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="97" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="99" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="102" mi="1" ci="0" mb="0" cb="0" />
       <line nr="103" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="104" mi="1" ci="0" mb="0" cb="0" />
       <line nr="105" mi="1" ci="0" mb="0" cb="0" />
       <line nr="106" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="107" mi="1" ci="0" mb="0" cb="0" />
       <line nr="108" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="109" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="111" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="114" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="113" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="115" mi="1" ci="0" mb="0" cb="0" />
       <line nr="116" mi="1" ci="0" mb="0" cb="0" />
       <line nr="117" mi="1" ci="0" mb="0" cb="0" />
       <line nr="118" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="119" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="121" mi="1" ci="0" mb="0" cb="0" />
       <line nr="124" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="125" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="126" mi="1" ci="0" mb="0" cb="0" />
       <line nr="127" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="129" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="131" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="132" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="133" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="128" mi="1" ci="0" mb="0" cb="0" />
       <line nr="134" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="135" mi="1" ci="0" mb="0" cb="0" />
       <line nr="137" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="138" mi="1" ci="0" mb="0" cb="0" />
       <line nr="139" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="140" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="141" mi="1" ci="0" mb="0" cb="0" />
       <line nr="142" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="145" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="143" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="144" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="147" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="148" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="149" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="150" mi="1" ci="0" mb="0" cb="0" />
       <line nr="152" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="153" mi="1" ci="0" mb="0" cb="0" />
       <line nr="155" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="161" mi="1" ci="0" mb="0" cb="0" />
-      <counter type="INSTRUCTION" missed="74" covered="0" />
-      <counter type="LINE" missed="70" covered="0" />
+      <line nr="158" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="160" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="162" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="163" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="164" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="165" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="166" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="168" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="169" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="170" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="171" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="173" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="174" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="175" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="176" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="177" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="178" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="180" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="182" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="193" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="194" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="195" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="196" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="203" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="204" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="206" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="212" mi="1" ci="0" mb="0" cb="0" />
+      <counter type="INSTRUCTION" missed="97" covered="0" />
+      <counter type="LINE" missed="93" covered="0" />
       <counter type="METHOD" missed="3" covered="0" />
       <counter type="CLASS" missed="1" covered="0" />
     </sourcefile>
@@ -1253,8 +1276,8 @@
       <counter type="METHOD" missed="2" covered="0" />
       <counter type="CLASS" missed="1" covered="0" />
     </sourcefile>
-    <counter type="INSTRUCTION" missed="691" covered="0" />
-    <counter type="LINE" missed="660" covered="0" />
+    <counter type="INSTRUCTION" missed="714" covered="0" />
+    <counter type="LINE" missed="683" covered="0" />
     <counter type="METHOD" missed="40" covered="0" />
     <counter type="CLASS" missed="16" covered="0" />
   </package>
@@ -1546,13 +1569,13 @@
       <counter type="CLASS" missed="1" covered="0" />
     </class>
     <class name="PowerAlto/Public/New-PaNatPolicy" sourcefilename="Public/New-PaNatPolicy.ps1">
-      <method name="New-PaNatPolicy" desc="()" line="53">
-        <counter type="INSTRUCTION" missed="24" covered="0" />
-        <counter type="LINE" missed="24" covered="0" />
+      <method name="New-PaNatPolicy" desc="()" line="70">
+        <counter type="INSTRUCTION" missed="32" covered="0" />
+        <counter type="LINE" missed="32" covered="0" />
         <counter type="METHOD" missed="1" covered="0" />
       </method>
-      <counter type="INSTRUCTION" missed="24" covered="0" />
-      <counter type="LINE" missed="24" covered="0" />
+      <counter type="INSTRUCTION" missed="32" covered="0" />
+      <counter type="LINE" missed="32" covered="0" />
       <counter type="METHOD" missed="1" covered="0" />
       <counter type="CLASS" missed="1" covered="0" />
     </class>
@@ -1700,13 +1723,13 @@
       <counter type="CLASS" missed="1" covered="0" />
     </class>
     <class name="PowerAlto/Public/Set-PaNatPolicy" sourcefilename="Public/Set-PaNatPolicy.ps1">
-      <method name="Set-PaNatPolicy" desc="()" line="14">
-        <counter type="INSTRUCTION" missed="9" covered="0" />
-        <counter type="LINE" missed="8" covered="0" />
+      <method name="Set-PaNatPolicy" desc="()" line="24">
+        <counter type="INSTRUCTION" missed="12" covered="0" />
+        <counter type="LINE" missed="10" covered="0" />
         <counter type="METHOD" missed="1" covered="0" />
       </method>
-      <counter type="INSTRUCTION" missed="9" covered="0" />
-      <counter type="LINE" missed="8" covered="0" />
+      <counter type="INSTRUCTION" missed="12" covered="0" />
+      <counter type="LINE" missed="10" covered="0" />
       <counter type="METHOD" missed="1" covered="0" />
       <counter type="CLASS" missed="1" covered="0" />
     </class>
@@ -2421,32 +2444,40 @@
       <counter type="CLASS" missed="1" covered="0" />
     </sourcefile>
     <sourcefile name="Public/New-PaNatPolicy.ps1">
-      <line nr="53" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="54" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="57" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="58" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="62" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="63" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="67" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="68" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="72" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="73" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="77" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="78" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="82" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="83" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="87" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="88" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="92" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="93" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="70" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="71" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="74" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="75" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="79" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="80" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="84" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="85" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="89" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="90" mi="1" ci="0" mb="0" cb="0" />
       <line nr="94" mi="1" ci="0" mb="0" cb="0" />
       <line nr="95" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="96" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="97" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="98" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="99" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="100" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="104" mi="1" ci="0" mb="0" cb="0" />
       <line nr="105" mi="1" ci="0" mb="0" cb="0" />
-      <counter type="INSTRUCTION" missed="24" covered="0" />
-      <counter type="LINE" missed="24" covered="0" />
+      <line nr="109" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="110" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="114" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="115" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="116" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="117" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="122" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="123" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="127" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="128" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="129" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="130" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="131" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="132" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="133" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="140" mi="1" ci="0" mb="0" cb="0" />
+      <counter type="INSTRUCTION" missed="32" covered="0" />
+      <counter type="LINE" missed="32" covered="0" />
       <counter type="METHOD" missed="1" covered="0" />
       <counter type="CLASS" missed="1" covered="0" />
     </sourcefile>
@@ -2706,16 +2737,18 @@
       <counter type="CLASS" missed="1" covered="0" />
     </sourcefile>
     <sourcefile name="Public/Set-PaNatPolicy.ps1">
-      <line nr="14" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="18" mi="1" ci="0" mb="0" cb="0" />
       <line nr="24" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="25" mi="1" ci="0" mb="0" cb="0" />
       <line nr="26" mi="1" ci="0" mb="0" cb="0" />
-      <line nr="28" mi="2" ci="0" mb="0" cb="0" />
-      <line nr="29" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="28" mi="1" ci="0" mb="0" cb="0" />
       <line nr="31" mi="1" ci="0" mb="0" cb="0" />
-      <counter type="INSTRUCTION" missed="9" covered="0" />
-      <counter type="LINE" missed="8" covered="0" />
+      <line nr="34" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="38" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="39" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="41" mi="3" ci="0" mb="0" cb="0" />
+      <line nr="42" mi="1" ci="0" mb="0" cb="0" />
+      <line nr="44" mi="1" ci="0" mb="0" cb="0" />
+      <counter type="INSTRUCTION" missed="12" covered="0" />
+      <counter type="LINE" missed="10" covered="0" />
       <counter type="METHOD" missed="1" covered="0" />
       <counter type="CLASS" missed="1" covered="0" />
     </sourcefile>
@@ -2818,8 +2851,8 @@
       <counter type="METHOD" missed="1" covered="0" />
       <counter type="CLASS" missed="1" covered="0" />
     </sourcefile>
-    <counter type="INSTRUCTION" missed="879" covered="0" />
-    <counter type="LINE" missed="801" covered="0" />
+    <counter type="INSTRUCTION" missed="890" covered="0" />
+    <counter type="LINE" missed="811" covered="0" />
     <counter type="METHOD" missed="42" covered="0" />
     <counter type="CLASS" missed="42" covered="0" />
   </package>
@@ -3550,8 +3583,8 @@
     <counter type="METHOD" missed="3" covered="0" />
     <counter type="CLASS" missed="3" covered="0" />
   </package>
-  <counter type="INSTRUCTION" missed="2039" covered="0" />
-  <counter type="LINE" missed="1889" covered="0" />
+  <counter type="INSTRUCTION" missed="2073" covered="0" />
+  <counter type="LINE" missed="1922" covered="0" />
   <counter type="METHOD" missed="117" covered="0" />
   <counter type="CLASS" missed="84" covered="0" />
 </report>

@@ -113,7 +113,7 @@ return true;
                 if (Test-Path $LogFolder) {
                     $LogPath = Join-Path -Path $LogFolder -ChildPath 'nps-to-pa.log'
                     Write-Warning "$AccountName -> $ThisIP to PA: $paAddress"
-                    "$AccountName -> $ThisIP to PA: $paAddress" | Out-File -FilePath $LogPath -Append
+                    "$(Get-Date): $AccountName -> $ThisIP to PA: $paAddress" | Out-File -FilePath $LogPath -Append
                 }
             }
             $global:testevent = $entry
@@ -122,4 +122,6 @@ return true;
     }
 }
 
+$LogPath = Join-Path -Path $LogFolder -ChildPath 'nps-to-pa.log'
+"$(Get-Date): Attempting to start job $JobName" | Out-File -FilePath $LogPath -Append
 $job = Register-ObjectEvent -InputObject $log -EventName EntryWritten -SourceIdentifier $JobName -Action $Action

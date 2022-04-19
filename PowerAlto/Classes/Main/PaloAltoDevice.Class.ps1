@@ -33,6 +33,7 @@ class PaloAltoDevice {
     [array]$UrlHistory
     [array]$RawQueryResultHistory
     [array]$QueryHistory
+    [array]$QueryParamHistory
     $LastError
     $LastResult
 
@@ -131,7 +132,7 @@ class PaloAltoDevice {
 
     ##################################### Main Api Query Function #####################################
     # invokeApiQuery
-    [xml] invokeApiQuery([hashtable]$queryString) {
+    [xml] invokeApiQuery([hashtable]$queryString,[string]$method, $body) {
         # If the query is not a keygen query we need to append the apikey to the query string
         if ($queryString.type -ne "keygen") {
             $queryString.key = $this.ApiKey
@@ -158,10 +159,42 @@ class PaloAltoDevice {
             $QueryParams = @{}
             $QueryParams.Uri = $url
             $QueryParams.UseBasicParsing = $true
-
-            if ($queryString.type -eq "keygen") {
-                $QueryParams.Method = 'POST'
+            $QueryParams.Method = $method
+            switch ($method) {
+<#                 'PUT' {
+                    $QueryParams.Uri += $this.createQueryString($queryString)
+                    if ('' -ne $body) {
+                        $QueryParams.Body = $body
+                    }
+                } #>
+                'POST' {
+                    if ('' -ne $body) {
+                        $QueryParams.Body = $body
+                        if ($queryString.type -eq 'import' -and $queryString.category -eq 'keypair') {
+                            $Boundary = [System.Guid]::NewGuid().ToString()
+                            $QueryParams.ContentType = "multipart/form-data; boundary=`"$Boundary`""
+                            $QueryParams.TimeoutSec = 60
+                        }
+                    }
+                    #$QueryParams.ContentType = 'application/json'
+                }
+                <# 'PATCH' {
+                    $QueryParams.Body = $body
+                    $QueryParams.ContentType = 'application/json'
+                } #>
+                <# 'GET' {
+                    $QueryParams.Uri += $this.createQueryString($queryString)
+                } #>
+                <# 'DELETE' {
+                    $QueryParams.Uri += $this.createQueryString($queryString)
+                } #>
             }
+
+<#             if ($queryString.type -eq "keygen") {
+                $QueryParams.Method = 'POST'
+            } else {
+                $QueryParams.Method = $method
+            } #>
 
             switch ($global:PSVersionTable.PSEdition) {
                 'Core' {
@@ -189,6 +222,8 @@ class PaloAltoDevice {
                     continue
                 }
             }
+
+            $this.QueryParamHistory += $QueryParams
 
             $rawResult = Invoke-WebRequest @QueryParams
         } catch {
@@ -242,7 +277,7 @@ class PaloAltoDevice {
         $queryString.type = "keygen"
         $queryString.user = $credential.UserName
         $queryString.password = $Credential.getnetworkcredential().password
-        $result = $this.invokeApiQuery($queryString)
+        $result = $this.invokeApiQuery($queryString,'POST','')
         $this.ApiKey = $result.response.result.key
         return $result
     }
@@ -318,6 +353,21 @@ class PaloAltoDevice {
 
         $result = $this.invokeApiQuery($queryString)
         return $result
+    }
+
+    # with just a querystring
+    [psobject] invokeApiQuery([hashtable]$queryString) {
+        return $this.invokeApiQuery($queryString, 'GET', '')
+    }
+
+    # with just a method
+    [psobject] invokeApiQuery([string]$method) {
+        return $this.invokeApiQuery(@{}, $method, '')
+    }
+
+    # with no method or querystring specified
+    [psobject] invokeApiQuery() {
+        return $this.invokeApiQuery(@{}, 'GET', '')
     }
 
     #  https://<firewall>/api/?type=report&action=get&job-id=jobid

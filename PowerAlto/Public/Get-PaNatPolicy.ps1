@@ -62,6 +62,7 @@ function Get-PaNatPolicy {
                     $AllEntries += $entry
                 }
             }
+            Write-Verbose "$VerbosePrefix Found $($AllEntries.Count) NAT entries."
         }
 
         $ReturnObject = @()

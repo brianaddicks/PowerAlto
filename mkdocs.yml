@@ -53,6 +53,7 @@ pages:
     - Restart-PaIpsecTunnel: cmdlets/Restart-PaIpsecTunnel.md
     - Set-PaAddress: cmdlets/Set-PaAddress.md
     - Set-PaAddressGroup: cmdlets/Set-PaAddressGroup.md
+    - Set-PaCertificate: cmdlets/Set-PaCertificate.md
     - Set-PaCustomReport: cmdlets/Set-PaCustomReport.md
     - Set-PaHaSetup: cmdlets/Set-PaHaSetup.md
     - Set-PaNatPolicy: cmdlets/Set-PaNatPolicy.md

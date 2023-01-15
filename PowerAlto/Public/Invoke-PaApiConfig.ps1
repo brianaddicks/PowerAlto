@@ -13,8 +13,12 @@ function Invoke-PaApiConfig {
         [Parameter(ParameterSetName = "set", Mandatory = $True, Position = 0)]
         [switch]$Set,
 
+        # rename parameters
+        [Parameter(ParameterSetName = "rename", Mandatory = $True, Position = 0)]
+        [switch]$Rename,
         [Parameter(ParameterSetName = "set", Mandatory = $True, Position = 1)]
         [Parameter(ParameterSetName = "edit", Mandatory = $True, Position = 1)]
+		[Parameter(ParameterSetName = "rename", Mandatory = $True, Position = 1)]
         [string]$Element,
 
         # move parameters
@@ -49,6 +53,10 @@ function Invoke-PaApiConfig {
             }
             'edit' {
                 $Global:PaDeviceObject.invokeConfigQuery('edit', $Xpath, $Element)
+                continue
+            }
+            'rename' {
+                $Global:PaDeviceObject.invokeConfigQuery('rename', $Xpath, $Element)
                 continue
             }
             'move' {
